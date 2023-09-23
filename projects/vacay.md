@@ -2,15 +2,16 @@
 layout: project
 type: project
 image: img/vacay/vacay-square.png
-title: "Vacay"
-date: 2015
-published: true
+title: Vacay
+# All dates must be YYYY-MM-DD format!
+date: 2015-12-15
+published: false
 labels:
   - Javascript
   - Meteor
   - MongoDB
   - GitHub
-summary: "A responsive web application for travel planning that my team developed in ICS 415."
+summary: A responsive web application for travel planning that my team developed in ICS 415.
 ---
 
 <img class="img-fluid" src="../img/vacay/vacay-home-page.png">

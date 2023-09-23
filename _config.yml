@@ -9,7 +9,7 @@ baseurl: ""
 # OPTIONAL CHANGES
 ## Specify the theme using any of the css files in css/techfolio-theme
 techfolio-theme: default.css
-## Specify the formatting for triple backquote code sections.
+# Specify the code highlight theme using any of the css files in css/rouge
 rouge-theme: github.css
 
 # DON'T CHANGE THE FOLLOWING (unless you know what you're doing)
