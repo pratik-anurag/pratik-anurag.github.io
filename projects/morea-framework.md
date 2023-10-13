@@ -4,7 +4,7 @@ type: project
 published: true
 image:  img/morea-framework.png
 title: Morea Framework
-date: 2023 - 2015
+date: 2015 - present
 labels:
   - Jekyll
   - GitHub Pages

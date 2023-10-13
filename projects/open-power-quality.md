@@ -4,7 +4,7 @@ type: project
 published: true
 image:  img/opqbox-2.5.jpg
 title: Open Power Quality
-date: 2020 - 2013
+date: 2013 - 2020
 labels:
   - Raspberry PI
   - Meteor
