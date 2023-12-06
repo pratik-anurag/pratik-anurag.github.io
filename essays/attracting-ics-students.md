@@ -27,5 +27,3 @@ Some companies send me a description that focuses only on the qualifications the
 What is the yearly income stream? Beyond the hourly rate, the other crucial compensation issue for our students is whether your opportunity will lead to a long-term income stream. Many of our best students already have a “stable” income stream—part-time and flexible during the school year, and up to full-time in the summer.  To be competitive, your opportunity should have the potential to continue beyond the summer into the school year, or vice-versa.
 
 **Provide the details in a plain-text email.** While you might be tempted to create a Word document with this information and attach it, resist.  To minimize the “barrier to entry”, describe your offering as plain text in two to three paragraphs directly in the body of the email. It is always appropriate to provide URLs to further information on your company website.
-
-The folks at GitHub have written a [nice post summarizing their thoughts on what makes for an enticing job description](https://help.github.com/articles/how-to-write-a-great-job-post).   Check it out for additional tips.
