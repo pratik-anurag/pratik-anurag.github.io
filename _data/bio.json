@@ -183,6 +183,15 @@
 
   "publications": [
     {
+      "name": "Building a Cybertraining program for Climate Scientist in the Pacific to integrate Cyberinfrastructure and Open Science",
+      "type": "conference",
+      "author": "Sean B. Cleveland, Shivani Tanaka, Maria Dumanlang, Alexander Stokes, Jason Leigh, Thomas W. Giambelluca, Philip M. Johnson, Helen Turner, Gwen A. Jacobs",
+      "publisher": "Proceedings of the 2024 Practice and Experiences in Advanced Research Computing (PEARC '24)",
+      "releaseDate": "July, 2024",
+      "website": "http://csdl.ics.hawaii.edu/techreports/2024/24-01/24-01.pdf",
+      "summary": ""
+    },
+    {
       "name": "Beyond course work: expanding what's valued in computer science degree programs",
       "type": "journal",
       "author": "Seungoh Paek, Peter Leong, Philip M. Johnson, and Carleton A. Moore",
@@ -216,15 +225,6 @@
       "publisher": "ACM Transactions on Computing Education",
       "releaseDate": "August, 2019",
       "website": "http://csdl.ics.hawaii.edu/techreports/2019/19-03/19-03.pdf",
-      "summary": ""
-    },
-    {
-      "name": "A transient classification system implementation on an open source distributed power quality network",
-      "type": "conference",
-      "author": "Charles Dickens, Anthony J. Christe, and Philip M. Johnson",
-      "publisher": "Proceedings of the Ninth International Conference on Smart Grids, Green Communications and IT Energy-aware Technologies",
-      "releaseDate": "June, 2019",
-      "website": "http://csdl.ics.hawaii.edu/techreports/2019/19-02/19-02.pdf",
       "summary": ""
     }
   ]
