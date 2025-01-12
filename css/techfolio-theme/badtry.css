@@ -1,0 +1,51 @@
+/* Badtry Theme: modifies the default theme to inject a wee bit o' blue in various places. */
+
+/* Use Roboto as the default font. */
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Source+Code+Pro:300,400,500,700");
+
+/* See https://getbootstrap.com/docs/5.2/customize/css-variables/#root-variables for variables to override. */
+:root {
+  --tf-blue1: #000000;
+  --tf-blue2: #f3d8c7;
+  --tf-blue3: #f0b491;
+  --tf-blue4: #fbfefb;
+  --tf-blue5: #ffffff;
+  --bs-font-sans-serif: "Roboto", sans-serif;
+  --bs-link-color: var(--tf-blue1);
+  --tf-pill-bg: var(--tf-blue3);
+  --tf-icon-fill: var(--tf-blue1);
+  --tf-page-bg-color: var(--tf-blue4); /* Changed to light blue background */
+  --tf-footer-bg-color: var(--tf-blue5);
+  --tf-projects-bg-color: var(--tf-blue5);
+  --tf-header-bg-color: var(--tf-blue4); /* Added header background color */
+}
+
+
+h1,h2 {
+  color: var(--tf-blue1);
+  font-weight: bold; /* Make fonts bold */
+}
+
+header, footer {
+  background-color: var(--tf-blue4); /* Apply light blue background to header and footer */
+}
+
+/* Format social media icons */
+.tf-social {
+  display: inline-block;
+  fill: var(--tf-blue1);
+  height: 1.5em;
+  vertical-align: -.1em;
+  width: 1.5em;
+}
+
+a {
+  text-decoration: none;
+}
+
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1030; /* Ensures it's above most elements */
+  }

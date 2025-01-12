@@ -1,48 +1,44 @@
-<div style="background-color: var(--tf-page-bg-color)" class="bg-gradient py-3">
+<div style="background-color: var(--tf-page-bg-color);" class="bg-gradient py-3">
   <div class="container">
-    <div class="row">
+    <!-- Image and Name Section -->
+    <div class="row align-items-center">
       <div class="col-lg-4">
-        <img width="250px" src="{{ site.data.bio.basics.picture }}" class="d-block mx-auto rounded-circle">
+        <img 
+          width="250px" 
+          src="{{ site.data.bio.basics.picture }}" 
+          class="rounded-circle img-fluid d-block mx-auto" 
+          alt="{{ site.data.bio.basics.name }}"
+        >
       </div>
-      <div class="col-lg-8 align-self-center">
-        <h1 class="display-4 text-center">{{ site.data.bio.basics.name }}</h1>
-        <p class="lead text-center">{{ site.data.bio.basics.label }}</p>
-        <p class="lead">{{ site.data.bio.basics.summary }}</p>
-      </div>
-    </div>
-    <div class="row">
-      <hr class="my-4">
-      <p class="lead m-0">
-        Interests:
-        {% for interest in site.data.bio.interests %}
-        {{ interest.name }}{% if forloop.last != true %}, {% endif %}
-        {% endfor %}
-      </p>
-      <hr class="my-4">
-      <div class="row">
-        {% if site.data.bio.basics.website %}
-        {% capture url %}{{ site.data.bio.basics.website }}{% endcapture %}
-        <div class="col text-center">
-          {% include about/social.html url=url name='house' %}
-        </div>
-        {% endif %}
-
-        {% if site.data.bio.basics.email %}
-        {% capture url %}mailto:{{ site.data.bio.basics.email }}{% endcapture %}
-        <div class="col text-center">
-          {% include about/social.html url=url name='envelope' %}
-        </div>
-        {% endif %}
-
-        {% for profile in site.data.bio.basics.profiles %}
-        {% capture url %}{{ profile.url }}{% endcapture %}
-        {% capture name %}{{ profile.network | downcase }}{% endcapture %}
-        <div class="col text-center">
-          {% include about/social.html url=url name=name %}
-        </div>
-        {% endfor %}
+      <div class="col-lg-8">
+        <h1 class="display-4">{{ site.data.bio.basics.name }}</h1>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- Bio Section -->
+  <div style="background-color: var(--tf-secondary-bg-color);" class="py-3">
+    <div class="container">
+      <div>
+        <p>
+          Hi! I am <strong>Pratik</strong>. I come from 
+          <a href="https://en.wikipedia.org/wiki/Patratu" target="_blank">Patratu, Jharkhand</a>, and I am currently staying and working in 
+          <a href="https://en.wikipedia.org/wiki/Bengaluru" target="_blank">Bengaluru, Karnataka</a>.
+        </p>
+        <p>
+          I work at <a href="https://www.phonepe.com/" target="_blank">PhonePe</a> as a Software Engineer in the Tools team. My work involves developing tools and binaries for a variety of BAU operations, including inventory control and management, bare-metal and virtual machine provisioning, system vulnerability patching, and database activity monitoring, among others.
+          Prior to PhonePe, I worked at <a href="https://www.kloud9.nyc/" target="_blank">Kloud9</a>, <a href="https://tekion.com/" target="_blank">Tekion</a> and <a href="https://www.metricstream.com" target="_blank">MetricStream</a>.
+          I hold a Bachelor's degree in Information Science and Engineering from 
+          <a href="https://www.dsce.edu.in/" target="_blank">Dayananda Sagar College of Engineering</a>.
+        </p>
+        <p>
+          In my free time, I enjoy contributing to open-source projects and volunteering for the community. I was a member of my college's Linux User Group, GLUG-DSCE, where I started my open-source journey.
+        </p>
+        <p>
+          Outside of work, I am a proud Manchester United fan. I love playing football on Fridays and watching matches whenever possible. 
+          Additionally, I enjoy quizzing every Tuesday. 
+        </p>
+      </div>
+    </div>
+  </div>
 </div>

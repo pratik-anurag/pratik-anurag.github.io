@@ -1,25 +1,31 @@
-<div style="background-color: var(--bs-white)" class="bg-gradient py-3" id="essays">
+<div style="background-color: var(--tf-projects-bg-color)" class="bg-gradient py-3" id="essays">
   <div class="container">
     <div class="row mb-3">
       <div class="col-md-6">
-        <h1 class="display-4 text-start">Essays</h1>
+        <h1 class="display-4 text-start">Blogs</h1>
       </div>
     </div>
 
     <div class="row g-3">
       {% assign essay_pages = site.pages | where: "type", "essay" | sort: "date" | reverse %}
-        {% for page in essay_pages %}
+      {% assign grouped_essays = essay_pages | group_by_exp: "page", "page.date | date: '%Y'" %}
+      
+      {% for year_group in grouped_essays %}
+        <div class="col-12">
+          <h2 class="mt-4 mb-3">{{ year_group.name }}</h2> <!-- Year Header -->
+        </div>
+        {% for page in year_group.items %}
           {% unless page.draft %}
-            {% include essays/essay-card.html page=page %}
+            <div class="col-md-6 col-lg-4">
+              {% include essays/essay-card.html page=page %}
+            </div>
           {% endunless %}
-          {% if forloop.index == include.limit %}
-            {% break %}
-          {% endif %}
         {% endfor %}
+      {% endfor %}
     </div>
 
     {% if essay_pages.size > include.limit %}
-      <p class="text-center pt-4"><a href="{{ site.baseurl}}/essays/">See all {{ essay_pages.size }} essays</a></p>
+      <p class="text-center pt-4"><a href="{{ site.baseurl}}/essays/">See all</a></p>
     {% endif %}
 
   </div>

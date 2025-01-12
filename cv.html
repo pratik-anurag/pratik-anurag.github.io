@@ -34,12 +34,11 @@ layout: home
 
     <div class="row">
       <div class="col">
-        <h1 class="display-4 text-center">{{ site.data.bio.basics.name }}</h1>
-        <p class="text-center">Abbreviated Curriculum Vitae (complete CV is <a href="https://github.com/philipmjohnson/cv/raw/master/philipmjohnson-cv.pdf">here</a>)</p>
+        <h1 class="display-4 text-center"><a href="">{{ site.data.bio.basics.name }}</a></h1>
       </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col">
         {% capture url %}{{ site.data.bio.basics.website }}{% endcapture %}
         {% capture label %}{{ site.data.bio.basics.website | remove: "http://" | remove: "https://" }}{% endcapture %}
@@ -61,7 +60,7 @@ layout: home
         <p class="mb-1 text-end">{{ site.data.bio.basics.location.city }}, {{ site.data.bio.basics.location.region }} {{ site.data.bio.basics.location.postalCode }} {{ site.data.bio.basics.location.countryCode }}</p>
         <p class="mb-1 text-end">{{ site.data.bio.basics.phone }}</p>
       </div>
-    </div>
+    </div> -->
 
     <div class="row pt-4 align-items-center">
       <div class="col-lg-3">
@@ -258,7 +257,7 @@ layout: home
     {% if site.data.bio.awards %}
     <div class="row pt-4 align-items-start">
       <div class="col-lg-3">
-        <h1 class="display-6 text-start m-0">Awards</h1>
+        <h1 class="display-6 text-start m-0">Hackathons</h1>
       </div>
 
       <div class="col-lg-9">
@@ -304,6 +303,6 @@ layout: home
     {% endif %}
 
     <hr>
-    <p class="text-center">Complete CV is <a href="https://github.com/philipmjohnson/cv/raw/master/philipmjohnson-cv.pdf">here</a></p>
+    <!-- <p class="text-center">Complete CV is <a href="">here</a></p> -->
   </div>
 </div>
