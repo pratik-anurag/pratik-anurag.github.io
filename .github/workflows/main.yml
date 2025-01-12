@@ -31,6 +31,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+       - name: Install Ruby
+        # Install Ruby manually on the self-hosted runner
+        run: |
+          git clone https://github.com/rbenv/ruby-build.git ~/.ruby-build
+          export PATH="$HOME/.ruby-build/bin:$PATH"
+          ruby-build 3.1.4 /opt/hostedtoolcache/Ruby/3.1.4/x64
+          touch /opt/hostedtoolcache/Ruby/3.1.4/x64.complete
+          export PATH="/opt/hostedtoolcache/Ruby/3.1.4/x64/bin:$PATH"
+          ruby --version
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Ruby
