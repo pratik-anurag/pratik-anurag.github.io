@@ -48,14 +48,15 @@ export default function HomePage() {
                 staying and working in Bengaluru, Karnataka.
               </p>
               <p>
-                I work at PhonePe as a Software Engineer in the Tools team. My work
-                involves developing tools and binaries for a variety of platform
-                operations, including inventory control and management, bare-metal and
-                virtual machine provisioning, system vulnerability patching, and
-                database activity monitoring, among others. Prior to PhonePe, I worked
-                at Kloud9, Tekion and MetricStream. I hold a Bachelor&apos;s degree in
-                Information Science and Engineering from Dayananda Sagar College of
-                Engineering.
+                I work at{" "}
+                <span style={{ color: "#5f259f", fontWeight: 700 }}>PhonePe</span> as a
+                Software Engineer in the Tools team. My work involves developing
+                tools and binaries for a variety of platform operations, including
+                inventory control and management, bare-metal and virtual machine
+                provisioning, system vulnerability patching, and database activity
+                monitoring, among others. Prior to PhonePe, I worked at Kloud9,
+                Tekion and MetricStream. I hold a Bachelor&apos;s degree in Information
+                Science and Engineering from Dayananda Sagar College of Engineering.
               </p>
               <p>
                 In my free time, I enjoy contributing to open-source projects and
