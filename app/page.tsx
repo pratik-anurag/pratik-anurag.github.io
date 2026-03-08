@@ -56,7 +56,11 @@ export default function HomePage() {
                 provisioning, system vulnerability patching, and database activity
                 monitoring, among others. Prior to PhonePe, I worked at Kloud9,
                 Tekion and MetricStream. I hold a Bachelor&apos;s degree in Information
-                Science and Engineering from Dayananda Sagar College of Engineering.
+                Science and Engineering from{" "}
+                <span className="highlight-light-blue">
+                  Dayananda Sagar College of Engineering
+                </span>
+                .
               </p>
               <p>
                 In my free time, I enjoy contributing to open-source projects and

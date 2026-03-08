@@ -10,7 +10,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
     <article className="card project-card">
       <div className="card__body">
         <div className="card__meta">
-          <span className="status-pill">{project.status}</span>
+          {project.status !== "completed" ? (
+            <span className="status-pill">{project.status}</span>
+          ) : null}
           <span>{project.year}</span>
         </div>
 

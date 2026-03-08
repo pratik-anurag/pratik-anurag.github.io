@@ -75,7 +75,9 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               <h1>{project.title}</h1>
               <p className="lead">{project.excerpt}</p>
               <div className="card__meta">
-                <span className="status-pill">{project.status}</span>
+                {project.status !== "completed" ? (
+                  <span className="status-pill">{project.status}</span>
+                ) : null}
                 <span>{project.year}</span>
               </div>
               <div className="button-row">
