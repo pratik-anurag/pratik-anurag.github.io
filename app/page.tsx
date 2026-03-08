@@ -39,8 +39,35 @@ export default function HomePage() {
         <div className="container hero__content">
           <div>
             <h1>{siteConfig.name}</h1>
-            <p className="hero__title">{siteConfig.title}</p>
-            <p className="lead">{siteConfig.tagline}</p>
+            {siteConfig.title ? <p className="hero__title">{siteConfig.title}</p> : null}
+            {siteConfig.tagline ? <p className="lead">{siteConfig.tagline}</p> : null}
+
+            <div className="max-width-copy">
+              <p>
+                Hi! I am Pratik. I come from Patratu, Jharkhand, and I am currently
+                staying and working in Bengaluru, Karnataka.
+              </p>
+              <p>
+                I work at PhonePe as a Software Engineer in the Tools team. My work
+                involves developing tools and binaries for a variety of platform
+                operations, including inventory control and management, bare-metal and
+                virtual machine provisioning, system vulnerability patching, and
+                database activity monitoring, among others. Prior to PhonePe, I worked
+                at Kloud9, Tekion and MetricStream. I hold a Bachelor&apos;s degree in
+                Information Science and Engineering from Dayananda Sagar College of
+                Engineering.
+              </p>
+              <p>
+                In my free time, I enjoy contributing to open-source projects and
+                volunteering for the community. I was a member of my college&apos;s Linux
+                User Group, GLUG-DSCE, where I started my open-source journey.
+              </p>
+              <p>
+                Outside of work, I am a proud Manchester United fan. I love playing
+                football/cricket and watching matches whenever possible. Additionally,
+                I enjoy quizzing every Tuesday.
+              </p>
+            </div>
           </div>
         </div>
       </section>
