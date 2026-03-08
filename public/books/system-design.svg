@@ -1,0 +1,13 @@
+<svg width="800" height="1200" viewBox="0 0 800 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="1200" rx="48" fill="#121B35"/>
+  <rect x="84" y="84" width="632" height="1032" rx="36" stroke="#60A5FA" stroke-width="4"/>
+  <g opacity="0.5">
+    <path d="M84 212H716" stroke="#27456E"/>
+    <path d="M84 340H716" stroke="#27456E"/>
+    <path d="M84 468H716" stroke="#27456E"/>
+    <path d="M84 596H716" stroke="#27456E"/>
+  </g>
+  <text x="112" y="182" fill="#93C5FD" font-family="IBM Plex Mono, monospace" font-size="28">System Design</text>
+  <text x="112" y="402" fill="#EFF6FF" font-family="Space Grotesk, sans-serif" font-size="74" font-weight="700">Interview</text>
+  <text x="112" y="542" fill="#DBEAFE" font-family="IBM Plex Sans, sans-serif" font-size="34">Alex Xu</text>
+</svg>

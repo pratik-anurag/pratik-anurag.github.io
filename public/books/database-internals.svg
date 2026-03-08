@@ -1,0 +1,8 @@
+<svg width="800" height="1200" viewBox="0 0 800 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="1200" rx="48" fill="#1A1532"/>
+  <rect x="88" y="94" width="624" height="210" rx="30" fill="#2F275A"/>
+  <text x="112" y="182" fill="#F5C542" font-family="IBM Plex Mono, monospace" font-size="28">Databases</text>
+  <text x="88" y="470" fill="#F8F9FF" font-family="Space Grotesk, sans-serif" font-size="70" font-weight="700">Database</text>
+  <text x="88" y="552" fill="#F8F9FF" font-family="Space Grotesk, sans-serif" font-size="70" font-weight="700">Internals</text>
+  <text x="88" y="684" fill="#C0C8E5" font-family="IBM Plex Sans, sans-serif" font-size="34">Alex Petrov</text>
+</svg>

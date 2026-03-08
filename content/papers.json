@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "dapper-a-large-scale-distributed-systems-tracing-infrastructure",
+    "title": "Dapper, a Large-Scale Distributed Systems Tracing Infrastructure",
+    "authors": ["Benjamin H. Sigelman", "Luiz Andre Barroso", "Mike Burrows"],
+    "year": "2010",
+    "searchQuery": "Dapper a Large-Scale Distributed Systems Tracing Infrastructure paper"
+  },
+  {
+    "slug": "the-tail-at-scale",
+    "title": "The Tail at Scale",
+    "authors": ["Jeffrey Dean", "Luiz Andre Barroso"],
+    "year": "2013",
+    "searchQuery": "The Tail at Scale paper"
+  },
+  {
+    "slug": "dynamo-amazons-highly-available-key-value-store",
+    "title": "Dynamo: Amazon's Highly Available Key-value Store",
+    "authors": ["Giuseppe DeCandia", "Deniz Hastorun", "Madan Jampani"],
+    "year": "2007",
+    "searchQuery": "Dynamo Amazon's Highly Available Key-value Store paper"
+  },
+  {
+    "slug": "bigtable-a-distributed-storage-system-for-structured-data",
+    "title": "Bigtable: A Distributed Storage System for Structured Data",
+    "authors": ["Fay Chang", "Jeffrey Dean", "Sanjay Ghemawat"],
+    "year": "2006",
+    "searchQuery": "Bigtable A Distributed Storage System for Structured Data paper"
+  },
+  {
+    "slug": "mapreduce-simplified-data-processing-on-large-clusters",
+    "title": "MapReduce: Simplified Data Processing on Large Clusters",
+    "authors": ["Jeffrey Dean", "Sanjay Ghemawat"],
+    "year": "2004",
+    "searchQuery": "MapReduce Simplified Data Processing on Large Clusters paper"
+  },
+  {
+    "slug": "spanner-googles-globally-distributed-database",
+    "title": "Spanner: Google's Globally-Distributed Database",
+    "authors": ["James C. Corbett", "Jeffrey Dean", "Michael Epstein"],
+    "year": "2012",
+    "searchQuery": "Spanner Google's Globally-Distributed Database paper"
+  },
+  {
+    "slug": "in-search-of-an-understandable-consensus-algorithm",
+    "title": "In Search of an Understandable Consensus Algorithm",
+    "authors": ["Diego Ongaro", "John Ousterhout"],
+    "year": "2014",
+    "searchQuery": "In Search of an Understandable Consensus Algorithm Raft paper"
+  },
+  {
+    "slug": "millwheel-fault-tolerant-stream-processing-at-internet-scale",
+    "title": "MillWheel: Fault-Tolerant Stream Processing at Internet Scale",
+    "authors": ["Tyler Akidau", "Alex Balikov", "Kaya Bekiroglu"],
+    "year": "2013",
+    "searchQuery": "MillWheel Fault-Tolerant Stream Processing at Internet Scale paper"
+  }
+]

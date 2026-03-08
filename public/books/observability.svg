@@ -1,0 +1,8 @@
+<svg width="800" height="1200" viewBox="0 0 800 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="1200" rx="48" fill="#1B1427"/>
+  <path d="M88 252C166 188 232 358 320 300C408 242 460 140 554 198C626 242 646 378 712 336" stroke="#F472B6" stroke-width="10" stroke-linecap="round"/>
+  <path d="M88 360C164 312 224 482 330 416C430 356 474 268 570 316C644 354 658 456 712 430" stroke="#C084FC" stroke-width="10" stroke-linecap="round"/>
+  <text x="88" y="590" fill="#FDF4FF" font-family="Space Grotesk, sans-serif" font-size="64" font-weight="700">Observability</text>
+  <text x="88" y="666" fill="#FDF4FF" font-family="Space Grotesk, sans-serif" font-size="64" font-weight="700">Engineering</text>
+  <text x="88" y="794" fill="#F5D0FE" font-family="IBM Plex Sans, sans-serif" font-size="28">Majors, Fong-Jones, Miranda</text>
+</svg>

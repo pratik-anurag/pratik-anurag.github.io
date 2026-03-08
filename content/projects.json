@@ -1,0 +1,158 @@
+[
+  {
+    "slug": "portik",
+    "title": "Portik",
+    "excerpt": "A Go CLI for inspecting, explaining, and safely managing port ownership across local development environments.",
+    "description": "Portik is a developer-focused CLI for finding which process owns a port, explaining why a listener is stuck, and recovering local services without falling back to ad hoc shell commands.",
+    "problemSolved": "Port conflicts, hidden listeners, and container mappings routinely slow down local development because the underlying process state is scattered across multiple system tools.",
+    "techStack": ["Go", "Bubble Tea", "Lip Gloss", "Docker", "Linux/macOS tooling"],
+    "architectureHighlights": [
+      "Cross-platform inspection flow built around ss, lsof, ps, and Docker-aware lookups",
+      "Interactive TUI mode for live monitoring, history, and safe actions on busy ports",
+      "Command surface for explain, kill, restart, trace, graph, and watch workflows"
+    ],
+    "role": "Designed and implemented the CLI surface, local inspection model, and troubleshooting workflow for repeated port-debugging tasks.",
+    "contributions": [
+      "Built command flows for who, explain, kill, restart, history, and graph operations",
+      "Added Bubble Tea based TUI support for interactive inspection",
+      "Documented Linux and macOS platform behavior, permissions, and recovery paths"
+    ],
+    "githubUrl": "https://github.com/pratik-anurag/portik",
+    "demoUrl": "",
+    "status": "completed",
+    "tags": ["cli", "developer-tooling", "systems"],
+    "category": "Developer Tooling",
+    "featured": true,
+    "year": "2026"
+  },
+  {
+    "slug": "arpkit",
+    "title": "Arpkit",
+    "excerpt": "A zero-daemon CLI for profiling machine topology, cache layout, NUMA boundaries, and performance posture.",
+    "description": "Arpkit is a Go command-line profiler for machine architecture. It reports CPU topology, cache hierarchy, NUMA layout, isolation settings, power scaling, and posture signals needed for performance engineering.",
+    "problemSolved": "Performance investigations often begin without a reliable machine profile, making it harder to reason about topology, cache sharing, NUMA effects, and isolation posture.",
+    "techStack": ["Go", "Linux sysfs/procfs", "JSON", "Graphviz", "CLI"],
+    "architectureHighlights": [
+      "Single-binary design with no daemon and no external command execution",
+      "Topology and posture collection across cache, memory, power, NUMA, and PCIe affinity",
+      "Pretty, JSON, and DOT output modes for both terminal use and automation"
+    ],
+    "role": "Built the profiling model, output formats, and platform-specific collection logic for fast machine-level inspection.",
+    "contributions": [
+      "Implemented topology and cache discovery with Linux-first depth and macOS fallback paths",
+      "Added posture scoring and concise machine summaries for performance work",
+      "Shipped JSON and DOT export modes for downstream tooling and visualization"
+    ],
+    "githubUrl": "https://github.com/pratik-anurag/arpkit",
+    "demoUrl": "",
+    "status": "completed",
+    "tags": ["profiling", "linux", "performance"],
+    "category": "Performance Engineering",
+    "featured": true,
+    "year": "2026"
+  },
+  {
+    "slug": "esplain",
+    "title": "EsPlain",
+    "excerpt": "A query explainer CLI for Elasticsearch that turns raw query JSON into readable execution detail.",
+    "description": "EsPlain is a Go-based query explainer for Elasticsearch. It parses raw queries and combines explain, validate, and profile output into a more readable view for debugging expensive search behavior.",
+    "problemSolved": "Elasticsearch debugging is often slowed down by dense query JSON and verbose profile output that are powerful but not immediately readable during tuning or incident response.",
+    "techStack": ["Go", "Elasticsearch", "go-elasticsearch", "CLI", "HTML reports"],
+    "architectureHighlights": [
+      "Integrates with Elasticsearch explain, validate, and profile APIs",
+      "Transforms query internals into human-readable trees and hotspot summaries",
+      "Supports both terminal-first analysis and generated HTML report output"
+    ],
+    "role": "Created the CLI concept, search-diagnostics integration, and reporting layer around Elasticsearch query analysis.",
+    "contributions": [
+      "Parsed raw query JSON into readable execution components",
+      "Wired explain and profile responses into a single troubleshooting flow",
+      "Added operator-friendly output for identifying costly clauses quickly"
+    ],
+    "githubUrl": "https://github.com/pratik-anurag/esplain",
+    "demoUrl": "",
+    "status": "completed",
+    "tags": ["elasticsearch", "search", "diagnostics"],
+    "category": "Search Infrastructure",
+    "featured": true,
+    "year": "2025"
+  },
+  {
+    "slug": "ephor",
+    "title": "Ephor",
+    "excerpt": "A clipboard security agent for macOS that warns before sensitive data is pasted into browsers.",
+    "description": "Ephor is a Python security utility that monitors global paste events, matches clipboard contents against secret-detection rules, and alerts the user before credentials are pasted into a browser.",
+    "problemSolved": "Secrets can be pasted into the wrong destination surprisingly easily, especially while switching between terminals, browser tabs, and password managers.",
+    "techStack": ["Python", "PyObjC", "PyYAML", "PyInstaller", "macOS Quartz"],
+    "architectureHighlights": [
+      "Event-driven clipboard monitoring using macOS paste hooks",
+      "Rule-based secret detection loaded from YAML pattern sets",
+      "Standalone packaging path for running the agent outside a Python environment"
+    ],
+    "role": "Implemented the local agent flow, rule loading, and notification experience for a lightweight security guardrail.",
+    "contributions": [
+      "Wired global paste detection into a background monitoring loop",
+      "Added regex-driven secret matching and browser-aware warnings",
+      "Documented packaging, permissions, and local runtime requirements"
+    ],
+    "githubUrl": "https://github.com/pratik-anurag/ephor",
+    "demoUrl": "",
+    "status": "completed",
+    "tags": ["security", "clipboard", "macos"],
+    "category": "Security Tooling",
+    "featured": false,
+    "year": "2025"
+  },
+  {
+    "slug": "amazgo",
+    "title": "Amazgo",
+    "excerpt": "REST APIs for scraping Amazon product data and persisting the results to MongoDB.",
+    "description": "Amazgo exposes HTTP endpoints that scrape Amazon pages with Colly, normalize product fields such as title, image, price, and reviews, and store the results with timestamps in MongoDB.",
+    "problemSolved": "Product extraction often starts as one-off scripts, which makes repeated scraping, structured persistence, and local reproducibility harder than it needs to be.",
+    "techStack": ["Go", "Colly", "Gorilla Mux", "MongoDB", "Docker Compose"],
+    "architectureHighlights": [
+      "REST endpoints for direct product ingestion and scrape-trigger workflows",
+      "Scraping pipeline built on Colly for extracting structured product fields",
+      "Containerized local setup with MongoDB-backed persistence"
+    ],
+    "role": "Built the API handlers, scraping flow, and local development setup for structured product collection.",
+    "contributions": [
+      "Implemented scrape and product endpoints for collecting page data",
+      "Mapped extracted fields into a stored document model with timestamps",
+      "Added Docker-based bootstrapping for the service and database"
+    ],
+    "githubUrl": "https://github.com/pratik-anurag/Amazgo",
+    "demoUrl": "",
+    "status": "completed",
+    "tags": ["scraping", "apis", "mongodb"],
+    "category": "APIs",
+    "featured": false,
+    "year": "2020"
+  },
+  {
+    "slug": "rest-apis-golang-mysql",
+    "title": "REST APIs with Go and MySQL",
+    "excerpt": "A small backend service covering registration, login, token validation, and user management flows.",
+    "description": "This project implements a straightforward Go API for register, login, token validation, list, update, and delete operations backed by MySQL tables for users and login tokens.",
+    "problemSolved": "Backend fundamentals are easier to understand when auth flows, token handling, and relational persistence are kept explicit instead of hidden behind a large framework.",
+    "techStack": ["Go", "MySQL", "SQL", "REST APIs"],
+    "architectureHighlights": [
+      "Route handlers for registration, login, token validation, and user updates",
+      "Relational schema split between users and login token state",
+      "Minimal file layout meant to keep backend control flow readable"
+    ],
+    "role": "Implemented the API surface, handler logic, and MySQL schema expectations for a small auth-oriented backend service.",
+    "contributions": [
+      "Built endpoints for register, login, validate, list, update, and delete flows",
+      "Defined the MySQL tables used for users and login tokens",
+      "Kept the code structure intentionally small for clarity and extension"
+    ],
+    "githubUrl": "https://github.com/pratik-anurag/rest_apis_golang_mysql",
+    "demoUrl": "",
+    "status": "completed",
+    "tags": ["golang", "mysql", "auth"],
+    "category": "APIs",
+    "featured": false,
+    "year": "2020"
+  }
+]

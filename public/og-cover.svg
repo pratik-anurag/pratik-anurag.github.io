@@ -1,0 +1,31 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#07101C"/>
+  <rect x="40" y="40" width="1120" height="550" rx="36" stroke="#1E334B" stroke-width="2"/>
+  <g opacity="0.4">
+    <path d="M40 140H1160" stroke="#1E334B"/>
+    <path d="M40 240H1160" stroke="#1E334B"/>
+    <path d="M40 340H1160" stroke="#1E334B"/>
+    <path d="M40 440H1160" stroke="#1E334B"/>
+    <path d="M160 40V590" stroke="#1E334B"/>
+    <path d="M360 40V590" stroke="#1E334B"/>
+    <path d="M560 40V590" stroke="#1E334B"/>
+    <path d="M760 40V590" stroke="#1E334B"/>
+    <path d="M960 40V590" stroke="#1E334B"/>
+  </g>
+  <rect x="88" y="86" width="320" height="38" rx="19" fill="#12343B"/>
+  <text x="112" y="111" fill="#4FD1C5" font-family="IBM Plex Mono, monospace" font-size="20" letter-spacing="2">BACKEND DEVELOPER</text>
+  <text x="88" y="230" fill="#EFF5FF" font-family="Space Grotesk, sans-serif" font-size="84" font-weight="700">Pratik Anurag</text>
+  <text x="88" y="306" fill="#A6B8D2" font-family="IBM Plex Sans, sans-serif" font-size="32">APIs, data systems, observability, and reliable infrastructure.</text>
+  <rect x="88" y="382" width="178" height="96" rx="24" fill="#0E1C2D" stroke="#1E334B"/>
+  <rect x="292" y="382" width="178" height="96" rx="24" fill="#0E1C2D" stroke="#1E334B"/>
+  <rect x="496" y="382" width="178" height="96" rx="24" fill="#0E1C2D" stroke="#1E334B"/>
+  <rect x="700" y="382" width="178" height="96" rx="24" fill="#0E1C2D" stroke="#1E334B"/>
+  <text x="133" y="438" fill="#73D4FF" font-family="IBM Plex Mono, monospace" font-size="24">Clients</text>
+  <text x="351" y="438" fill="#73D4FF" font-family="IBM Plex Mono, monospace" font-size="24">API</text>
+  <text x="545" y="438" fill="#73D4FF" font-family="IBM Plex Mono, monospace" font-size="24">Queues</text>
+  <text x="764" y="438" fill="#73D4FF" font-family="IBM Plex Mono, monospace" font-size="24">Data</text>
+  <path d="M266 430H292" stroke="#4FD1C5" stroke-width="4"/>
+  <path d="M470 430H496" stroke="#4FD1C5" stroke-width="4"/>
+  <path d="M674 430H700" stroke="#4FD1C5" stroke-width="4"/>
+  <text x="88" y="538" fill="#4FD1C5" font-family="IBM Plex Mono, monospace" font-size="20">myname.dev</text>
+</svg>

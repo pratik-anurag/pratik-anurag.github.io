@@ -1,0 +1,9 @@
+<svg width="800" height="1200" viewBox="0 0 800 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="1200" rx="48" fill="#0D2A21"/>
+  <rect x="88" y="102" width="624" height="164" rx="24" fill="#134436"/>
+  <text x="112" y="190" fill="#86EFAC" font-family="IBM Plex Mono, monospace" font-size="28">SRE</text>
+  <text x="88" y="420" fill="#ECFDF5" font-family="Space Grotesk, sans-serif" font-size="66" font-weight="700">The Site</text>
+  <text x="88" y="496" fill="#ECFDF5" font-family="Space Grotesk, sans-serif" font-size="66" font-weight="700">Reliability</text>
+  <text x="88" y="572" fill="#ECFDF5" font-family="Space Grotesk, sans-serif" font-size="66" font-weight="700">Workbook</text>
+  <text x="88" y="704" fill="#BBF7D0" font-family="IBM Plex Sans, sans-serif" font-size="34">Betsy Beyer et al.</text>
+</svg>

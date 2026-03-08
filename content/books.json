@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "designing-data-intensive-applications",
+    "title": "Designing Data-Intensive Applications",
+    "author": "Martin Kleppmann",
+    "searchQuery": "Designing Data-Intensive Applications Martin Kleppmann"
+  },
+  {
+    "slug": "database-internals",
+    "title": "Database Internals",
+    "author": "Alex Petrov",
+    "searchQuery": "Database Internals Alex Petrov"
+  },
+  {
+    "slug": "release-it",
+    "title": "Release It!",
+    "author": "Michael T. Nygard",
+    "searchQuery": "Release It Michael T Nygard"
+  },
+  {
+    "slug": "fundamentals-of-software-architecture",
+    "title": "Fundamentals of Software Architecture",
+    "author": "Mark Richards Neal Ford",
+    "searchQuery": "Fundamentals of Software Architecture Mark Richards Neal Ford"
+  },
+  {
+    "slug": "the-site-reliability-workbook",
+    "title": "The Site Reliability Workbook",
+    "author": "Betsy Beyer et al.",
+    "searchQuery": "The Site Reliability Workbook Betsy Beyer"
+  },
+  {
+    "slug": "system-design-interview",
+    "title": "System Design Interview",
+    "author": "Alex Xu",
+    "searchQuery": "System Design Interview Alex Xu"
+  },
+  {
+    "slug": "building-microservices",
+    "title": "Building Microservices",
+    "author": "Sam Newman",
+    "searchQuery": "Building Microservices Sam Newman"
+  },
+  {
+    "slug": "observability-engineering",
+    "title": "Observability Engineering",
+    "author": "Charity Majors Liz Fong-Jones George Miranda",
+    "searchQuery": "Observability Engineering Charity Majors Liz Fong-Jones George Miranda"
+  }
+]

@@ -1,0 +1,9 @@
+<svg width="800" height="1200" viewBox="0 0 800 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="1200" rx="48" fill="#1C1837"/>
+  <path d="M180 224L314 304V456L180 376V224Z" fill="#7C3AED"/>
+  <path d="M344 304L478 384V536L344 456V304Z" fill="#A78BFA"/>
+  <path d="M344 128L478 208V360L344 280V128Z" fill="#C4B5FD"/>
+  <text x="88" y="660" fill="#F5F3FF" font-family="Space Grotesk, sans-serif" font-size="68" font-weight="700">Terraform</text>
+  <text x="88" y="736" fill="#F5F3FF" font-family="Space Grotesk, sans-serif" font-size="68" font-weight="700">Up &amp; Running</text>
+  <text x="88" y="856" fill="#DDD6FE" font-family="IBM Plex Sans, sans-serif" font-size="32">Yevgeniy Brikman</text>
+</svg>

@@ -1,0 +1,93 @@
+{
+  "name": "Pratik Anurag",
+  "shortName": "",
+  "title": "",
+  "tagline": "",
+  "intro": "I build backend systems with a focus on clarity, performance, and reliability.",
+  "summary": "Backend-focused software engineer working across APIs, data models, and production systems with an emphasis on maintainability and operational clarity.",
+  "yearsExperience": "X+ years",
+  "location": "Bengaluru, India",
+  "availability": "SE @ PhonePe",
+  "resumeHref": "/resume",
+  "techHighlights": [
+    "Go",
+    "TypeScript",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
+    "AWS"
+  ],
+  "backendSpecialization": [
+    "API design",
+    "Distributed systems",
+    "Databases and performance",
+    "Cloud and observability"
+  ],
+  "interests": [
+    "APIs",
+    "Distributed systems",
+    "Databases",
+    "Cloud / DevOps",
+    "Performance / scalability"
+  ],
+  "values": [
+    "Make interfaces clear.",
+    "Prefer simple systems that are easy to debug.",
+    "Use evidence for performance work.",
+    "Start with secure and reliable defaults."
+  ],
+  "currentFocus": [
+    "Observability and tracing",
+    "Postgres internals",
+    "Writing backend notes"
+  ],
+  "socials": [
+    {
+      "label": "GitHub",
+      "href": "https://github.com/pratik-anurag"
+    },
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/pratik-anurag/"
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "items": ["Go", "TypeScript", "Python", "SQL", "Bash"]
+    },
+    {
+      "category": "Frameworks",
+      "items": ["Node.js", "Express", "Next.js", "Gin", "gRPC"]
+    },
+    {
+      "category": "Databases",
+      "items": ["PostgreSQL", "Redis", "MongoDB", "Elasticsearch"]
+    },
+    {
+      "category": "Cloud / Infra",
+      "items": ["AWS", "Docker", "Kubernetes", "Terraform", "GitHub Actions"]
+    },
+    {
+      "category": "Tools",
+      "items": ["OpenTelemetry", "Grafana", "Prometheus", "RabbitMQ", "Nginx"]
+    }
+  ],
+  "timeline": [
+    {
+      "period": "2025 - Present",
+      "title": "Backend Engineer / Platform-minded IC",
+      "description": "Building APIs, background workflows, and internal tooling."
+    },
+    {
+      "period": "2023 - 2025",
+      "title": "Scaled data-intensive product surfaces",
+      "description": "Worked on schema changes, service boundaries, and production telemetry."
+    },
+    {
+      "period": "2020 - 2023",
+      "title": "Built foundations in APIs and databases",
+      "description": "Focused on application backends, automation, and developer tooling."
+    }
+  ]
+}

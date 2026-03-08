@@ -1,0 +1,9 @@
+<svg width="800" height="1200" viewBox="0 0 800 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="1200" rx="48" fill="#102029"/>
+  <rect x="84" y="84" width="632" height="220" rx="30" fill="#173948"/>
+  <text x="112" y="176" fill="#7DD3FC" font-family="IBM Plex Mono, monospace" font-size="28">Architecture</text>
+  <text x="88" y="420" fill="#F1F5F9" font-family="Space Grotesk, sans-serif" font-size="60" font-weight="700">Fundamentals</text>
+  <text x="88" y="492" fill="#F1F5F9" font-family="Space Grotesk, sans-serif" font-size="60" font-weight="700">of Software</text>
+  <text x="88" y="564" fill="#F1F5F9" font-family="Space Grotesk, sans-serif" font-size="60" font-weight="700">Architecture</text>
+  <text x="88" y="708" fill="#CBD5E1" font-family="IBM Plex Sans, sans-serif" font-size="34">Mark Richards and Neal Ford</text>
+</svg>
