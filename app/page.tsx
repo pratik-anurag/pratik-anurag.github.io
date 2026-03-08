@@ -63,9 +63,10 @@ export default function HomePage() {
                 User Group, GLUG-DSCE, where I started my open-source journey.
               </p>
               <p>
-                Outside of work, I am a proud Manchester United fan. I love playing
-                football/cricket and watching matches whenever possible. Additionally,
-                I enjoy quizzing every Tuesday.
+                Outside of work, I am a proud{" "}
+                <span style={{ color: "#c1121f", fontWeight: 700 }}>Manchester United</span>{" "}
+                fan. I love playing football/cricket and watching matches whenever
+                possible. Additionally, I enjoy quizzing every Tuesday.
               </p>
             </div>
           </div>
