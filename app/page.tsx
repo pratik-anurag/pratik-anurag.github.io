@@ -40,36 +40,30 @@ export default function HomePage() {
           <div>
             <p className="hero-kicker">Bengaluru, India <span>Software engineer @ PhonePe</span></p>
             <h1>{siteConfig.name}</h1>
-            <p className="hero-statement">Building systems.<br /><span>Connecting the dots.</span></p>
-            <p className="hero-summary">Backend engineering, open-source work, and field notes from building tools for the real world.</p>
+            <p className="hero-statement">Software engineer.</p>
+            <p className="hero-summary">I build tools for server provisioning, inventory management, vulnerability patching, and database monitoring at PhonePe.</p>
             <div className="button-row">
-              <Link className="button" href="/projects">Explore my work ↗</Link>
-              <Link className="ghost-button" href="/blog">Read the field notes</Link>
+              <Link className="button" href="/projects">Projects</Link>
+              <Link className="ghost-button" href="/blog">Blog</Link>
             </div>
-            <div className="hero-coordinate">A winter sky above Bengaluru <span>Vidhana Soudha · UB City · Namma Metro</span></div>
           </div>
         </div>
       </section>
       <section className="section about-section">
         <div className="container">
-          <div className="about-heading"><p className="eyebrow">01 / Behind the work</p><h2>A little closer<br />to the ground.</h2></div>
+          <div className="about-heading"><h2>About me</h2></div>
           <div>
             {siteConfig.title ? <p className="hero__title">{siteConfig.title}</p> : null}
             {siteConfig.tagline ? <p className="lead">{siteConfig.tagline}</p> : null}
 
             <div className="max-width-copy">
               <p>
-                Hi! I am Pratik. I come from Patratu, Jharkhand, and I am currently
-                staying and working in Bengaluru, Karnataka.
+                I&apos;m from Patratu, Jharkhand, and live in Bengaluru.
               </p>
               <p>
                 I work at{" "}
                 <span style={{ color: "#c3a0f0", fontWeight: 700 }}>PhonePe</span> as a
-                Software Engineer in the Tools team. My work involves developing
-                tools and binaries for a variety of platform operations, including
-                inventory control and management, bare-metal and virtual machine
-                provisioning, system vulnerability patching, and database activity
-                monitoring, among others. Prior to PhonePe, I worked at Kloud9,
+                Software Engineer in the Tools team. Previously, I worked at Kloud9,
                 Tekion and MetricStream. I hold a Bachelor&apos;s degree in Information
                 Science and Engineering from{" "}
                 <span className="highlight-light-blue">
@@ -78,15 +72,13 @@ export default function HomePage() {
                 .
               </p>
               <p>
-                In my free time, I enjoy contributing to open-source projects and
-                volunteering for the community. I was a member of my college&apos;s Linux
-                User Group, GLUG-DSCE, where I started my open-source journey.
+                I contribute to open-source projects and volunteer. I started
+                contributing through my college&apos;s Linux User Group, GLUG-DSCE.
               </p>
               <p>
-                Outside of work, I am a proud{" "}
+                I&apos;m a{" "}
                 <span style={{ color: "#f49393", fontWeight: 700 }}>Manchester United</span>{" "}
-                fan. I love playing football/cricket and watching matches whenever
-                possible. Additionally, I enjoy quizzing every Tuesday.
+                fan. I play football and cricket, watch matches, and quiz on Tuesdays.
               </p>
             </div>
           </div>

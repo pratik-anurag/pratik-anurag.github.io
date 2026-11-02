@@ -13,9 +13,9 @@ export default function BlogPage() {
   return (
     <>
       <PageHero
-        eyebrow="Blog"
-        title="Thoughts on learnings and findings"
-        description="Posts on learning from work projects, self studying, open source heists"
+        eyebrow=""
+        title="Blog"
+        description="Posts on backend development, infrastructure, and open source."
       />
 
       <section className="section">

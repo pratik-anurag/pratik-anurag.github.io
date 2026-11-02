@@ -13,9 +13,9 @@ export default function NotesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Learning / Notes"
-        title="small configs/dot files"
-        description="Shorter entries for database notes, system design patterns, tooling reminders, and practical operational checklists."
+        eyebrow=""
+        title="Notes"
+        description="Commands, configurations, and notes on databases and infrastructure."
       />
 
       <section className="section">

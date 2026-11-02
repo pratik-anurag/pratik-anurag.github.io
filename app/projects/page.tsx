@@ -13,9 +13,9 @@ export default function ProjectsPage() {
   return (
     <>
       <PageHero
-        eyebrow="learnings through"
+        eyebrow=""
         title="Projects"
-        description="List of projects, some of them are purely learning ones, others on the use cases from work, discussions and day to day life."
+        description="Tools and experiments from work and personal projects."
       />
 
       <section className="section">
