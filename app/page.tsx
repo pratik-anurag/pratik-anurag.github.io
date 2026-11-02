@@ -38,7 +38,22 @@ export default function HomePage() {
       <section className="hero">
         <div className="container hero__content">
           <div>
+            <p className="hero-kicker">Bengaluru, India <span>Software engineer @ PhonePe</span></p>
             <h1>{siteConfig.name}</h1>
+            <p className="hero-statement">Building systems.<br /><span>Connecting the dots.</span></p>
+            <p className="hero-summary">Backend engineering, open-source work, and field notes from building tools for the real world.</p>
+            <div className="button-row">
+              <Link className="button" href="/projects">Explore my work ↗</Link>
+              <Link className="ghost-button" href="/blog">Read the field notes</Link>
+            </div>
+            <div className="hero-coordinate">A winter sky above the city <span>Orion · Taurus · Gemini</span></div>
+          </div>
+        </div>
+      </section>
+      <section className="section about-section">
+        <div className="container">
+          <div className="about-heading"><p className="eyebrow">01 / Behind the work</p><h2>A little closer<br />to the ground.</h2></div>
+          <div>
             {siteConfig.title ? <p className="hero__title">{siteConfig.title}</p> : null}
             {siteConfig.tagline ? <p className="lead">{siteConfig.tagline}</p> : null}
 
@@ -49,7 +64,7 @@ export default function HomePage() {
               </p>
               <p>
                 I work at{" "}
-                <span style={{ color: "#5f259f", fontWeight: 700 }}>PhonePe</span> as a
+                <span style={{ color: "#c3a0f0", fontWeight: 700 }}>PhonePe</span> as a
                 Software Engineer in the Tools team. My work involves developing
                 tools and binaries for a variety of platform operations, including
                 inventory control and management, bare-metal and virtual machine
@@ -69,7 +84,7 @@ export default function HomePage() {
               </p>
               <p>
                 Outside of work, I am a proud{" "}
-                <span style={{ color: "#c1121f", fontWeight: 700 }}>Manchester United</span>{" "}
+                <span style={{ color: "#f49393", fontWeight: 700 }}>Manchester United</span>{" "}
                 fan. I love playing football/cricket and watching matches whenever
                 possible. Additionally, I enjoy quizzing every Tuesday.
               </p>
