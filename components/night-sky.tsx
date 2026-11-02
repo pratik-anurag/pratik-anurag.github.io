@@ -61,7 +61,7 @@ export function NightSky() {
         ctx.fillStyle = "rgba(" + color + "," + alpha * twinkle + ")";
         ctx.beginPath(); ctx.arc(x,y,size,0,Math.PI*2); ctx.fill();
       }
-      // Three deterministic city layers, cached by the browser's canvas backing store.
+      // A composed Bengaluru skyline; landmarks are illustrative, not geographically aligned.
       for (let layer = 0; layer < 3; layer++) {
         const base = h - layer * 14;
         const bw = 32 + layer * 15;
@@ -79,6 +79,68 @@ export function NightSky() {
           ctx.fillStyle = ["#142333","#0b1725","#060f1b"][layer];
         }
       }
+      ctx.save();
+      const cityScale = Math.min(1, w / 760);
+      ctx.translate(0, h - 20);
+      ctx.scale(cityScale, cityScale);
+      const cityWidth = w / cityScale;
+
+      // Vidhana Soudha: broad colonnade, stepped entrance and central dome.
+      ctx.save();
+      ctx.translate(cityWidth * .27, 0);
+      ctx.fillStyle = "#142536";
+      ctx.fillRect(-116, -132, 232, 125);
+      ctx.fillRect(-126, -141, 252, 10);
+      ctx.fillRect(-104, -153, 208, 12);
+      ctx.fillRect(-30, -180, 60, 30);
+      const dome = (x: number, y: number, radius: number) => {
+        ctx.beginPath(); ctx.arc(x, y, radius, Math.PI, 0);
+        ctx.lineTo(x + radius, y + 7); ctx.lineTo(x - radius, y + 7); ctx.closePath(); ctx.fill();
+        ctx.fillRect(x - 1, y - radius - 12, 2, 12);
+      };
+      dome(0, -181, 25);
+      dome(-91, -155, 12); dome(91, -155, 12);
+      ctx.fillStyle = "rgba(218,185,130,.26)";
+      ctx.fillRect(-121, -133, 242, 2);
+      for (let column = -101; column <= 101; column += 18) {
+        ctx.fillRect(column, -120, 3, 66);
+        ctx.fillRect(column - 2, -122, 7, 3);
+      }
+      ctx.fillStyle = "#0b1725";
+      ctx.fillRect(-25, -83, 50, 70);
+      for (let step=0; step<4; step++) ctx.fillRect(-42-step*7, -20+step*5, 84+step*14, 5);
+      ctx.restore();
+
+      // UB City-inspired tower: tall shaft and tiered, illuminated crown.
+      ctx.save();
+      ctx.translate(cityWidth * .76, 0);
+      ctx.fillStyle = "#122333";
+      ctx.fillRect(-30, -222, 60, 220);
+      ctx.fillRect(-22, -243, 44, 22);
+      ctx.fillRect(-15, -259, 30, 17);
+      ctx.beginPath(); ctx.moveTo(-15,-259); ctx.lineTo(0,-285); ctx.lineTo(15,-259); ctx.fill();
+      ctx.fillRect(-1,-301,2,20);
+      ctx.strokeStyle = "rgba(216,192,142,.45)"; ctx.lineWidth = 1;
+      for (const y of [-222,-243,-259]) { ctx.beginPath(); ctx.moveTo(-22,y); ctx.lineTo(22,y); ctx.stroke(); }
+      for (let row=0; row<16; row++) for (let col=0; col<5; col++) {
+        ctx.fillStyle = (row+col)%3 ? "rgba(141,190,208,.22)" : "rgba(238,194,127,.4)";
+        ctx.fillRect(-22+col*10,-214+row*12,3,5);
+      }
+      ctx.restore();
+
+      // Namma Metro viaduct, with a restrained purple train and lit carriage windows.
+      ctx.fillStyle = "#08121f";
+      ctx.fillRect(0,-28,cityWidth,9);
+      for (let x=15; x<cityWidth; x+=125) {
+        ctx.fillRect(x,-23,9,45); ctx.fillRect(x-8,-27,25,7);
+      }
+      const trainX = cityWidth * .46;
+      ctx.fillStyle = "#343044";
+      ctx.fillRect(trainX,-47,139,16);
+      ctx.fillStyle = "#79648b"; ctx.fillRect(trainX,-34,139,3);
+      ctx.fillStyle = "rgba(217,224,211,.45)";
+      for (let i=0;i<12;i++) ctx.fillRect(trainX+6+i*11,-43,7,5);
+      ctx.restore();
     };
     const restart = () => { cancelAnimationFrame(frame); last=0; draw(0); };
     restart();

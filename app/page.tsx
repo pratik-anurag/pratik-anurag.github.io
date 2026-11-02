@@ -46,7 +46,7 @@ export default function HomePage() {
               <Link className="button" href="/projects">Explore my work ↗</Link>
               <Link className="ghost-button" href="/blog">Read the field notes</Link>
             </div>
-            <div className="hero-coordinate">A winter sky above the city <span>Orion · Taurus · Gemini</span></div>
+            <div className="hero-coordinate">A winter sky above Bengaluru <span>Vidhana Soudha · UB City · Namma Metro</span></div>
           </div>
         </div>
       </section>
