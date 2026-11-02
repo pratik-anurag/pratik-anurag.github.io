@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/app/globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { NightSky } from "@/components/night-sky";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <NightSky />
         <div className="site-frame">
           <SiteHeader />
           <main>{children}</main>
