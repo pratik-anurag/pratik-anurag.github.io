@@ -1,6 +1,7 @@
 import {parseMachine,formatCPUList} from "./parser.js";
 import {samples} from "./samples.js";
 import {relativeDistance,distanceDescription} from "./distance.js";
+import {posture,pinning}from "./insights.js";
 const $=id=>document.getElementById(id);
 export const element=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 export function bytes(value){if(value===null||value===undefined)return "unknown";if(value===0)return "0 B";const units=["B","KiB","MiB","GiB","TiB","PiB"];const i=Math.min(units.length-1,Math.max(0,Math.floor(Math.log(value)/Math.log(1024))));return (value/1024**i).toLocaleString(undefined,{maximumFractionDigits:1})+" "+units[i];}
@@ -108,9 +109,15 @@ function renderDistances(m){
 function analyze(){
  selected=null;machine=parseMachine($("input").value);summary(machine);renderTopology(machine);
  renderDistances(machine);
+ const findings=posture(machine);$("insights").replaceChildren(element("p","Partial posture: no full score is computed without isolation and governor data.","muted"));
+ for(const f of [...findings.checks,...findings.extras]){
+  const card=element("article",undefined,"finding");card.append(tag(f.severity,f.severity),element("strong",f.name),tag(f.status),element("small",f.source),element("p",f.reason),element("p",f.fix,"muted"));$("insights").append(card);
+ }
+ const binding=pinning(machine);$("pinning").replaceChildren(element("p",binding.note,"muted"),...binding.commands.map(cmd=>element("pre",cmd)));
  $("diagnostics").replaceChildren(...machine.diagnostics.map(d=>{const p=element("p",undefined,"diagnostic");p.append(tag(d.severity),document.createTextNode(" "+d.section+": "+d.message));return p;}));
  $("status").textContent=machine.formats.length?"Detected: "+machine.formats.join(" + ")+(machine.inferred?" · inferred grouping":""):"";
  $("terminal").textContent=textSummary(machine);
+ $("terminal").textContent+="\n\nPerformance posture (partial; no full CLI score)\n"+[...findings.checks,...findings.extras].map(f=>"["+f.source+" / "+f.status+"] "+f.name+": "+f.reason).join("\n");
  for(const id of ["svg","png","copy"])$(id).disabled=!machine.cpus.length;
 }
 for(const sample of samples){const option=element("option",sample.label);option.value=sample.id;$("sample").append(option);}
