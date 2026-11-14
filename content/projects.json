@@ -102,57 +102,5 @@
     "category": "Security Tooling",
     "featured": false,
     "year": "2025"
-  },
-  {
-    "slug": "amazgo",
-    "title": "Amazgo",
-    "excerpt": "REST APIs for scraping Amazon product data and persisting the results to MongoDB.",
-    "description": "Amazgo exposes HTTP endpoints that scrape Amazon pages with Colly, normalize product fields such as title, image, price, and reviews, and store the results with timestamps in MongoDB.",
-    "problemSolved": "Product extraction often starts as one-off scripts, which makes repeated scraping, structured persistence, and local reproducibility harder than it needs to be.",
-    "techStack": ["Go", "Colly", "Gorilla Mux", "MongoDB", "Docker Compose"],
-    "architectureHighlights": [
-      "REST endpoints for direct product ingestion and scrape-trigger workflows",
-      "Scraping pipeline built on Colly for extracting structured product fields",
-      "Containerized local setup with MongoDB-backed persistence"
-    ],
-    "role": "Built the API handlers, scraping flow, and local development setup for structured product collection.",
-    "contributions": [
-      "Implemented scrape and product endpoints for collecting page data",
-      "Mapped extracted fields into a stored document model with timestamps",
-      "Added Docker-based bootstrapping for the service and database"
-    ],
-    "githubUrl": "https://github.com/pratik-anurag/Amazgo",
-    "demoUrl": "",
-    "status": "completed",
-    "tags": ["scraping", "apis", "mongodb"],
-    "category": "APIs",
-    "featured": false,
-    "year": "2020"
-  },
-  {
-    "slug": "rest-apis-golang-mysql",
-    "title": "REST APIs with Go and MySQL",
-    "excerpt": "A small backend service covering registration, login, token validation, and user management flows.",
-    "description": "This project implements a straightforward Go API for register, login, token validation, list, update, and delete operations backed by MySQL tables for users and login tokens.",
-    "problemSolved": "Backend fundamentals are easier to understand when auth flows, token handling, and relational persistence are kept explicit instead of hidden behind a large framework.",
-    "techStack": ["Go", "MySQL", "SQL", "REST APIs"],
-    "architectureHighlights": [
-      "Route handlers for registration, login, token validation, and user updates",
-      "Relational schema split between users and login token state",
-      "Minimal file layout meant to keep backend control flow readable"
-    ],
-    "role": "Implemented the API surface, handler logic, and MySQL schema expectations for a small auth-oriented backend service.",
-    "contributions": [
-      "Built endpoints for register, login, validate, list, update, and delete flows",
-      "Defined the MySQL tables used for users and login tokens",
-      "Kept the code structure intentionally small for clarity and extension"
-    ],
-    "githubUrl": "https://github.com/pratik-anurag/rest_apis_golang_mysql",
-    "demoUrl": "",
-    "status": "completed",
-    "tags": ["golang", "mysql", "auth"],
-    "category": "APIs",
-    "featured": false,
-    "year": "2020"
   }
 ]
