@@ -1,5 +1,6 @@
 import {parseMachine,formatCPUList} from "./parser.js";
 import {samples} from "./samples.js";
+import {relativeDistance,distanceDescription} from "./distance.js";
 const $=id=>document.getElementById(id);
 export const element=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 export function bytes(value){if(value===null||value===undefined)return "unknown";if(value===0)return "0 B";const units=["B","KiB","MiB","GiB","TiB","PiB"];const i=Math.min(units.length-1,Math.max(0,Math.floor(Math.log(value)/Math.log(1024))));return (value/1024**i).toLocaleString(undefined,{maximumFractionDigits:1})+" "+units[i];}
@@ -83,8 +84,30 @@ export function renderTopology(m){
  highlightCPU(selected);
 }
 function textSummary(m){return ["Arpkit Visualizer",m.model,"Formats: "+m.formats.join(", "),"Threads: "+m.cpus.length+" / cores: "+m.cores.length+" / nodes: "+m.nodes.length,m.inferred?"Mapping contains inferred groups.":"Mapping from supplied extended CPU rows.",...m.nodes.map(n=>"NUMA "+n.id+": CPUs "+formatCPUList(n.cpus)+"; memory "+bytes(n.memory)+"; free "+bytes(n.free)),...m.caches.map(c=>cacheLabel(c)+"; CPUs "+formatCPUList(c.cpus))].join("\n");}
+function renderDistances(m){
+ const host=$("distance");host.replaceChildren();
+ if(!m.distance.ids.length){host.append(element("p","Distance matrix unavailable. Paste numactl --hardware.","muted"));return;}
+ const table=element("table",undefined,"distance-table");table.append(element("caption","Node distances · local is usually 10"));
+ const header=element("tr");header.append(element("th","From / to"));
+ const ids=m.distance.ids.slice(0,32);for(const id of ids){const th=element("th",String(id));th.scope="col";header.append(th);}
+ const head=element("thead");head.append(header);table.append(head);const body=element("tbody");
+ for(let i=0;i<ids.length;i++){
+  const row=element("tr"),label=element("th",String(ids[i]));label.scope="row";row.append(label);
+  for(let j=0;j<ids.length;j++){
+   const value=m.distance.matrix[i]?.[j],ratio=relativeDistance(m.distance,i,j),cell=element("td");
+   const button=element("button",value===undefined?"?":String(value),"distance-cell "+(ratio===null?"distance-unknown":i===j?"distance-local":ratio<=2?"distance-near":"distance-far"));
+   button.type="button";button.title=distanceDescription(m.distance,i,j);button.setAttribute("aria-label",button.title);
+   for(const event of ["pointerenter","focus","click"])button.addEventListener(event,()=>{$("distance-detail").textContent=button.title;});
+   cell.append(button);row.append(cell);
+  }
+  body.append(row);
+ }
+ table.append(body);const scroll=element("div",undefined,"heatmap-scroll");scroll.tabIndex=0;scroll.setAttribute("aria-label","Scrollable NUMA distance matrix");scroll.append(table);host.append(scroll,element("p","Focus or hover a cell for its local-relative cost.","muted"));const detail=element("p","", "distance-detail");detail.id="distance-detail";detail.setAttribute("role","status");host.append(detail);
+ if(m.distance.ids.length>32)host.append(element("p","Showing the first 32 nodes. The text summary includes the full supplied matrix.","muted"));
+}
 function analyze(){
  selected=null;machine=parseMachine($("input").value);summary(machine);renderTopology(machine);
+ renderDistances(machine);
  $("diagnostics").replaceChildren(...machine.diagnostics.map(d=>{const p=element("p",undefined,"diagnostic");p.append(tag(d.severity),document.createTextNode(" "+d.section+": "+d.message));return p;}));
  $("status").textContent=machine.formats.length?"Detected: "+machine.formats.join(" + ")+(machine.inferred?" · inferred grouping":""):"";
  $("terminal").textContent=textSummary(machine);
