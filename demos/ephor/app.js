@@ -17,7 +17,6 @@ for (const rule of corpus.rules) {
   row.append(element('span', rule.name));
   const link = element('a', rule.id); link.href = sourceURL(rule.file); row.append(link); $('coverage').append(row);
 }
-$('coverage-note').textContent = `All ${corpus.files.length} builtin rule files at pinned revision ${corpus.revision.slice(0,7)} are included, with zero exclusions. Patterns run in Rust byte-regex WebAssembly using upstream compilation settings. This is pattern detection, not credential/signature validation or the full Nosey Parker scanning pipeline.`;
 $('upstream').href = `https://github.com/praetorian-inc/noseyparker/tree/${corpus.revision}/crates/noseyparker/data/default/builtin/rules`;
 function cancel() {
   sequence++; clearTimeout(timer); clearTimeout(deadline);
