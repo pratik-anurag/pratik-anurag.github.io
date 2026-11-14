@@ -48,6 +48,9 @@ jobs:
       - name: Test and copy Arpkit Visualizer
         run: make visualizer
 
+      - name: Test and copy Ephor and Portik demos
+        run: make demos
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
@@ -66,6 +69,11 @@ jobs:
           test -s out/projects/arpkit/visualizer/index.html
           test -s out/projects/arpkit/visualizer/parser.js
           test -s out/projects/arpkit/visualizer/render.js
+          test -s out/projects/ephor/demo/index.html
+          test -s out/projects/ephor/demo/worker.js
+          test -s out/projects/ephor/demo/rules.js
+          test -s out/projects/portik/demo/index.html
+          test -s out/projects/portik/demo/analyze.js
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

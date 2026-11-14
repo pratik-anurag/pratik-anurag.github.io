@@ -14,3 +14,5 @@ pnpm-debug.log*
 # Built from playground/ by make playground and the Pages workflow.
 public/projects/esplain/playground/
 public/projects/arpkit/visualizer/
+public/projects/ephor/demo/
+public/projects/portik/demo/

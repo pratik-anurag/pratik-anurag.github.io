@@ -181,3 +181,100 @@ the same vector layout with a 16-megapixel / 16,384-pixel height cap; extremely
 large diagrams may be scaled down. SVG is preferable for large hosts.
 
 See [the short case study](content/arpkit-visualizer-case-study.md).
+
+## Ephor and Portik browser demos
+
+Live paths: `/projects/ephor/demo/` and `/projects/portik/demo/`. The Projects
+cards and detail pages link to both. They are plain HTML/CSS/ES modules, with
+no runtime dependencies, telemetry, persistence, backend, or remote API calls.
+Content Security Policy disables network connections. Clipboard writes happen
+only when a visitor explicitly presses a copy button; clipboard reads are never
+requested. Input is not encoded in URLs.
+
+```sh
+make demos                  # 58 tests, then copy assets into public/
+npm run build               # portfolio static export, including both demos
+python3 -m http.server 8000 --directory out
+# http://localhost:8000/projects/ephor/demo/
+# http://localhost:8000/projects/portik/demo/
+```
+
+The Pages workflow runs `make demos` before the portfolio build and checks the
+exported entrypoints and engine files before deployment. For a lightweight local
+preview, serve `public/` after `make demos` (portfolio navigation needs `out/`).
+
+### Ephor: local secret-pattern scanner
+
+Reviewed the [Ephor Python scanner at `a0faa12`](https://github.com/pratik-anurag/ephor/tree/a0faa12dac681ed067f9f996b9eae929628b31c0),
+including `README.md`, `ephor.py`, and `main.py`. It loads YAML regex patterns,
+returns the first rule that matches, and warns when the foreground application
+is a recognized browser. The browser demo preserves first-rule warning semantics
+but also lists additional matches with one-based line/column positions.
+
+37 rules from nine Nosey Parker rule files are bundled at pinned revision
+[`2e6e7f3`](https://github.com/praetorian-inc/noseyparker/tree/2e6e7f36ce36619852532bbe698d8cb7a26d2da7/crates/noseyparker/data/default/builtin/rules):
+AWS, GitHub, GitLab, Slack, Stripe, npm, OpenAI, PEM, and Google. Original patterns,
+rule IDs, categories, and fixture-check counts are retained in `rules.js`.
+Global inline flags and extended-mode whitespace/comments are translated to
+ECMAScript syntax. The build-time importer validates every supplied upstream
+positive/negative fixture before accepting a rule. Those credential-shaped test
+values are not saved or distributed in this repository; CI checks compilation,
+import validation records, and our synthetic scanner regressions instead.
+Two rules using scoped flags (`np.aws.6`, `np.google.6`) are explicitly excluded.
+Other upstream rule families are not included. This is not the Nosey Parker
+engine, full corpus coverage, or exact Python/Rust regex parity (including Unicode
+and boundary semantics). Ephor's native filesystem enumeration order is not
+stable; this demo uses the documented bundle order. The native loader may also
+reject regex syntax which the browser importer supports.
+
+Rules distinguish identifiers from secret patterns: a bucket name or account ID
+is not necessarily a secret. No credential validity checking takes place. A
+non-match is never presented as proof of safety. The warning dialog is explicitly
+a simulation, not macOS paste interception; clearing affects only demo text.
+
+Scanning runs in a disposable Web Worker after a 300 ms debounce. Limits: 256 KiB
+UTF-8 input, two seconds per scan, 500 findings. Incomplete scans disable redacted
+copying. Redaction replaces matched capture groups, merges overlapping spans,
+and does not claim to remove unmatched secrets. No raw match values are echoed
+in findings. Synthetic samples are not live credentials.
+
+To regenerate the bundled data (build-time network access and authenticated `gh`
+required; `npm ci` supplies the existing YAML parser):
+
+```sh
+node scripts/sync-ephor-rules.cjs
+make demos
+```
+
+Nosey Parker's Apache-2.0 license, NOTICE, and modification attribution are shipped
+with the demo. Normal builds and runtime never fetch upstream rules.
+
+### Portik: snapshot diagnosis
+
+Reviewed [Portik at `c54972d`](https://github.com/pratik-anurag/portik/tree/c54972d2cf18bc93c02f8becb5f6bcf8f3b88bef):
+README, `internal/model/model.go`, `internal/inspect/diagnose.go`, and CLI
+`who`, `explain`, `kill`, `restart`, and common flag handling. `analyze.js` ports
+the deterministic diagnostic branches: in-use, missing PID, multiple owners,
+IPv6-only, loopback, TIME_WAIT, zombies, and supplied Docker mappings. The adapted
+code's MIT license is included.
+
+Six synthetic scenarios show a local server, Docker database, IPv6 listener,
+TIME_WAIT, missing permissions, and multiple workers. Visitors can paste a real
+single-report JSON object produced by `portik who --json 3000` or
+`portik explain --json --docker 5432`. Flags intentionally precede the port to
+match Go's flag parser. Input is bounded to 256 KiB, 500 listeners, and 2,000
+connections; malformed and inconsistent fields are rejected.
+
+The viewer never scans sockets, collects PIDs, invents process parents, probes a
+host, executes commands, or claims a port is currently free. Imported diagnostics
+are not replayed: supported checks are recomputed. Live firewall, container/WSL/VM
+environment, and OS UID checks are unavailable. The privileged-port hint instead
+uses an explicitly supplied username; this is labeled as a browser difference.
+IPv6-only is the upstream heuristic, not proof of the kernel's dual-stack setting.
+
+Command previews use only validated numeric ports and fixed flags, never pasted
+command lines. Kill/restart previews require a known, matching snapshot owner and
+non-zombie PID. No `--force` or `--yes` flags are generated. This does not replace
+the CLI's live safety checks. Docker host-PID operations are not presented as
+container restarts; the latter requires an explicit native `--container` choice.
+Text reports are a browser snapshot format, not claimed byte-for-byte CLI output.

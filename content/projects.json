@@ -18,7 +18,7 @@
       "Documented Linux and macOS platform behavior, permissions, and recovery paths"
     ],
     "githubUrl": "https://github.com/pratik-anurag/portik",
-    "demoUrl": "",
+    "demoUrl": "/projects/portik/demo/",
     "status": "completed",
     "tags": ["cli", "developer-tooling", "systems"],
     "category": "Developer Tooling",
@@ -96,7 +96,7 @@
       "Documented packaging, permissions, and local runtime requirements"
     ],
     "githubUrl": "https://github.com/pratik-anurag/ephor",
-    "demoUrl": "",
+    "demoUrl": "/projects/ephor/demo/",
     "status": "completed",
     "tags": ["security", "clipboard", "macos"],
     "category": "Security Tooling",
