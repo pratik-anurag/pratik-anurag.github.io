@@ -24,20 +24,27 @@ export function diagramSVG(m,{l1=false,l2=true,l3=true}={}){
     const cache=m.caches.find(c=>c.key===key),groupTop=y,groupIndex=shapes.length;shapes.push("");
     text(70,y+20,(l3?"L3 "+(cache?"#"+cache.id+(cache.inferred?" (inferred)":""):"unknown"):"Core group")+" · "+cores.length+" cores",12,color);y+=30;
     const buckets=l2?groupBy(cores,c=>m.cpus.find(t=>t.id===c.cpus[0])?.L2):new Map([["hidden",cores]]);
+    let slotX=76,lineTop=y,lineHeight=0;
     for(const [l2key,bucket]of buckets){
-     const l2cache=m.caches.find(c=>c.key===l2key),l2Top=y,l2Index=shapes.length;shapes.push("");
-     if(l2){text(82,y+17,"L2 "+(l2cache?"#"+l2cache.id+(l2cache.inferred?" (inferred)":""):"unknown"),10,"#a8b5c7");y+=25;}
-     const cellHeight=l1?110:85;
+     const columns=Math.min(8,bucket.length),tileWidth=columns*139+10;
+     if(slotX+tileWidth>1210){lineTop+=lineHeight+10;slotX=76;lineHeight=0;}
+     const l2cache=m.caches.find(c=>c.key===l2key),l2Top=lineTop,l2Index=shapes.length;shapes.push("");
+     if(l2)text(slotX+6,l2Top+17,"L2 "+(l2cache?"#"+l2cache.id+(l2cache.inferred?" (inferred)":""):"unknown"),10,"#a8b5c7");
+     const threadRows=Math.max(...bucket.map(c=>Math.ceil(c.cpus.length/4)));
+     const cellHeight=(l1?64:49)+threadRows*26;
+     const contentY=l2Top+(l2?25:5);
      for(let i=0;i<bucket.length;i++){
-      const core=bucket[i],x=84+(i%8)*139,cy=y+Math.floor(i/8)*cellHeight;
+      const core=bucket[i],x=slotX+5+(i%8)*139,cy=contentY+Math.floor(i/8)*cellHeight;
       rect(x,cy,130,cellHeight-8,color,"#080e19",core.inferred);text(x+7,cy+18,"Core "+(core.id??"?")+(core.inferred?" ~":""),10);
       if(l1)text(x+7,cy+33,"L1d / L1i "+(m.cpus.find(c=>c.id===core.cpus[0])?.L1d?"mapped":"unknown"),9,"#a8b5c7");
       const threadY=cy+(l1?45:30);
       core.cpus.forEach((cpu,j)=>{rect(x+6+(j%4)*29,threadY+Math.floor(j/4)*26,25,23,color,"#14283c");text(x+8+(j%4)*29,threadY+16+Math.floor(j/4)*26,cpu,9);});
      }
-     y+=Math.ceil(bucket.length/8)*cellHeight+5;
-     shapes[l2Index]='<rect x="76" y="'+l2Top+'" width="1130" height="'+(y-l2Top)+'" rx="4" fill="none" stroke="'+(l2?"#293d52":"none")+'"/>';y+=7;
+     const tileHeight=Math.ceil(bucket.length/8)*cellHeight+(l2?30:10);
+     shapes[l2Index]='<rect x="'+slotX+'" y="'+l2Top+'" width="'+tileWidth+'" height="'+tileHeight+'" rx="4" fill="none" stroke="'+(l2?"#293d52":"none")+'"/>';
+     lineHeight=Math.max(lineHeight,tileHeight);slotX+=tileWidth+6;
     }
+    y=lineTop+lineHeight+10;
     shapes[groupIndex]='<rect x="64" y="'+groupTop+'" width="1154" height="'+(y-groupTop)+'" rx="4" fill="none" stroke="'+(l3?color:"#293d52")+'"'+(cache?.inferred?' stroke-dasharray="4 3"':"")+'/>';y+=12;
    }
    if(!coreList.length){text(70,y+15,"No CPU rows supplied for this node.",11,"#a8b5c7");y+=30;}

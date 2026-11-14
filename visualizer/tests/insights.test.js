@@ -17,3 +17,8 @@ test("pinning never uses synthetic CPU IDs and handles memoryless nodes",()=>{
  const empty=parseMachine("node 0 cpus: 0-3\nnode 0 size: 0 MB");assert.ok(!pinning(empty).commands.join("").includes("membind"));
 });
 test("extras are separately identified",()=>{const m=model([0,100],[[10,40],[40,10]]);assert.ok(posture(m).extras.every(x=>x.source==="Visualizer extra"));});
+test("a partial NUMA capture does not make guessed membership safe for pinning",()=>{
+ const m=parseMachine("CPU(s): 4\nOn-line CPU(s) list: 0-3\nSocket(s): 1\nThread(s) per core: 1\nnode 0 cpus: 0 1\nnode 0 size: 1024 MB");
+ assert.match(pinning(m).commands.join("\n"),/taskset -c 0-1 /);
+ assert.ok(!pinning(m).commands.join("\n").includes("taskset -c 0-3"));
+});

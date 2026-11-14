@@ -9,10 +9,10 @@ export const element=(tag,text,cls)=>{const e=document.createElement(tag);if(tex
 export function bytes(value){if(value===null||value===undefined)return "unknown";if(value===0)return "0 B";const units=["B","KiB","MiB","GiB","TiB","PiB"];const i=Math.min(units.length-1,Math.max(0,Math.floor(Math.log(value)/Math.log(1024))));return (value/1024**i).toLocaleString(undefined,{maximumFractionDigits:1})+" "+units[i];}
 let machine=null,timer,selected=null;
 const tag=(text,cls="")=>element("span",text,"badge "+cls);
-function cacheLabel(cache){return cache?cache.level+" #"+cache.id+" · "+bytes(cache.bytes)+(cache.inferred?" · inferred":""):"sharing unknown";}
+function cacheLabel(cache){return cache?cache.level+" #"+cache.id+" · "+bytes(cache.bytes)+(cache.sizeAverage?" avg":"")+(cache.inferred?" · inferred":""):"sharing unknown";}
 function summary(m){
  const host=$("summary");host.replaceChildren();
- const smt=m.inferred?(m.reported.threadsPerCore===null?"unknown":m.reported.threadsPerCore>1?"on (reported)":"off (reported)"):(m.cores.some(c=>c.cpus.length>1)?"on":"off");
+ const smt=m.inferred?(m.reported.threadsPerCore===null?"unknown":m.reported.threadsPerCore>1?"on (reported)":"off (reported)"):(m.cpus.some(c=>c.core===null)?"unknown":m.cores.some(c=>c.cpus.length>1)?"on":"off");
  const total=m.nodes.every(n=>n.memory!==null)&&m.nodes.length?m.nodes.reduce((s,n)=>s+n.memory,0):null;
  const groups=[["Model",m.model],["Topology",(m.reported.sockets??(m.sockets.filter(s=>s.id!==null).length||"unknown"))+" sockets · "+(m.reported.coresPerSocket&&m.reported.sockets?m.reported.coresPerSocket*m.reported.sockets:m.cores.length||"unknown")+" cores · "+m.cpus.length+" threads"],["NUMA / memory",m.nodes.length+" nodes · "+bytes(total)],["SMT",smt]];
  for(const level of ["L1d","L1i","L2","L3"]){const c=m.cacheSummary[level];groups.push([level,c?bytes(c.totalBytes??c.perInstance)+(c.instances?" total / "+c.instances+" instances":" per instance"):"size unknown"]);}
@@ -28,7 +28,7 @@ function cpuDetails(cpu,m){
  return "CPU "+cpu.id+" · socket "+(cpu.socket??"unknown")+" · NUMA "+(cpu.node??"unknown")+" · core "+(cpu.core??"unknown")+" · siblings "+formatCPUList(siblings)+(cpu.inferred?" (inferred)":"")+" · "+["L1d","L1i","L2","L3"].map(level=>{const c=m.caches.find(c=>c.key===cpu[level]);return c?cacheLabel(c):level+" unknown";}).join(" · ")+(cpu.maxMHz?" · max "+cpu.maxMHz+" MHz":"");
 }
 function highlightCPU(id){
- const cpu=machine?.cpus.find(c=>c.id===Number(id));
+ const cpu=id===null||id===undefined?null:machine?.cpus.find(c=>c.id===Number(id));
  for(const b of $("diagram").querySelectorAll(".cpu")){
   b.classList.toggle("selected",Boolean(cpu)&&b.dataset.cpu===String(cpu.id));
   b.classList.toggle("sibling",Boolean(cpu)&&b.dataset.core===cpu.coreKey);
@@ -56,8 +56,8 @@ function renderNode(m,node,socketCPUs){
  const cores=m.cores.filter(c=>c.cpus.some(id=>nodeCPUs.some(t=>t.id===id)));
  const l3Groups=grouped(cores,c=>m.cpus.find(t=>t.id===c.cpus[0])?.L3);
  for(const [key,group]of l3Groups){
-  const cache=m.caches.find(c=>c.key===key);const section=element("details",undefined,"llc "+(cache?.inferred?"inferred":""));section.open=group.length<=8;
-  const title=($("show-l3").checked?"L3 "+(cache?"#"+cache.id+" · "+bytes(cache.bytes)+(cache.inferred?" · inferred":""):"sharing unknown"):"Core group")+" · "+group.length+" cores";
+  const cache=m.caches.find(c=>c.key===key);const section=element("details",undefined,"llc "+(cache?.inferred?"inferred":""));section.open=m.cores.length<=32&&group.length<=8;
+  const title=($("show-l3").checked?"L3 "+(cache?"#"+cache.id+" · "+bytes(cache.bytes)+(cache.sizeAverage?" avg":"")+(cache.inferred?" · inferred":""):"sharing unknown"):"Core group")+" · "+group.length+" cores";
   section.append(element("summary",title+(group.length>8?" · expand":"")));
   if(cache&&cache.cpus.some(id=>!nodeCPUs.some(c=>c.id===id)))section.append(element("p","This is one node/socket slice of a shared cache group.","muted"));
   const inner=element("div",undefined,"cache-grid");
@@ -121,13 +121,14 @@ function analyze(){
  $("terminal").textContent=textSummary(machine);
  $("terminal").textContent+="\n\nPerformance posture (partial; no full CLI score)\n"+[...findings.checks,...findings.extras].map(f=>"["+f.source+" / "+f.status+"] "+f.name+": "+f.reason).join("\n");
  if(machine.distance.ids.length)$("terminal").textContent+="\n\nNUMA distances (columns "+machine.distance.ids.join(", ")+")\n"+machine.distance.ids.map((id,i)=>id+": "+machine.distance.matrix[i]?.join(" ")).join("\n");
- for(const id of ["svg","png","copy"])$(id).disabled=!machine.cpus.length;
+ for(const id of ["svg","png","copy"])$(id).disabled=!machine.cpus.length&&!machine.nodes.length;
 }
+const custom=element("option","Custom capture");custom.value="custom";$("sample").append(custom);
 for(const sample of samples){const option=element("option",sample.label);option.value=sample.id;$("sample").append(option);}
 $("sample").addEventListener("change",()=>{const sample=samples.find(s=>s.id===$("sample").value);if(sample){$("input").value=sample.text;analyze();}});
-$("input").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(analyze,250);});
+$("input").addEventListener("input",()=>{$("sample").value="custom";clearTimeout(timer);timer=setTimeout(analyze,250);});
 for(const id of ["show-l1","show-l2","show-l3"])$(id).addEventListener("change",()=>{if(machine)renderTopology(machine);});
-$("input").value=samples[0].text;analyze();
+$("sample").value=samples[0].id;$("input").value=samples[0].text;analyze();
 for(const event of ["pointerover","focusin"])$("diagram").addEventListener(event,e=>{const b=e.target.closest(".cpu");if(b)highlightCPU(b.dataset.cpu);});
 $("diagram").addEventListener("pointerleave",()=>highlightCPU(selected));
 $("diagram").addEventListener("focusout",e=>{if(!$("diagram").contains(e.relatedTarget))highlightCPU(selected);});

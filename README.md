@@ -92,3 +92,86 @@ field names are informational because field mappings are unavailable. Queries
 in filter context do not receive scoring warnings.
 
 See [the short case study](content/esplain-playground-case-study.md).
+
+## Arpkit Visualizer
+
+Framework-free, browser-only topology viewer in `visualizer/`, published at
+[/projects/arpkit/visualizer/](https://pratik-anurag.github.io/projects/arpkit/visualizer/).
+There are no runtime API requests, uploads, analytics, third-party assets, or
+local-storage persistence. CSP blocks network connections. Only the page and its
+same-origin modules/styles load. SVG and PNG exports are generated locally.
+
+### Supported input
+
+Paste one or several captures into the same textarea:
+
+```sh
+LC_ALL=C lscpu
+LC_ALL=C lscpu -e=CPU,NODE,SOCKET,CORE,L1d:L1i:L2:L3
+LC_ALL=C lscpu -J
+LC_ALL=C numactl --hardware
+# Optional frequency hints for hybrid processors:
+LC_ALL=C lscpu -e=CPU,NODE,SOCKET,CORE,L1d:L1i:L2:L3,MAXMHZ
+```
+
+Extended CPU rows establish sibling and cache-sharing membership. Plain text or
+JSON summaries provide totals but not exact membership: inferred groups have
+dashed outlines and explicit labels. Unknown IDs remain unknown; sample captures
+are synthetic and anonymized, not measurements of a visitor's machine.
+Core IDs and cache IDs are scoped by socket. NUMA nodes spanning a shared cache
+show slices of the same group. Cache sizes with instance counts are aggregate
+totals; displayed per-instance values are averages, not proof of equal sizes.
+P-like/E-like shading uses two distinct max-frequency clusters on a matching Intel
+model and is labeled inferred; model name alone does not establish core types.
+
+The diagram is arranged socket → NUMA → cache → core → thread, while Arpkit's
+terminal diagram is arranged NUMA → socket → core → thread.
+Large L3 groups collapse by default. Focus, hover, or select a CPU to inspect
+siblings and cache sharing. Press Escape to clear. The structured-list disclosure
+provides a text alternative. Node color is supplemented by labels and outlines.
+
+### Source and posture semantics
+
+Reviewed [Arpkit at `d4ba57a17eb42ba7b2cc8beeab0cc924cfa6e7f4`](https://github.com/pratik-anurag/arpkit/tree/d4ba57a17eb42ba7b2cc8beeab0cc924cfa6e7f4):
+`README.md`, `internal/topology/model.go`, `builder.go`,
+`internal/parser/cpulist.go`, `internal/numa/distance.go`, and
+`internal/posture/posture.go`. This is a JS port of the relevant deterministic
+rules and terminology, not an attempt to run Linux sysfs collection in a browser.
+The adapted code's MIT notice is retained in `visualizer/LICENSE`.
+
+NUMA balance checks symmetry and warns above a maximum off-diagonal distance
+of 30. Memory symmetry warns when node shares differ by more than 15 percentage
+points. Missing or incomplete input stays unknown; unlike the CLI's early
+single-pool defaults, absent captures do not count as evidence of a single pool.
+Isolation and power governor cannot be established from these inputs, so they
+remain unknown and no full posture score is computed. SMT, multiple nodes, split
+LLCs, specific distant pairs, and CPU-less/memoryless nodes are labeled
+**Visualizer extras**, separate from the four Arpkit posture checks.
+NUMA distances are relative firmware costs, not measured latency multipliers.
+The heatmap shows up to 32 nodes; the text summary retains the supplied matrix.
+Pinning commands use only verified CPU IDs, and memoryless nodes never receive
+a `--membind` recommendation.
+
+### Run and test
+
+```sh
+python3 -m http.server 8000
+# Open http://localhost:8000/visualizer/
+node --test visualizer/tests/*.test.js
+make visualizer
+# Copies static assets to public/projects/arpkit/visualizer/ for Next export.
+```
+
+No frontend build, npm install, or bundler is required for the standalone viewer.
+Node 20+ runs the tests. The existing Pages workflow runs these tests and copies
+assets before building the portfolio.
+
+Limits: 1 MiB input, 8,192 CPUs, 256 nodes, and a 128 KiB URL fragment. Share links
+use gzip + base64 when CompressionStream is available, or UTF-8 base64 otherwise.
+Decompression is bounded to 1 MiB. URL fragments do not reach the web server,
+but anyone with a shared link can read the capture.
+SVG exports expand all cores and preserve cache-level toggles. PNG exports use
+the same vector layout with a 16-megapixel / 16,384-pixel height cap; extremely
+large diagrams may be scaled down. SVG is preferable for large hosts.
+
+See [the short case study](content/arpkit-visualizer-case-study.md).

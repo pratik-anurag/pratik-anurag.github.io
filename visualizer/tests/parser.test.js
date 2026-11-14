@@ -53,3 +53,6 @@ test("partial matrices preserve missing rows rather than fabricating distances",
  const m=parseMachine("node 2 cpus: 0\nnode 5 cpus: 1\nnode distances:\nnode 2 5\n2: 10 21");
  assert.deepEqual(m.distance.ids,[2,5]);assert.deepEqual(m.distance.matrix,[[10,21],[]]);assert.ok(m.diagnostics.length);
 });
+test("disjoint per-node ranges respect the global CPU bound",()=>{
+ const m=parseMachine("node 0 cpus: 0-8191\nnode 1 cpus: 8192-16383");assert.equal(m.cpus.length,8192);assert.ok(m.diagnostics.some(d=>d.section==="CPU limit"));
+});

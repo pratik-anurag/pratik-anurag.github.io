@@ -42,7 +42,7 @@ export function pinning(m){
  const preferred=m.nodes.find(n=>n.id===0)??m.nodes.find(n=>n.cpus.length);
  if(!preferred)return {commands:[],note:"NUMA CPU membership is unknown. Paste numactl --hardware or extended lscpu."};
  // numactl lists are exact even if the socket/core layout was inferred.
- const ids=preferred.cpus.filter(id=>{const cpu=m.cpus.find(c=>c.id===id);return preferred.cpusKnown||Boolean(cpu?.idExact&&cpu.nodeExact);}).filter(id=>m.cpus.find(c=>c.id===id)?.online!==false);
+ const ids=preferred.cpus.filter(id=>{const cpu=m.cpus.find(c=>c.id===id);return preferred.verifiedCPUs?.includes(id)||Boolean(cpu?.idExact&&cpu.nodeExact);}).filter(id=>m.cpus.find(c=>c.id===id)?.online!==false);
  if(!ids.length)return {commands:[],note:"Node "+preferred.id+" has no verified CPU list. No pinning command is generated from guessed CPU IDs."};
  const set=formatCPUList(ids),node=preferred.id,commands=["taskset -c "+set+" ./workload"];
  if(preferred.memory>0)commands.unshift("numactl --cpunodebind="+node+" --membind="+node+" ./workload");

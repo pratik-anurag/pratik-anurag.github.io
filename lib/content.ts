@@ -33,6 +33,11 @@ export async function getEsplainCaseStudy() {
   return markdownToHtml(source.replace(/^# EsPlain Playground\s*/, ""));
 }
 
+export async function getArpkitCaseStudy() {
+  const source = fs.readFileSync(path.join(CONTENT_ROOT, "arpkit-visualizer-case-study.md"), "utf8");
+  return markdownToHtml(source.replace(/^# Arpkit Visualizer\s*/, ""));
+}
+
 type MarkdownCollectionName = "blog" | "notes";
 
 type MarkdownEntry = {

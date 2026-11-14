@@ -44,9 +44,9 @@
       "Shipped JSON and DOT export modes for downstream tooling and visualization"
     ],
     "githubUrl": "https://github.com/pratik-anurag/arpkit",
-    "demoUrl": "",
+    "demoUrl": "/projects/arpkit/visualizer/",
     "status": "completed",
-    "tags": ["profiling", "linux", "performance"],
+    "tags": ["profiling", "linux", "performance", "visualization"],
     "category": "Performance Engineering",
     "featured": true,
     "year": "2026"

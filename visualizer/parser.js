@@ -57,7 +57,7 @@ export function parseMachine(input){
  const empty={model:"unknown",architecture:"unknown",cpus:[],cores:[],sockets:[],nodes:[],caches:[],cacheSummary:{},distance:{ids:[],matrix:[]},diagnostics,formats:[],reported:{},inferred:false};
  if(typeof input!=="string"||!input.trim()){diagnostics.push({severity:"info",section:"Input",message:"Paste lscpu or numactl --hardware output, or choose a sample."});return empty;}
  if(new TextEncoder().encode(input).length>MAX_BYTES){diagnostics.push({severity:"risk",section:"Input",message:"Input exceeds 1 MiB. Paste a smaller command capture."});return empty;}
- const ensureNode=id=>{const fresh={id,cpus:[],memory:null,free:null,cpusKnown:false};if(!nodes.has(id)){if(nodes.size>=256){if(!diagnostics.some(d=>d.section==="Node limit"))diagnostics.push({severity:"risk",section:"Node limit",message:"Only the first 256 NUMA nodes can be displayed."});return fresh;}nodes.set(id,fresh);}return nodes.get(id);};
+ const ensureNode=id=>{const fresh={id,cpus:[],verifiedCPUs:[],memory:null,free:null,cpusKnown:false};if(!nodes.has(id)){if(nodes.size>=256){if(!diagnostics.some(d=>d.section==="Node limit"))diagnostics.push({severity:"risk",section:"Node limit",message:"Only the first 256 NUMA nodes can be displayed."});return fresh;}nodes.set(id,fresh);}return nodes.get(id);};
  const setField=(name,value)=>{if(typeof value==="string"||typeof value==="number")fields.set(key(name),String(value).trim());};
  const extracted=extractJSON(input.replace(/\x1b\[[0-9;]*m/g,""),diagnostics);
  const flatten=items=>{const stack=[...items];let count=0;while(stack.length&&count++<25000){const f=stack.pop();if(f&&typeof f==="object"){setField(f.field,f.data);if(Array.isArray(f.children))stack.push(...f.children.slice(0,25000));}}};
@@ -78,7 +78,7 @@ export function parseMachine(input){
   }
   const numa=/^node\s+(\d+)\s+(cpus|size|free):\s*(.*)$/i.exec(trimmed);
   if(numa){formats.add("numactl");table=null;const node=ensureNode(Number(numa[1]));const kind=numa[2].toLowerCase();
-   if(kind==="cpus"){try{node.cpus=parseCPUList(numa[3]);node.cpusKnown=true;}catch(e){warn("numactl CPU list",e.message+" Run numactl --hardware.");}}
+   if(kind==="cpus"){try{node.cpus=parseCPUList(numa[3]);node.verifiedCPUs=[...node.cpus];node.cpusKnown=true;}catch(e){warn("numactl CPU list",e.message+" Run numactl --hardware.");}}
    else{const size=parseSize(numa[3]);if(size===null)warn("numactl memory","Cannot parse "+trimmed);else node[kind==="size"?"memory":"free"]=size;}
    continue;
   }
@@ -99,20 +99,21 @@ export function parseMachine(input){
  const get=(...names)=>{for(const name of names){if(fields.has(key(name)))return fields.get(key(name));}return null;};
  const reported={sockets:integer(get("Socket(s)","Sockets")),coresPerSocket:integer(get("Core(s) per socket","Cores per socket")),threadsPerCore:integer(get("Thread(s) per core","Threads per core")),threads:integer(get("CPU(s)","CPUs")),numa:integer(get("NUMA node(s)","NUMA nodes"))};
  const cacheSummary={};for(const level of ["L1d","L1i","L2","L3"]){const value=get(level+" cache",level);if(value)cacheSummary[level]=cacheSize(value);}
- for(const [name,value]of fields){const m=/^numanode(\d+)cpus$/.exec(name);if(m){try{const node=ensureNode(Number(m[1]));if(!node.cpusKnown){node.cpus=parseCPUList(value);node.cpusKnown=true;}}catch(e){warn("lscpu NUMA list",e.message);}}}
+ for(const [name,value]of fields){const m=/^numanode(\d+)cpus$/.exec(name);if(m){try{const node=ensureNode(Number(m[1]));if(!node.cpusKnown){node.cpus=parseCPUList(value);node.verifiedCPUs=[...node.cpus];node.cpusKnown=true;}}catch(e){warn("lscpu NUMA list",e.message);}}}
  if(reported.numa&&reported.numa<=256)for(let i=0;i<reported.numa;i++)ensureNode(i);
  if(rows.size){
   for(const cpu of rows.values()){
    const listed=[...nodes.values()].find(n=>n.cpusKnown&&n.cpus.includes(cpu.id));
    if(cpu.node!==null&&listed&&listed.id!==cpu.node)warn("NUMA mapping","CPU "+cpu.id+" disagrees between lscpu and numactl; extended lscpu row takes priority.");
    if(cpu.node===null&&listed){cpu.node=listed.id;cpu.nodeExact=true;}
-   if(cpu.node!==null){const n=ensureNode(cpu.node);if(!n.cpus.includes(cpu.id))n.cpus.push(cpu.id);}
+   if(cpu.node!==null){const n=ensureNode(cpu.node);if(!n.cpus.includes(cpu.id))n.cpus.push(cpu.id);n.verifiedCPUs.push(cpu.id);}
   }
  }else{
   let ids=unique([...nodes.values()].flatMap(n=>n.cpus)),idsExact=ids.length>0;
   const online=get("On-line CPU(s) list","Online CPUs list");
   if(online){try{ids=unique([...ids,...parseCPUList(online)]);idsExact=true;}catch(e){warn("lscpu online list",e.message);}}
   if(!ids.length&&reported.threads&&reported.threads<=LIMIT)ids=Array.from({length:reported.threads},(_,i)=>i);
+  if(ids.length>LIMIT){warn("CPU limit","Only the first 8,192 logical CPUs can be displayed.");ids=ids.slice(0,LIMIT);}
   const socketCount=reported.sockets&&reported.sockets<=256?reported.sockets:null;
   const tpc=reported.threadsPerCore||null;
   for(let i=0;i<ids.length;i++){
@@ -123,13 +124,14 @@ export function parseMachine(input){
    const socket=socketCount?Math.min(socketCount-1,Math.floor(i/Math.ceil(ids.length/socketCount))):null;
    const localIndex=socketCount?i%Math.ceil(ids.length/socketCount):i;
    const core=tpc?Math.floor(localIndex/tpc):null;
-   rows.set(id,{id,node:node?.id??null,socket,core,cache:{L1d:null,L1i:null,L2:null,L3:null},maxMHz:null,online:null,inferred:true,idExact:idsExact,nodeExact:nodeExact||nodes.size===1,socketExact:socketCount===1,coreExact:false});
+   rows.set(id,{id,node:node?.id??null,socket,core,cache:{L1d:null,L1i:null,L2:null,L3:null},maxMHz:null,online:null,inferred:true,idExact:idsExact,nodeExact:nodeExact||reported.numa===1,socketExact:socketCount===1,coreExact:false});
   }
   if(ids.length)warn("Topology inference","Socket, core/SMT and cache grouping inferred from summary counts; CPU numbering does not establish siblings. Paste lscpu -e for exact mapping.");
  }
  const cpus=[...rows.values()].sort((a,b)=>a.id-b.id);
  for(const node of nodes.values()){
   if(rows.size&&formats.has("lscpu extended"))node.cpus=node.cpus.filter(id=>!rows.has(id)||rows.get(id).node===node.id);
+  node.verifiedCPUs=unique(node.verifiedCPUs.filter(id=>node.cpus.includes(id)));
   node.cpus=unique(node.cpus);
   if(node.free!==null&&node.memory!==null&&node.free>node.memory)warn("numactl memory","Node "+node.id+" free memory exceeds its size; check the pasted capture.");
  }
@@ -149,7 +151,7 @@ export function parseMachine(input){
     const list=[...cores.values()];for(let i=0;i<list.length;i++){const bucket=Math.min(instances-1,Math.floor(i/Math.ceil(list.length/instances)));const k=String(bucket);if(!groups.has(k))groups.set(k,{key:level+":inferred:"+k,id:bucket,level,cpus:[],inferred:true,bytes:cacheSummary[level].perInstance});groups.get(k).cpus.push(...list[i].cpus);}
    }
   }
-  for(const group of groups.values()){caches.push(group);for(const cpu of cpus)if(group.cpus.includes(cpu.id)){cpu[level]=group.key;}}
+  for(const group of groups.values()){group.sizeAverage=(cacheSummary[level]?.instances??0)>1;caches.push(group);for(const cpu of cpus)if(group.cpus.includes(cpu.id)){cpu[level]=group.key;}}
  }
  const socketIDs=unique(cpus.filter(c=>c.socket!==null).map(c=>c.socket));const sockets=socketIDs.map(id=>({id,cpus:cpus.filter(c=>c.socket===id).map(c=>c.id)}));
  if(cpus.some(c=>c.socket===null))sockets.push({id:null,cpus:cpus.filter(c=>c.socket===null).map(c=>c.id)});

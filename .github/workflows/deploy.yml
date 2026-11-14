@@ -45,6 +45,9 @@ jobs:
           node scripts/test-wasm.cjs
           make playground
 
+      - name: Test and copy Arpkit Visualizer
+        run: make visualizer
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
@@ -55,11 +58,14 @@ jobs:
         env:
           NEXT_PUBLIC_SITE_URL: https://pratik-anurag.github.io
 
-      - name: Check playground deployment files
+      - name: Check demo deployment files
         run: |
           test -s out/projects/esplain/playground/index.html
           test -s out/projects/esplain/playground/esplain.wasm
           test -s out/projects/esplain/playground/worker.js
+          test -s out/projects/arpkit/visualizer/index.html
+          test -s out/projects/arpkit/visualizer/parser.js
+          test -s out/projects/arpkit/visualizer/render.js
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

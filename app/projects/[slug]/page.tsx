@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { StructuredData } from "@/components/structured-data";
-import { getProject, getProjects, getEsplainCaseStudy } from "@/lib/content";
+import { getProject, getProjects, getEsplainCaseStudy, getArpkitCaseStudy } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
 
 type ProjectPageProps = {
@@ -49,7 +49,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   if (!project) {
     notFound();
   }
-  const caseStudy = slug === "esplain" ? await getEsplainCaseStudy() : null;
+  const caseStudy = slug === "esplain" ? await getEsplainCaseStudy() : slug === "arpkit" ? await getArpkitCaseStudy() : null;
 
   return (
     <>
@@ -133,7 +133,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
           {caseStudy ? (
             <article className="card" style={{ marginTop: "2rem" }}>
               <div className="card__body">
-                <h2>Browser playground</h2>
+                <h2>{slug === "arpkit" ? "Browser visualizer" : "Browser playground"}</h2>
                 <div className="prose" dangerouslySetInnerHTML={{ __html: caseStudy }} />
               </div>
             </article>

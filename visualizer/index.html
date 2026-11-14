@@ -23,14 +23,14 @@ LC_ALL=C numactl --hardware</pre><p class="muted">Append MAXMHZ to the extended 
   <div class="diagram-toolbar"><div><h2 id="diagram-heading">Machine topology</h2><p class="muted">Logical CPU IDs are the numbered squares. Dashed boxes indicate inferred grouping.</p></div>
    <div class="actions"><button id="svg" type="button">Download SVG</button><button id="png" type="button">Download PNG</button><button id="copy" type="button">Copy text summary</button></div>
   </div>
-  <fieldset class="legend"><legend>Show cache levels</legend><label><input type="checkbox" id="show-l1"> L1</label><label><input type="checkbox" id="show-l2" checked> L2</label><label><input type="checkbox" id="show-l3" checked> L3</label></fieldset>
+  <fieldset class="legend"><legend>Show cache levels</legend><label><input type="checkbox" id="show-l1"> L1</label><label><input type="checkbox" id="show-l2" checked> L2</label><label><input type="checkbox" id="show-l3" checked> L3</label><span class="muted">Dashed: inferred · outlined: SMT siblings · shaded: shared cache · P/E-like: frequency hint</span></fieldset>
   <div id="selection" class="selection" role="status" aria-live="polite">Select a CPU for its siblings and cache-sharing details.</div>
   <div id="diagram-scroll" tabindex="0" aria-label="Scrollable topology diagram"><div id="diagram"></div></div>
   <details class="text-alternative"><summary>Topology as a structured list</summary><div id="topology-list"></div></details>
  </section>
  <div class="lower-grid"><section class="panel"><h2>NUMA distance</h2><p class="muted">Relative firmware distance, not a measured memory-latency benchmark.</p><div id="distance"></div></section>
  <section class="panel"><h2>Performance posture</h2><div id="insights"></div><h3>Suggested pinning</h3><div id="pinning"></div></section></div>
- <section class="panel"><h2>Terminal summary</h2><pre id="terminal"></pre></section>
+ <details class="panel"><summary>Terminal summary</summary><pre id="terminal"></pre></details>
  <p id="action-status" role="status" aria-live="polite"></p>
  <textarea id="copy-fallback" hidden readonly aria-label="Text to copy manually" rows="6"></textarea>
 </main>
