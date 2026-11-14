@@ -11,10 +11,11 @@ import (
 const MaxInput = 1024 * 1024
 
 type Result struct {
-	Clauses []Clause           `json:"clauses"`
-	Tree    *explain.QueryTree `json:"tree"`
-	Summary string             `json:"summary"`
-	Report  string             `json:"report"`
+	Findings []Finding          `json:"findings"`
+	Clauses  []Clause           `json:"clauses"`
+	Tree     *explain.QueryTree `json:"tree"`
+	Summary  string             `json:"summary"`
+	Report   string             `json:"report"`
 }
 
 func Analyze(query, response string) (*Result, error) {
@@ -42,9 +43,17 @@ func Analyze(query, response string) (*Result, error) {
 		return nil, fmt.Errorf("query clause must be a non-empty object")
 	}
 	nodes := clauses(q, path, "scoring")
+	checks := findings(obj, nodes)
 	summary := nl.Summarize(tree, nil, nil)
 	var report strings.Builder
 	explain.WriteTree(&report, tree, 0)
 	fmt.Fprintf(&report, "\nNatural Language Breakdown:\n%s\n", summary)
-	return &Result{Tree: tree, Clauses: nodes, Summary: summary, Report: report.String()}, nil
+	fmt.Fprintln(&report, "\nAnalysis findings:")
+	if len(checks) == 0 {
+		fmt.Fprintln(&report, "No configured static rules triggered. This is not proof of query performance.")
+	}
+	for _, f := range checks {
+		fmt.Fprintf(&report, "[%s] %s (%s)\n  Fix: %s\n", f.Severity, f.Message, f.Path, f.Fix)
+	}
+	return &Result{Tree: tree, Clauses: nodes, Findings: checks, Summary: summary, Report: report.String()}, nil
 }

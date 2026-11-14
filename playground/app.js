@@ -63,6 +63,13 @@ function render(data) {
  report=data.report; $("copy").disabled=false;
  $("status").textContent=data.summary;
  result.append(el("h3","Query clauses"),clauseTree(data.clauses));
+ result.append(el("h3","Analysis findings"));
+ if (!data.findings.length) result.append(el("p","No configured static rules triggered. This does not guarantee a fast query.","muted"));
+ for(const finding of data.findings){
+  const card=el("article",undefined,"finding");
+  card.append(el("span",finding.severity,"badge severity-"+finding.severity),el("p",finding.message),el("p","Fix: "+finding.fix,"muted"),el("code",finding.path,"query-path"));
+  result.append(card);
+ }
  const raw=el("details",undefined,"raw-tree");raw.append(el("summary","Raw query tree"),el("pre",data.report));result.append(raw);
 }
 $("query").addEventListener("input",schedule);

@@ -8,6 +8,7 @@ import (
 )
 
 type Clause struct {
+	body        interface{}
 	Type        string   `json:"type"`
 	Path        string   `json:"path"`
 	Role        string   `json:"role"`
@@ -52,7 +53,7 @@ func clauses(v interface{}, path, role string) []Clause {
 	for _, kind := range keys(object(v)) {
 		body := object(v)[kind]
 		p := path + "." + kind
-		c := Clause{Type: kind, Path: p, Role: role, Children: []Clause{}}
+		c := Clause{Type: kind, Path: p, Role: role, Children: []Clause{}, body: body}
 		switch kind {
 		case "bool":
 			c.Description = "Combine required, optional, and excluded clauses."
