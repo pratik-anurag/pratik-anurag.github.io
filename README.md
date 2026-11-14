@@ -262,7 +262,8 @@ Six synthetic scenarios show a local server, Docker database, IPv6 listener,
 TIME_WAIT, missing permissions, and multiple workers. Visitors can paste a real
 single-report JSON object produced by `portik who --json 3000` or
 `portik explain --json --docker 5432`. Flags intentionally precede the port to
-match Go's flag parser. Input is bounded to 256 KiB, 500 listeners, and 2,000
+match Go's flag parser; the native Docker diagnostic's example is reordered here
+for that parser as well. Input is bounded to 256 KiB, 500 listeners, and 2,000
 connections; malformed and inconsistent fields are rejected.
 
 The viewer never scans sockets, collects PIDs, invents process parents, probes a

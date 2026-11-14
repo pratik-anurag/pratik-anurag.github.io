@@ -14,6 +14,7 @@ test('busy loopback server follows native deterministic checks',()=>{
 test('Docker mapping retained; host process ownership blocks disruptive preview',()=>{
   const report=parse(samples.docker.report);
   assert.ok(diagnose(report).some(f=>f.kind==='docker'));
+  assert.ok(diagnose(report).find(f=>f.kind==='docker').action.includes('restart --docker --container <port>'));
   assert.equal(recovery(report,'restart').allowed,false);
   assert.equal(recovery(report,'who').command,'portik who --docker 5432');
 });

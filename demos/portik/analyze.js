@@ -70,7 +70,7 @@ export function diagnose(report) {
   const zombie = listeners.find(l=>l.is_zombie);
   if (zombie) add('zombie','warn','Zombie process detected owning the port',`pid ${zombie.pid || 'unknown'} (${zombie.proc_name || 'unknown'}) appears to be a zombie. Parent process must reap it.`,'Restart the parent process, or reboot if the zombie cannot be reaped.');
   if (report.docker.mapped)
-    add('docker','info','Port is mapped from a Docker container',`Host port ${report.port}/${report.proto} is mapped to ${report.docker.container_id || 'unknown'} (${report.docker.container_name || 'unknown'}) service=${report.docker.compose_service || 'unknown'} containerPort=${report.docker.container_port || 'unknown'}`,'Use: portik restart <port> --docker --container');
+    add('docker','info','Port is mapped from a Docker container',`Host port ${report.port}/${report.proto} is mapped to ${report.docker.container_id || 'unknown'} (${report.docker.container_name || 'unknown'}) service=${report.docker.compose_service || 'unknown'} containerPort=${report.docker.container_port || 'unknown'}`,'Inspect first: portik who --docker <port>. For an intentional container restart, use portik restart --docker --container <port>.');
   return findings;
 }
 export function recovery(report, action = 'explain') {
