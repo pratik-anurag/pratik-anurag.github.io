@@ -13,7 +13,7 @@ func Summarize(tree interface{}, explainRes interface{}, prof interface{}) strin
 	parts := []string{}
 
 	// Summarize AST clauses
-	if qt, ok := tree.(*explain.QueryTree); ok {
+	if qt, ok := tree.(*explain.QueryTree); ok && qt != nil {
 		if len(qt.Children) > 0 {
 			var names []string
 			for _, c := range qt.Children {
@@ -24,7 +24,7 @@ func Summarize(tree interface{}, explainRes interface{}, prof interface{}) strin
 	}
 
 	// Summarize explain result
-	if er, ok := explainRes.(*explain.ExplainResult); ok {
+	if er, ok := explainRes.(*explain.ExplainResult); ok && er != nil {
 		status := "does not match"
 		if er.Matched {
 			status = "matches"

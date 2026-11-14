@@ -61,6 +61,7 @@ function render(data) {
  const result=$("result");result.replaceChildren();
  if (data.error) { $("status").textContent=data.error; return; }
  report=data.report; $("copy").disabled=false;
+ $("mode").textContent=data.runtime ? "Static + pasted runtime" : "Static analysis";
  $("status").textContent=data.summary;
  result.append(el("h3","Query clauses"),clauseTree(data.clauses));
  result.append(el("h3","Analysis findings"));
@@ -70,8 +71,59 @@ function render(data) {
   card.append(el("span",finding.severity,"badge severity-"+finding.severity),el("p",finding.message),el("p","Fix: "+finding.fix,"muted"),el("code",finding.path,"query-path"));
   result.append(card);
  }
+ if (data.runtime) renderRuntime(result,data.runtime);
  const raw=el("details",undefined,"raw-tree");raw.append(el("summary","Raw query tree"),el("pre",data.report));result.append(raw);
 }
+function scoreTree(node) {
+ const details=el("details",undefined,"score-node");details.open=true;
+ const summary=el("summary");summary.append(el("strong",Number(node.value).toPrecision(5)),document.createTextNode(" · "+node.description));details.append(summary);
+ const list=el("ul",undefined,"clause-tree");
+ for(const child of node.children || []) {
+  const li=el("li");li.append(scoreTree(child));
+  if (/sum of/i.test(node.description) && node.value!==0) li.append(el("small",(child.value/node.value*100).toFixed(1)+"% of this sum","muted"));
+  list.append(li);
+ }
+ if(list.children.length)details.append(list);return details;
+}
+function renderRuntime(result,runtime) {
+ if(runtime.validation) {
+  const card=el("section",undefined,"finding");
+  card.append(el("h3","Validate response"),el("span",runtime.validation.valid ? "Valid" : "Invalid","badge "+(runtime.validation.valid?"":"severity-risk")));
+  for(const text of runtime.validation.explanations)card.append(el("p",text));
+  result.append(card);
+ }
+ if(runtime.score){
+  result.append(el("h3","Score computation"),el("p","Values and branch descriptions come from the pasted explanation. Products are not additive contributions.","muted"),scoreTree(runtime.score));
+  if(runtime.explain)result.append(el("p","Document "+runtime.explain.ID+" · matched: "+runtime.explain.Matched,"muted"));
+ }
+ if(runtime.timings?.length) {
+  const total=runtime.totalNanos;
+  result.append(el("h3","Profile timings"));
+  result.append(el("p","Root query time sum: "+(total/1e6).toFixed(3)+" ms. This is not search latency. Shards may run in parallel; nested times are inclusive.","muted"));
+  result.append(el("p","Slowest root: "+runtime.slowest+" · "+(runtime.maxNanos/1e6).toFixed(3)+" ms · "+(total?runtime.maxNanos/total*100:0).toFixed(1)+"% of root time.","timing-callout"));
+  const drawTimings=(nodes,container,depth)=>{
+   for(const node of nodes){
+    const row=el("div",undefined,"timing-row"+(depth===0&&node.nanos===runtime.maxNanos?" slowest":""));
+    row.append(el("p",node.name),el("small",node.shard+" · search "+node.search+" · "+node.type,"muted"));
+    const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+    svg.setAttribute("viewBox","0 0 100 4");svg.setAttribute("preserveAspectRatio","none");svg.setAttribute("aria-hidden","true");
+    const rect=document.createElementNS(svg.namespaceURI,"rect");rect.setAttribute("height","4");rect.setAttribute("width",String(total?node.nanos/total*100:0));svg.append(rect);
+    row.append(svg,el("small",(node.nanos/1e6).toFixed(3)+" ms · "+(total?node.nanos/total*100:0).toFixed(1)+"% of root time"));
+    if(node.children.length){const children=el("details",undefined,"timing-children");children.open=true;children.append(el("summary","Child timings (included in parent)"));drawTimings(node.children,children,depth+1);row.append(children);}
+    container.append(row);
+   }
+  };
+  drawTimings(runtime.timings,result,0);
+ } else if(runtime.timings) result.append(el("p","No query profile timings in this response.","muted"));
+}
+for(const sample of samples){const option=el("option",sample.label);option.value=sample.id;$("preset").append(option);}
+$("preset").addEventListener("change",()=>{
+ const sample=samples.find(s=>s.id===$("preset").value);if(!sample)return;
+ $("query").value=JSON.stringify(sample.query,null,2);$("response").value=sample.response?JSON.stringify(sample.response,null,2):"";
+ if(sample.response)$("response").closest("details").open=true;
+ $("action-status").textContent=sample.response?"Sample response is illustrative, not a benchmark.":"";
+ schedule();
+});
 $("query").addEventListener("input",schedule);
 $("response").addEventListener("input",schedule);
 $("query").addEventListener("scroll",()=>$("line-numbers").scrollTop=$("query").scrollTop);

@@ -11,6 +11,7 @@ import (
 const MaxInput = 1024 * 1024
 
 type Result struct {
+	Runtime  *Runtime           `json:"runtime,omitempty"`
 	Findings []Finding          `json:"findings"`
 	Clauses  []Clause           `json:"clauses"`
 	Tree     *explain.QueryTree `json:"tree"`
@@ -45,8 +46,20 @@ func Analyze(query, response string) (*Result, error) {
 	nodes := clauses(q, path, "scoring")
 	checks := findings(obj, nodes)
 	summary := nl.Summarize(tree, nil, nil)
+	var runtime *Runtime
+	var runtimeText strings.Builder
+	if strings.TrimSpace(response) != "" {
+		r, p, err := parseRuntime(response)
+		if err != nil {
+			return nil, err
+		}
+		runtime = r
+		summary = nl.Summarize(tree, r.Explain, p)
+		runtimeReport(&runtimeText, r, p)
+	}
 	var report strings.Builder
 	explain.WriteTree(&report, tree, 0)
+	report.WriteString(runtimeText.String())
 	fmt.Fprintf(&report, "\nNatural Language Breakdown:\n%s\n", summary)
 	fmt.Fprintln(&report, "\nAnalysis findings:")
 	if len(checks) == 0 {
@@ -55,5 +68,5 @@ func Analyze(query, response string) (*Result, error) {
 	for _, f := range checks {
 		fmt.Fprintf(&report, "[%s] %s (%s)\n  Fix: %s\n", f.Severity, f.Message, f.Path, f.Fix)
 	}
-	return &Result{Tree: tree, Clauses: nodes, Findings: checks, Summary: summary, Report: report.String()}, nil
+	return &Result{Tree: tree, Clauses: nodes, Findings: checks, Runtime: runtime, Summary: summary, Report: report.String()}, nil
 }
