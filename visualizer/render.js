@@ -2,6 +2,8 @@ import {parseMachine,formatCPUList} from "./parser.js";
 import {samples} from "./samples.js";
 import {relativeDistance,distanceDescription} from "./distance.js";
 import {posture,pinning}from "./insights.js";
+import {encodeShare,decodeShare}from "./share.js";
+import {diagramSVG}from "./export.js";
 const $=id=>document.getElementById(id);
 export const element=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 export function bytes(value){if(value===null||value===undefined)return "unknown";if(value===0)return "0 B";const units=["B","KiB","MiB","GiB","TiB","PiB"];const i=Math.min(units.length-1,Math.max(0,Math.floor(Math.log(value)/Math.log(1024))));return (value/1024**i).toLocaleString(undefined,{maximumFractionDigits:1})+" "+units[i];}
@@ -118,6 +120,7 @@ function analyze(){
  $("status").textContent=machine.formats.length?"Detected: "+machine.formats.join(" + ")+(machine.inferred?" · inferred grouping":""):"";
  $("terminal").textContent=textSummary(machine);
  $("terminal").textContent+="\n\nPerformance posture (partial; no full CLI score)\n"+[...findings.checks,...findings.extras].map(f=>"["+f.source+" / "+f.status+"] "+f.name+": "+f.reason).join("\n");
+ if(machine.distance.ids.length)$("terminal").textContent+="\n\nNUMA distances (columns "+machine.distance.ids.join(", ")+")\n"+machine.distance.ids.map((id,i)=>id+": "+machine.distance.matrix[i]?.join(" ")).join("\n");
  for(const id of ["svg","png","copy"])$(id).disabled=!machine.cpus.length;
 }
 for(const sample of samples){const option=element("option",sample.label);option.value=sample.id;$("sample").append(option);}
@@ -130,3 +133,22 @@ $("diagram").addEventListener("pointerleave",()=>highlightCPU(selected));
 $("diagram").addEventListener("focusout",e=>{if(!$("diagram").contains(e.relatedTarget))highlightCPU(selected);});
 $("diagram").addEventListener("click",e=>{const b=e.target.closest(".cpu");if(b){const id=Number(b.dataset.cpu);selected=selected===id?null:id;highlightCPU(selected);}});
 $("diagram").addEventListener("keydown",e=>{if(e.key==="Escape"){selected=null;highlightCPU(null);}});
+async function copy(text){try{await navigator.clipboard.writeText(text);$("action-status").textContent="Copied.";}catch{$("copy-fallback").hidden=false;$("copy-fallback").value=text;$("copy-fallback").focus();$("copy-fallback").select();$("action-status").textContent="Clipboard unavailable. Copy the selected text below.";}}
+$("copy").addEventListener("click",()=>copy($("terminal").textContent));
+$("share").addEventListener("click",async()=>{try{const hash=await encodeShare($("input").value);history.replaceState(null,"",hash);await copy(location.href);}catch(e){$("action-status").textContent=e.message;}});
+async function restore(){if(!location.hash.startsWith("#v="))return;try{$("input").value=await decodeShare(location.hash);$("sample").value="custom";analyze();}catch(e){$("action-status").textContent="Cannot restore share link: "+e.message;}}
+window.addEventListener("hashchange",restore);restore();
+function download(blob,name){const url=URL.createObjectURL(blob),link=element("a");link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+const exported=()=>diagramSVG(machine,{l1:$("show-l1").checked,l2:$("show-l2").checked,l3:$("show-l3").checked});
+$("svg").addEventListener("click",()=>{const {svg}=exported();download(new Blob([svg],{type:"image/svg+xml"}),"arpkit-topology.svg");$("action-status").textContent="SVG exported with every core expanded.";});
+$("png").addEventListener("click",async()=>{
+ let url;
+ try{
+  $("action-status").textContent="Rendering PNG…";const {svg,width,height}=exported();
+  const scale=Math.min(2,Math.sqrt(16000000/(width*height)),16384/height);
+  const canvas=document.createElement("canvas");canvas.width=Math.max(1,Math.round(width*scale));canvas.height=Math.max(1,Math.round(height*scale));const ctx=canvas.getContext("2d");if(!ctx)throw new Error("Canvas export is unavailable.");
+  url=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));const image=new Image();await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(new Error("Could not rasterize the SVG. Download SVG instead."));image.src=url;});
+  ctx.drawImage(image,0,0,canvas.width,canvas.height);const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png"));if(!blob)throw new Error("PNG export failed. Try SVG.");
+  download(blob,"arpkit-topology.png");$("action-status").textContent="PNG exported"+(scale<1?" at reduced scale to fit the image-size limit.":".");
+ }catch(e){$("action-status").textContent=e.message;}finally{if(url)URL.revokeObjectURL(url);}
+});
