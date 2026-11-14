@@ -1,6 +1,56 @@
 <!doctype html>
-<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>EsPlain Playground</title><link rel="stylesheet" href="styles.css">
-<h1>EsPlain Playground</h1><p id="status" role="status">Loading Go WebAssembly…</p>
-<label for="query">Elasticsearch query</label><textarea id="query" rows="12">{"size":10,"query":{"match":{"name":"running shoes"}}}</textarea>
-<pre id="result"></pre><script src="wasm_exec.js"></script><script src="app.js"></script></html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="description" content="Explain Elasticsearch queries locally with EsPlain's Go engine. No cluster or backend required.">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; worker-src 'self'; connect-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+ <title>EsPlain Playground · Pratik Anurag</title>
+ <link rel="stylesheet" href="styles.css"><script src="app.js" defer></script>
+</head>
+<body>
+ <a class="skip-link" href="#query">Skip to query editor</a>
+ <header class="site-header"><a href="/projects/esplain/">← Project</a><a href="https://github.com/pratik-anurag/esplain">GitHub ↗</a></header>
+ <main>
+  <section class="intro"><p class="eyebrow">Go / Elasticsearch</p><h1>EsPlain <span>Playground</span></h1>
+   <p>Paste a query. Read what each clause does, spot costly patterns, and inspect scores and timings.</p>
+   <p class="local-note"><span class="status-dot"></span>Runs in your browser. No cluster, uploads, or analytics.</p>
+  </section>
+  <div class="toolbar">
+   <label for="preset">Sample query <select id="preset"><option value="">Custom query</option></select></label>
+   <div class="toolbar-actions"><button id="format" type="button">Format JSON</button><button id="share" type="button">Copy share link</button><button id="copy" type="button" disabled>Copy as text report</button></div>
+  </div>
+  <div class="workspace">
+   <section class="panel editor-panel" aria-labelledby="input-heading">
+    <div class="panel-heading"><h2 id="input-heading">Query JSON</h2><span class="muted">Search body or bare clause</span></div>
+    <label class="sr-only" for="query">Elasticsearch query JSON</label>
+    <div class="editor"><pre id="line-numbers" aria-hidden="true">1</pre><textarea id="query" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off">{
+  "size": 10,
+  "query": {
+    "bool": {
+      "must": [{ "match": { "name": "running shoes" } }],
+      "filter": [{ "term": { "in_stock": true } }]
+    }
+  }
+}</textarea></div>
+    <p class="input-meta"><span id="byte-count">0 bytes</span><span>Limit: 1 MiB per input</span></p>
+    <p id="query-error" class="error" role="alert" hidden></p>
+    <details class="response-input"><summary>Paste explain/profile response <span class="muted">(optional)</span></summary>
+     <p class="muted">Accepts an _explain response, a search response with profile or hit explanations, a _validate response, or an object with explain, validate, and profile sections.</p>
+     <label for="response">Runtime response JSON</label><textarea id="response" rows="10" spellcheck="false" placeholder="Paste a response here"></textarea>
+     <p id="response-error" class="error" role="alert" hidden></p>
+    </details>
+    <p class="mapping-note">Field mappings are not available. Checks about text fields are suggestions, not mapping validation.</p>
+   </section>
+   <section class="panel result-panel" aria-labelledby="result-heading">
+    <div class="panel-heading"><h2 id="result-heading">Breakdown</h2><span id="mode" class="badge">Static analysis</span></div>
+    <p id="status" role="status" aria-live="polite">Loading Go WebAssembly…</p>
+    <div id="result"></div>
+   </section>
+  </div>
+  <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+ </main>
+ <footer><div><strong>Use EsPlain from your terminal</strong><code>go install github.com/pratik-anurag/esplain/cmd/esplain@latest</code></div>
+  <p><a href="https://github.com/pratik-anurag/esplain">EsPlain source ↗</a> · <a href="/projects/esplain/">Project notes</a></p>
+  <p class="muted">Everything runs locally. Share links contain your query and optional response—only share data you intend to disclose.</p>
+ </footer>
+</body></html>

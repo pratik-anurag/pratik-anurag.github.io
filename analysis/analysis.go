@@ -2,7 +2,6 @@
 package analysis
 
 import (
-	"encoding/json"
 	"esplain/explain"
 	"esplain/nl"
 	"fmt"
@@ -12,6 +11,7 @@ import (
 const MaxInput = 1024 * 1024
 
 type Result struct {
+	Clauses []Clause           `json:"clauses"`
 	Tree    *explain.QueryTree `json:"tree"`
 	Summary string             `json:"summary"`
 	Report  string             `json:"report"`
@@ -24,17 +24,27 @@ func Analyze(query, response string) (*Result, error) {
 	if strings.TrimSpace(query) == "" {
 		return nil, fmt.Errorf("paste a query to begin")
 	}
-	var obj map[string]interface{}
-	if err := json.Unmarshal([]byte(query), &obj); err != nil {
-		return nil, fmt.Errorf("query: %w", err)
+	obj, err := decodeInput(query, "Query")
+	if err != nil {
+		return nil, err
 	}
 	if len(obj) == 0 {
 		return nil, fmt.Errorf("query must be a non-empty JSON object")
 	}
 	tree := explain.Parse(query)
+	q := interface{}(obj)
+	path := "$"
+	if wrapped, ok := obj["query"]; ok {
+		q = wrapped
+		path = "$.query"
+	}
+	if len(object(q)) == 0 {
+		return nil, fmt.Errorf("query clause must be a non-empty object")
+	}
+	nodes := clauses(q, path, "scoring")
 	summary := nl.Summarize(tree, nil, nil)
 	var report strings.Builder
 	explain.WriteTree(&report, tree, 0)
 	fmt.Fprintf(&report, "\nNatural Language Breakdown:\n%s\n", summary)
-	return &Result{Tree: tree, Summary: summary, Report: report.String()}, nil
+	return &Result{Tree: tree, Clauses: nodes, Summary: summary, Report: report.String()}, nil
 }
