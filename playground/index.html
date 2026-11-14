@@ -16,7 +16,7 @@
    <p class="local-note"><span class="status-dot"></span>Runs in your browser. No cluster, uploads, or analytics.</p>
   </section>
   <div class="toolbar">
-   <label for="preset">Sample query <select id="preset"><option value="">Custom query</option></select></label>
+   <div><label for="preset">Sample query</label><select id="preset"><option value="">Custom query</option></select></div>
    <div class="toolbar-actions"><button id="format" type="button">Format JSON</button><button id="share" type="button">Copy share link</button><button id="copy" type="button" disabled>Copy as text report</button></div>
   </div>
   <div class="workspace">
@@ -49,7 +49,7 @@
   </div>
   <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
  </main>
- <footer><div><strong>Use EsPlain from your terminal</strong><code>go install github.com/pratik-anurag/esplain/cmd/esplain@latest</code></div>
+ <footer><div><strong>Install the CLI from source</strong><code>git clone https://github.com/pratik-anurag/esplain.git<br>cd esplain<br>go install ./cmd/esplain</code></div>
   <p><a href="https://github.com/pratik-anurag/esplain">EsPlain source ↗</a> · <a href="/projects/esplain/">Project notes</a></p>
   <p class="muted">Everything runs locally. Share links contain your query and optional response—only share data you intend to disclose.</p>
  </footer>

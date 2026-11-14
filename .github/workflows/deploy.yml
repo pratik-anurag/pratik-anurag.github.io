@@ -30,6 +30,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.1"
+          cache: true
+
+      - name: Test native Go core and CLI
+        run: go test ./...
+
+      - name: Build and test browser engine
+        run: |
+          make wasm
+          node scripts/test-wasm.cjs
+          make playground
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
@@ -39,6 +54,12 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_SITE_URL: https://pratik-anurag.github.io
+
+      - name: Check playground deployment files
+        run: |
+          test -s out/projects/esplain/playground/index.html
+          test -s out/projects/esplain/playground/esplain.wasm
+          test -s out/projects/esplain/playground/worker.js
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

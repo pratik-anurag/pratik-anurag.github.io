@@ -28,6 +28,11 @@ import { pickRelatedTags, slugify, sortByDateDesc, unique } from "@/lib/utils";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 
+export async function getEsplainCaseStudy() {
+  const source = fs.readFileSync(path.join(CONTENT_ROOT, "esplain-playground-case-study.md"), "utf8");
+  return markdownToHtml(source.replace(/^# EsPlain Playground\s*/, ""));
+}
+
 type MarkdownCollectionName = "blog" | "notes";
 
 type MarkdownEntry = {

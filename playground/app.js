@@ -21,20 +21,26 @@ function validate(id) {
  try { const data = JSON.parse(raw); if (!data || Array.isArray(data) || typeof data !== "object") throw new Error("Expected a JSON object."); }
  catch (error) {
   const pos = /position (\d+)/i.exec(error.message);
-  const line = pos ? raw.slice(0,Number(pos[1])).split("\n").length : null;
+  const explicitLine = /line (\d+)/i.exec(error.message);
+  const line = pos ? raw.slice(0,Number(pos[1])).split("\n").length : explicitLine ? Number(explicitLine[1]) : error instanceof SyntaxError ? raw.split("\n").length : null;
   setError(id,(line ? "Line " + line + ": " : "") + error.message); return false;
  }
  setError(id,""); return true;
 }
 function updateLines() {
  // Bound gutter generation even for oversized input.
- const lines = Math.min(25000,$("query").value.split("\n").length);
- $("line-numbers").textContent = Array.from({length:lines},(_,i)=>i+1).join("\n");
- $("byte-count").textContent = utf8.encode($("query").value).length.toLocaleString() + " bytes";
+ const bytes = utf8.encode($("query").value).length;
+ if(bytes>MAX) $("line-numbers").textContent="—";
+ else {
+  const lines = Math.min(25000,$("query").value.split("\n").length);
+  $("line-numbers").textContent = Array.from({length:lines},(_,i)=>i+1).join("\n");
+ }
+ $("byte-count").textContent = bytes.toLocaleString() + " bytes";
  $("line-numbers").scrollTop = $("query").scrollTop;
 }
 function schedule() {
  revision++; report=""; $("copy").disabled=true; $("result").replaceChildren();
+ $("mode").textContent="Static analysis";
  clearTimeout(timer); updateLines();
  if (ready) $("status").textContent = "Waiting for input…";
  timer = setTimeout(analyze,300);
@@ -114,7 +120,7 @@ function renderRuntime(result,runtime) {
    }
   };
   drawTimings(runtime.timings,result,0);
- } else if(runtime.timings) result.append(el("p","No query profile timings in this response.","muted"));
+ } else if(runtime.hasProfile) result.append(el("p","No query profile timings in this response.","muted"));
 }
 for(const sample of samples){const option=el("option",sample.label);option.value=sample.id;$("preset").append(option);}
 $("preset").addEventListener("change",()=>{
@@ -136,6 +142,39 @@ async function copyText(text) {
  catch { $("action-status").textContent="Clipboard unavailable. Select the text report below and copy it."; }
 }
 $("copy").addEventListener("click",()=>copyText(report));
+function encodeState(raw) {
+ const bytes=utf8.encode(raw);let binary="";
+ for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
+ return btoa(binary);
+}
+function decodeState(encoded) {
+ const raw=atob(encoded.replace(/ /g,"+"));
+ return new TextDecoder("utf-8",{fatal:true}).decode(Uint8Array.from(raw,c=>c.charCodeAt(0)));
+}
+function restoreHash() {
+ if(!location.hash.startsWith("#q="))return;
+ try {
+  if(location.hash.length>65536)throw new Error("Share link exceeds 64 KiB. Paste the query instead.");
+  const params=new URLSearchParams(location.hash.slice(1));
+  $("query").value=decodeState(params.get("q")||"");
+  $("response").value=params.has("r")?decodeState(params.get("r")):"";
+  if($("response").value)$("response").closest("details").open=true;
+  $("preset").value="";schedule();
+ }catch(error){$("action-status").textContent="Could not restore share link: "+error.message;}
+}
+$("share").addEventListener("click",()=>{
+ if(!validate("query")||!validate("response"))return;
+ const params=new URLSearchParams({q:encodeState($("query").value)});
+ if($("response").value.trim())params.set("r",encodeState($("response").value));
+ const hash="#"+params.toString();
+ if(hash.length>65536){$("action-status").textContent="Query and response are too large for a share link (64 KiB limit). Copy the text report instead.";return;}
+ history.replaceState(null,"",hash);
+ copyText(location.href);
+});
+window.addEventListener("hashchange",restoreHash);
+$("query").addEventListener("input",()=>{$("preset").value="";});
+$("response").addEventListener("input",()=>{$("preset").value="";});
+restoreHash();
 updateLines();
 try {
  worker=new Worker("worker.js");

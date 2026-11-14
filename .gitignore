@@ -10,3 +10,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 .DS_Store
+
+# Built from playground/ by make playground and the Pages workflow.
+public/projects/esplain/playground/

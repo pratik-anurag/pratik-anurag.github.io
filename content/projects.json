@@ -70,9 +70,9 @@
       "Added operator-friendly output for identifying costly clauses quickly"
     ],
     "githubUrl": "https://github.com/pratik-anurag/esplain",
-    "demoUrl": "",
+    "demoUrl": "/projects/esplain/playground/",
     "status": "completed",
-    "tags": ["elasticsearch", "search", "diagnostics"],
+    "tags": ["elasticsearch", "search", "diagnostics", "webassembly"],
     "category": "Search Infrastructure",
     "featured": true,
     "year": "2025"

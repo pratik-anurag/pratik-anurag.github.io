@@ -26,6 +26,7 @@ type Validation struct {
 	Explanations []string `json:"explanations"`
 }
 type Runtime struct {
+	HasProfile bool                   `json:"hasProfile"`
 	Score      *Score                 `json:"score,omitempty"`
 	Explain    *explain.ExplainResult `json:"explain,omitempty"`
 	Timings    []Timing               `json:"timings"`
@@ -127,6 +128,7 @@ func parseRuntime(raw string) (*Runtime, *profile.ProfileResult, error) {
 	}
 	var original *profile.ProfileResult
 	if p != nil {
+		result.HasProfile = true
 		if _, ok := p["shards"].([]interface{}); !ok {
 			return nil, nil, fmt.Errorf("profile.shards must be an array")
 		}
