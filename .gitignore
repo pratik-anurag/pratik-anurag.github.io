@@ -16,3 +16,6 @@ public/projects/esplain/playground/
 public/projects/arpkit/visualizer/
 public/projects/ephor/demo/
 public/projects/portik/demo/
+demos/ephor/engine/target/
+demos/ephor/engine.wasm
+demos/ephor/LICENSE-engine.txt

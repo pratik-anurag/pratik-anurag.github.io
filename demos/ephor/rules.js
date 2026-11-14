@@ -1,29 +1,225 @@
-// Generated from Nosey Parker (Apache-2.0). Modified: regex syntax translated for ECMAScript.
+// Generated from ALL Nosey Parker builtin rule files (Apache-2.0). Original patterns unchanged.
 export const corpus = {
   "revision": "2e6e7f36ce36619852532bbe698d8cb7a26d2da7",
   "files": [
-    "aws",
-    "github",
-    "gitlab",
-    "slack",
-    "stripe",
-    "npm",
-    "openai",
-    "pem",
-    "google"
+    "adafruitio.yml",
+    "adobe.yml",
+    "age.yml",
+    "anthropic.yml",
+    "artifactory.yml",
+    "atlassian.yml",
+    "auth0.yml",
+    "aws.yml",
+    "azure.yml",
+    "bitbucket.yml",
+    "blynk.yml",
+    "codeclimate.yml",
+    "crates.io.yml",
+    "databricks.yml",
+    "dependency_track.yml",
+    "digitalocean.yml",
+    "django.yml",
+    "dockerhub.yml",
+    "doppler.yml",
+    "dropbox.yml",
+    "dynatrace.yml",
+    "facebook.yml",
+    "figma.yml",
+    "firecrawl.yml",
+    "generic.yml",
+    "gitalk.yml",
+    "github.yml",
+    "gitlab.yml",
+    "google.yml",
+    "gradle.yml",
+    "grafana.yml",
+    "groq.yml",
+    "hashes.yml",
+    "hashicorp.yml",
+    "heroku.yml",
+    "http.yml",
+    "huggingface.yml",
+    "jenkins.yml",
+    "jina.yml",
+    "jwt.yml",
+    "kagi.yml",
+    "kubernetes.yml",
+    "linkedin.yml",
+    "mailchimp.yml",
+    "mailgun.yml",
+    "mapbox.yml",
+    "microsoft_teams.yml",
+    "mongo.yml",
+    "nasa.yml",
+    "netrc.yml",
+    "newrelic.yml",
+    "npm.yml",
+    "nuget.yml",
+    "odbc.yml",
+    "okta.yml",
+    "openai.yml",
+    "particle.io.yml",
+    "pem.yml",
+    "phpmailer.yml",
+    "postgres.yml",
+    "postman.yml",
+    "postmark.yml",
+    "psexec.yml",
+    "pypi.yml",
+    "react.yml",
+    "rubygems.yml",
+    "salesforce.yml",
+    "sauce.yml",
+    "segment.yml",
+    "sendgrid.yml",
+    "shopify.yml",
+    "slack.yml",
+    "sonarqube.yml",
+    "sourcegraph.yml",
+    "square.yml",
+    "stackhawk.yml",
+    "stripe.yml",
+    "tavily.yml",
+    "teamcity.yml",
+    "telegram.yml",
+    "thingsboard.yml",
+    "truenas.yml",
+    "twilio.yml",
+    "twitch.yml",
+    "twitter.yml",
+    "vmware.yml",
+    "wireguard.yml"
   ],
   "rules": [
+    {
+      "id": "np.adafruit.1",
+      "name": "Adafruit IO Key",
+      "file": "adafruitio.yml",
+      "pattern": "(?x)\n\\b\n(aio\\_[a-zA-Z0-9]{28})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.adobe.1",
+      "name": "Adobe OAuth Client Secret",
+      "file": "adobe.yml",
+      "pattern": "(?x)(?i)\n\\b\n(p8e-[a-z0-9-]{32})\n(?:[^a-z0-9-]|$)\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.age.1",
+      "name": "Age Recipient (X25519 public key)",
+      "file": "age.yml",
+      "pattern": "\\b(age1[0-9a-z]{58})\\b",
+      "categories": [
+        "identifier"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.age.2",
+      "name": "Age Identity (X22519 secret key)",
+      "file": "age.yml",
+      "pattern": "\\b(AGE-SECRET-KEY-1[0-9A-Z]{58})\\b",
+      "categories": [
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.anthropic.1",
+      "name": "Anthropic API Key",
+      "file": "anthropic.yml",
+      "pattern": "(?x)\n\\b\n(sk-ant-api[0-9]{2}-[a-zA-Z0-9_-]{95})\n(?: [^a-zA-Z0-9_-] | $ )\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.artifactory.1",
+      "name": "Artifactory API Key",
+      "file": "artifactory.yml",
+      "pattern": "(?i)artifactory.{0,50}\\b([a-z0-9]{73})\\b",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.atlassian.1",
+      "name": "Atlassian Cloud API Token",
+      "file": "atlassian.yml",
+      "pattern": "(?x)\n\\b(\nATATT3xFfGF0 [a-zA-Z0-9_-]{20,200} =[0-9A-F]{8}\n)\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.auth0.1",
+      "name": "Auth0 Application Credentials",
+      "file": "auth0.yml",
+      "pattern": "(?x)(?s)\n(?: AUTH0_DOMAIN | AUTH0_ISSUER_BASE_URL ) \\s* = \\s* ['\"] ( (?:https?://)? [a-zA-Z0-9._-]{10,100}) ['\"]\n.{0,100}\nAUTH0_CLIENT_ID \\s* = \\s* ['\"] ([a-zA-Z0-9]{32}) ['\"]\n.{0,100}\nAUTH0_CLIENT_SECRET \\s* = \\s* ['\"] ([a-zA-Z0-9_-]{32,80}) ['\"]\n",
+      "categories": [
+        "api",
+        "secret",
+        "fuzzy"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 1,
+        "passed": true
+      }
+    },
     {
       "id": "np.aws.1",
       "name": "AWS API Key",
       "file": "aws.yml",
+      "pattern": "\\b((?:A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16})\\b",
       "categories": [
         "api",
         "identifier"
       ],
-      "pattern": "\\b((?:A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16})\\b",
-      "source": "\\b((?:A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16})\\b",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 2,
         "negative": 5,
@@ -34,14 +230,12 @@ export const corpus = {
       "id": "np.aws.2",
       "name": "AWS Secret Access Key",
       "file": "aws.yml",
+      "pattern": "(?x)(?i)\n\\b\naws_? (?:secret)? _? (?:access)? _? (?:key)?\n[\"'']?\n\\s{0,30}\n(?::|=>|=)\n\\s{0,30}\n[\"'']?\n([a-z0-9/+=]{40})\n(?: [^a-z0-9/+=] | $ )\n",
       "categories": [
         "api",
         "fuzzy",
         "secret"
       ],
-      "pattern": "(?x)(?i)\n\\b\naws_? (?:secret)? _? (?:access)? _? (?:key)?\n[\"'']?\n\\s{0,30}\n(?::|=>|=)\n\\s{0,30}\n[\"'']?\n([a-z0-9/+=]{40})\n(?: [^a-z0-9/+=] | $ )\n",
-      "source": "\\baws_?(?:secret)?_?(?:access)?_?(?:key)?[\"'']?\\s{0,30}(?::|=>|=)\\s{0,30}[\"'']?([a-z0-9/+=]{40})(?:[^a-z0-9/+=]|$)",
-      "flags": "gdi",
       "fixtureCheck": {
         "positive": 3,
         "negative": 8,
@@ -52,14 +246,12 @@ export const corpus = {
       "id": "np.aws.3",
       "name": "AWS Account ID",
       "file": "aws.yml",
+      "pattern": "(?i)aws_?(?:account)_?(?:id)?[\"'`]?\\s{0,30}(?::|=>|=)\\s{0,30}[\"'`]?([0-9]{4}-?[0-9]{4}-?[0-9]{4})",
       "categories": [
         "api",
         "fuzzy",
         "identifier"
       ],
-      "pattern": "(?i)aws_?(?:account)_?(?:id)?[\"'`]?\\s{0,30}(?::|=>|=)\\s{0,30}[\"'`]?([0-9]{4}-?[0-9]{4}-?[0-9]{4})",
-      "source": "aws_?(?:account)_?(?:id)?[\"'`]?\\s{0,30}(?::|=>|=)\\s{0,30}[\"'`]?([0-9]{4}-?[0-9]{4}-?[0-9]{4})",
-      "flags": "gdi",
       "fixtureCheck": {
         "positive": 2,
         "negative": 3,
@@ -70,14 +262,12 @@ export const corpus = {
       "id": "np.aws.4",
       "name": "AWS Session Token",
       "file": "aws.yml",
+      "pattern": "(?i)(?:aws.?session|aws.?session.?token|aws.?token)[\"'`]?\\s{0,30}(?::|=>|=)\\s{0,30}[\"'`]?([a-z0-9/+=]{16,200})[^a-z0-9/+=]",
       "categories": [
         "api",
         "fuzzy",
         "secret"
       ],
-      "pattern": "(?i)(?:aws.?session|aws.?session.?token|aws.?token)[\"'`]?\\s{0,30}(?::|=>|=)\\s{0,30}[\"'`]?([a-z0-9/+=]{16,200})[^a-z0-9/+=]",
-      "source": "(?:aws.?session|aws.?session.?token|aws.?token)[\"'`]?\\s{0,30}(?::|=>|=)\\s{0,30}[\"'`]?([a-z0-9/+=]{16,200})[^a-z0-9/+=]",
-      "flags": "gdi",
       "fixtureCheck": {
         "positive": 1,
         "negative": 3,
@@ -88,12 +278,10 @@ export const corpus = {
       "id": "np.aws.5",
       "name": "Amazon MWS Auth Token",
       "file": "aws.yml",
+      "pattern": "(?i)(amzn\\.mws\\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})",
       "categories": [
         "api"
       ],
-      "pattern": "(?i)(amzn\\.mws\\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})",
-      "source": "(amzn\\.mws\\.[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})",
-      "flags": "gdi",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -104,13 +292,11 @@ export const corpus = {
       "id": "np.s3.1",
       "name": "AWS S3 Bucket",
       "file": "aws.yml",
+      "pattern": "(?x)\n(?: ^ | [\\s/\"'] | %2F )\n(\n(?: [a-zA-Z0-9_-]+ \\. )+   (?# bucket name as subdomain )\n(?: s3\n  | s3-af-south-1\n  | s3-ap-east-1\n  | s3-ap-northeast-1\n  | s3-ap-northeast-2\n  | s3-ap-northeast-3\n  | s3-ap-south-1\n  | s3-ap-south-2\n  | s3-ap-southeast-1\n  | s3-ap-southeast-2\n  | s3-ap-southeast-3\n  | s3-ap-southeast-4\n  | s3-ca-central-1\n  | s3-eu-central-1\n  | s3-eu-central-2\n  | s3-eu-north-1\n  | s3-eu-south-1\n  | s3-eu-south-2\n  | s3-eu-west-1\n  | s3-eu-west-2\n  | s3-eu-west-3\n  | s3-me-central-1\n  | s3-me-south-1\n  | s3-sa-east-1\n  | s3-us-east-1\n  | s3-us-east-2\n  | s3-us-gov-east-1\n  | s3-us-gov-west-1\n  | s3-us-west-1\n  | s3-us-west-2\n  )\n\\.amazonaws\\.com\n) \\b\n",
       "categories": [
         "api",
         "identifier"
       ],
-      "pattern": "(?x)\n(?: ^ | [\\s/\"'] | %2F )\n(\n(?: [a-zA-Z0-9_-]+ \\. )+   (?# bucket name as subdomain )\n(?: s3\n  | s3-af-south-1\n  | s3-ap-east-1\n  | s3-ap-northeast-1\n  | s3-ap-northeast-2\n  | s3-ap-northeast-3\n  | s3-ap-south-1\n  | s3-ap-south-2\n  | s3-ap-southeast-1\n  | s3-ap-southeast-2\n  | s3-ap-southeast-3\n  | s3-ap-southeast-4\n  | s3-ca-central-1\n  | s3-eu-central-1\n  | s3-eu-central-2\n  | s3-eu-north-1\n  | s3-eu-south-1\n  | s3-eu-south-2\n  | s3-eu-west-1\n  | s3-eu-west-2\n  | s3-eu-west-3\n  | s3-me-central-1\n  | s3-me-south-1\n  | s3-sa-east-1\n  | s3-us-east-1\n  | s3-us-east-2\n  | s3-us-gov-east-1\n  | s3-us-gov-west-1\n  | s3-us-west-1\n  | s3-us-west-2\n  )\n\\.amazonaws\\.com\n) \\b\n",
-      "source": "(?:^|[\\s/\"']|%2F)((?:[a-zA-Z0-9_-]+\\.)+(?:s3|s3-af-south-1|s3-ap-east-1|s3-ap-northeast-1|s3-ap-northeast-2|s3-ap-northeast-3|s3-ap-south-1|s3-ap-south-2|s3-ap-southeast-1|s3-ap-southeast-2|s3-ap-southeast-3|s3-ap-southeast-4|s3-ca-central-1|s3-eu-central-1|s3-eu-central-2|s3-eu-north-1|s3-eu-south-1|s3-eu-south-2|s3-eu-west-1|s3-eu-west-2|s3-eu-west-3|s3-me-central-1|s3-me-south-1|s3-sa-east-1|s3-us-east-1|s3-us-east-2|s3-us-gov-east-1|s3-us-gov-west-1|s3-us-west-1|s3-us-west-2)\\.amazonaws\\.com)\\b",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 3,
         "negative": 2,
@@ -121,13 +307,11 @@ export const corpus = {
       "id": "np.s3.2",
       "name": "AWS S3 Bucket",
       "file": "aws.yml",
+      "pattern": "(?x)\n(?: ^ | [\\s/\"'] | %2F )\n(\n(?: s3\n  | s3-af-south-1\n  | s3-ap-east-1\n  | s3-ap-northeast-1\n  | s3-ap-northeast-2\n  | s3-ap-northeast-3\n  | s3-ap-south-1\n  | s3-ap-south-2\n  | s3-ap-southeast-1\n  | s3-ap-southeast-2\n  | s3-ap-southeast-3\n  | s3-ap-southeast-4\n  | s3-ca-central-1\n  | s3-eu-central-1\n  | s3-eu-central-2\n  | s3-eu-north-1\n  | s3-eu-south-1\n  | s3-eu-south-2\n  | s3-eu-west-1\n  | s3-eu-west-2\n  | s3-eu-west-3\n  | s3-me-central-1\n  | s3-me-south-1\n  | s3-sa-east-1\n  | s3-us-east-1\n  | s3-us-east-2\n  | s3-us-gov-east-1\n  | s3-us-gov-west-1\n  | s3-us-west-1\n  | s3-us-west-2\n  )\n\\.amazonaws\\.com\n/\n[a-zA-Z0-9_][a-zA-Z0-9_-]* (?: \\. [a-zA-Z0-9_-]+)*   (?# bucket name as path )\n)\n(?: [^a-zA-Z0-9_-] | $ )                             (?# this instead of a \\b anchor because that doesn't play nicely with `-` )\n",
       "categories": [
         "api",
         "identifier"
       ],
-      "pattern": "(?x)\n(?: ^ | [\\s/\"'] | %2F )\n(\n(?: s3\n  | s3-af-south-1\n  | s3-ap-east-1\n  | s3-ap-northeast-1\n  | s3-ap-northeast-2\n  | s3-ap-northeast-3\n  | s3-ap-south-1\n  | s3-ap-south-2\n  | s3-ap-southeast-1\n  | s3-ap-southeast-2\n  | s3-ap-southeast-3\n  | s3-ap-southeast-4\n  | s3-ca-central-1\n  | s3-eu-central-1\n  | s3-eu-central-2\n  | s3-eu-north-1\n  | s3-eu-south-1\n  | s3-eu-south-2\n  | s3-eu-west-1\n  | s3-eu-west-2\n  | s3-eu-west-3\n  | s3-me-central-1\n  | s3-me-south-1\n  | s3-sa-east-1\n  | s3-us-east-1\n  | s3-us-east-2\n  | s3-us-gov-east-1\n  | s3-us-gov-west-1\n  | s3-us-west-1\n  | s3-us-west-2\n  )\n\\.amazonaws\\.com\n/\n[a-zA-Z0-9_][a-zA-Z0-9_-]* (?: \\. [a-zA-Z0-9_-]+)*   (?# bucket name as path )\n)\n(?: [^a-zA-Z0-9_-] | $ )                             (?# this instead of a \\b anchor because that doesn't play nicely with `-` )\n",
-      "source": "(?:^|[\\s/\"']|%2F)((?:s3|s3-af-south-1|s3-ap-east-1|s3-ap-northeast-1|s3-ap-northeast-2|s3-ap-northeast-3|s3-ap-south-1|s3-ap-south-2|s3-ap-southeast-1|s3-ap-southeast-2|s3-ap-southeast-3|s3-ap-southeast-4|s3-ca-central-1|s3-eu-central-1|s3-eu-central-2|s3-eu-north-1|s3-eu-south-1|s3-eu-south-2|s3-eu-west-1|s3-eu-west-2|s3-eu-west-3|s3-me-central-1|s3-me-south-1|s3-sa-east-1|s3-us-east-1|s3-us-east-2|s3-us-gov-east-1|s3-us-gov-west-1|s3-us-west-1|s3-us-west-2)\\.amazonaws\\.com/[a-zA-Z0-9_][a-zA-Z0-9_-]*(?:\\.[a-zA-Z0-9_-]+)*)(?:[^a-zA-Z0-9_-]|$)",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 2,
         "negative": 5,
@@ -138,13 +322,11 @@ export const corpus = {
       "id": "np.arn.1",
       "name": "Amazon Resource Name",
       "file": "aws.yml",
+      "pattern": "(?x)\n\\b\n(\n  arn\n  :\n  (?: aws | aws-cn | aws-us-gov )         (?# partition )\n  :\n  [a-zA-Z0-9_-]{2,}                       (?# service )\n  :\n  (?: af-south-1\n    | ap-east-1\n    | ap-northeast-1\n    | ap-northeast-2\n    | ap-northeast-3\n    | ap-south-1\n    | ap-south-2\n    | ap-southeast-1\n    | ap-southeast-2\n    | ap-southeast-3\n    | ap-southeast-4\n    | ca-central-1\n    | eu-central-1\n    | eu-central-2\n    | eu-north-1\n    | eu-south-1\n    | eu-south-2\n    | eu-west-1\n    | eu-west-2\n    | eu-west-3\n    | me-central-1\n    | me-south-1\n    | sa-east-1\n    | us-east-1\n    | us-east-2\n    | us-gov-east-1\n    | us-gov-west-1\n    | us-west-1\n    | us-west-2\n    )?                                    (?# region )\n  :\n  (?: \\d{12} )?                           (?# account ID sans hyphens )\n  :\n  (?: [a-zA-Z0-9_-]+ [:/])?               (?# resource type)\n  [^\\s\"'&<>\\\\%]+                          (?# resource ID)\n)\n(?: [\\s\"'&<>\\\\%] | $ )\n",
       "categories": [
         "api",
         "identifier"
       ],
-      "pattern": "(?x)\n\\b\n(\n  arn\n  :\n  (?: aws | aws-cn | aws-us-gov )         (?# partition )\n  :\n  [a-zA-Z0-9_-]{2,}                       (?# service )\n  :\n  (?: af-south-1\n    | ap-east-1\n    | ap-northeast-1\n    | ap-northeast-2\n    | ap-northeast-3\n    | ap-south-1\n    | ap-south-2\n    | ap-southeast-1\n    | ap-southeast-2\n    | ap-southeast-3\n    | ap-southeast-4\n    | ca-central-1\n    | eu-central-1\n    | eu-central-2\n    | eu-north-1\n    | eu-south-1\n    | eu-south-2\n    | eu-west-1\n    | eu-west-2\n    | eu-west-3\n    | me-central-1\n    | me-south-1\n    | sa-east-1\n    | us-east-1\n    | us-east-2\n    | us-gov-east-1\n    | us-gov-west-1\n    | us-west-1\n    | us-west-2\n    )?                                    (?# region )\n  :\n  (?: \\d{12} )?                           (?# account ID sans hyphens )\n  :\n  (?: [a-zA-Z0-9_-]+ [:/])?               (?# resource type)\n  [^\\s\"'&<>\\\\%]+                          (?# resource ID)\n)\n(?: [\\s\"'&<>\\\\%] | $ )\n",
-      "source": "\\b(arn:(?:aws|aws-cn|aws-us-gov):[a-zA-Z0-9_-]{2,}:(?:af-south-1|ap-east-1|ap-northeast-1|ap-northeast-2|ap-northeast-3|ap-south-1|ap-south-2|ap-southeast-1|ap-southeast-2|ap-southeast-3|ap-southeast-4|ca-central-1|eu-central-1|eu-central-2|eu-north-1|eu-south-1|eu-south-2|eu-west-1|eu-west-2|eu-west-3|me-central-1|me-south-1|sa-east-1|us-east-1|us-east-2|us-gov-east-1|us-gov-west-1|us-west-1|us-west-2)?:(?:\\d{12})?:(?:[a-zA-Z0-9_-]+[:/])?[^\\s\"'&<>\\\\%]+)(?:[\\s\"'&<>\\\\%]|$)",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 9,
         "negative": 0,
@@ -155,13 +337,11 @@ export const corpus = {
       "id": "np.appsync.1",
       "name": "AWS AppSync API Key",
       "file": "aws.yml",
+      "pattern": "(?x)\n\\b\n(da2-[a-z0-9]{26})\n\\b\n",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "(?x)\n\\b\n(da2-[a-z0-9]{26})\n\\b\n",
-      "source": "\\b(da2-[a-z0-9]{26})\\b",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -169,16 +349,773 @@ export const corpus = {
       }
     },
     {
-      "id": "np.github.1",
-      "name": "GitHub Personal Access Token",
-      "file": "github.yml",
+      "id": "np.aws.6",
+      "name": "AWS API Credentials",
+      "file": "aws.yml",
+      "pattern": "(?x)\n\\b\n((?:A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16})     (?# API key )\n\\b\n(?: (?s) .{0,40} )                                                        (?# Arbitrary intermediate stuff; ?s causes . to match newlines )\n\\b\n([A-Za-z0-9/+=]{40})                                                      (?# secret )\n(?: [^A-Za-z0-9/+=] | $ )\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.azure.1",
+      "name": "Azure Connection String",
+      "file": "azure.yml",
+      "pattern": "(?x)\n(?i)\n(?: AccountName | SharedAccessKeyName | SharedSecretIssuer) \\s*=\\s* ([^${;<\\[.\\s*\"'\\#] [^.;\\n\"'\\#]{2,80}) \\s*;\\s*\n.{0,10}\\s*  (?# possible extra stuff, e.g., string concatenation)\n(?: AccountKey | SharedAccessKey | SharedSecretValue) \\s*=\\s* ([a-zA-Z0-9/+]{20,100}[=]{0,3})\n(?: [^a-zA-Z0-9/+=] | $ )\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 8,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.azure.2",
+      "name": "Azure App Configuration Connection String",
+      "file": "azure.yml",
+      "pattern": "(?x)\n(https://[a-zA-Z0-9-]+\\.azconfig\\.io);\nId=(.{4}-.{2}-.{2}:[a-zA-Z0-9+/]{18,22});\nSecret=([a-zA-Z0-9+/]{36,50}=)\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.azure.3",
+      "name": "Azure DevOps Personal Access Token",
+      "file": "azure.yml",
+      "pattern": "(?x)\n(?i: ADO_PAT | pat_token | personal_?access_?token | \\$token )\n\\s* = \\s*\n[\"']\n([a-z0-9]{52})\n[\"']\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.azure.4",
+      "name": "Azure DevOps Personal Access Token",
+      "file": "azure.yml",
+      "pattern": "\\b([a-zA-Z0-9]{76}AZDO[a-zA-Z0-9]{4})\\b",
       "categories": [
         "api",
         "secret"
       ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 5,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.bitbucket.1",
+      "name": "Bitbucket App Password",
+      "file": "bitbucket.yml",
+      "pattern": "(?x)\n\\b\n(ATBB[a-zA-Z0-9]{32})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.blynk.1",
+      "name": "Blynk Device Access Token",
+      "file": "blynk.yml",
+      "pattern": "(?x)\nhttps://(?:fra1\\.|lon1\\.|ny3\\.|sgp1\\.|blr1\\.)*blynk\\.cloud/external/api/[a-zA-Z0-9/]*\\?token=\n([a-zA-Z0-9_\\-]{32})\n&\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.blynk.2",
+      "name": "Blynk Organization Access Token",
+      "file": "blynk.yml",
+      "pattern": "(?x)\nhttps://(?:fra1\\.|lon1\\.|ny3\\.|sgp1\\.|blr1\\.)*blynk\\.cloud/api/[a-zA-Z0-9_\\-\\s/\\\\]*\n-H\\s*\"Authorization:\\s*Bearer\\s*\n([a-zA-Z0-9_\\-]{40})\n\"\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.blynk.3",
+      "name": "Blynk Organization Access Token",
+      "file": "blynk.yml",
+      "pattern": "(?x)\n-H\\s*\"Authorization:\\s*Bearer\\s*\n([a-zA-Z0-9_\\-]{40})\n\"[\\s\\\\]*https://(?:fra1\\.|lon1\\.|ny3\\.|sgp1\\.|blr1\\.)*blynk\\.cloud/api\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.blynk.8",
+      "name": "Blynk Organization Client Credentials",
+      "file": "blynk.yml",
+      "pattern": "(?x)\nhttps://(?:fra1\\.|lon1\\.|ny3\\.|sgp1\\.|blr1\\.)*blynk\\.cloud/oauth2/[a-zA-Z0-9_\\-\\s/\\\\?=&]*\n(oa2-client-id_[a-zA-Z0-9_\\-]{32})\n(?: : | &client_secret= )\n([a-zA-Z0-9_\\-]{40})\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.blynk.9",
+      "name": "Blynk Organization Client Credentials",
+      "file": "blynk.yml",
+      "pattern": "(?x)\n\\b\n(oa2-client-id_[a-zA-Z0-9_\\-]{32})\n:([a-zA-Z0-9_\\-]{40})\n[\\s\\\\]*https://(?:fra1\\.|lon1\\.|ny3\\.|sgp1\\.|blr1\\.)*blynk\\.cloud/oauth2\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.codeclimate.1",
+      "name": "CodeClimate Reporter ID",
+      "file": "codeclimate.yml",
+      "pattern": "(?x)\n(?: CODECLIMATE_REPO_TOKEN | CC_TEST_REPORTER_ID)\n\\s* [:=] \\s*\n([a-f0-9]{64})\\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.cratesio.1",
+      "name": "crates.io API Key",
+      "file": "crates.io.yml",
+      "pattern": "\\b(cio[a-zA-Z0-9]{32})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.databricks.1",
+      "name": "Databricks Personal Access Token",
+      "file": "databricks.yml",
+      "pattern": "(?x)\n\\b\n(\n  dapi[a-f0-9]{32}\n  (?: -[0-9]+ )?      (?# optional -NUM suffix )\n)\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.dtrack.1",
+      "name": "Dependency-Track API Key",
+      "file": "dependency_track.yml",
+      "pattern": "\\b(odt_[A-Za-z0-9]{32,255})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.digitalocean.1",
+      "name": "DigitalOcean Application Access Token",
+      "file": "digitalocean.yml",
+      "pattern": "(?x)(?i)\n\\b\n(doo_v1_[a-f0-9]{64})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.digitalocean.2",
+      "name": "DigitalOcean Personal Access Token",
+      "file": "digitalocean.yml",
+      "pattern": "(?x)(?i)\n\\b\n(dop_v1_[a-f0-9]{64})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.digitalocean.3",
+      "name": "DigitalOcean Refresh Token",
+      "file": "digitalocean.yml",
+      "pattern": "(?x)(?i)\n\\b\n(dor_v1_[a-f0-9]{64})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.django.1",
+      "name": "Django Secret Key",
+      "file": "django.yml",
+      "pattern": "(?x)\n\\#\\ SECURITY\\ WARNING:\\ keep\\ the\\ secret\\ key\\ used\\ in\\ production\\ secret! \\s*\n.{0,5} SECRET_KEY \\s* = \\s* r?[\"'] ([^\"'\\n]{5,100}) [\"']\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.dockerhub.1",
+      "name": "Docker Hub Personal Access Token",
+      "file": "dockerhub.yml",
+      "pattern": "(?x)\n\\b\n(dckr_pat_[a-zA-Z0-9_-]{27})\n(?: $ | [^a-zA-Z0-9_-] )\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.doppler.1",
+      "name": "Doppler CLI Token",
+      "file": "doppler.yml",
+      "pattern": "(?x)\n\\b\n(dp\\.ct\\.[a-zA-Z0-9]{40,44})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.doppler.2",
+      "name": "Doppler Personal Token",
+      "file": "doppler.yml",
+      "pattern": "(?x)\n\\b\n(dp\\.pt\\.[a-zA-Z0-9]{40,44})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.doppler.3",
+      "name": "Doppler Service Token",
+      "file": "doppler.yml",
+      "pattern": "(?x)\n\\b\n(dp\\.st\\.(?:[a-z0-9\\-_]{2,35}\\.)?[a-zA-Z0-9]{40,44})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.doppler.4",
+      "name": "Doppler Service Account Token",
+      "file": "doppler.yml",
+      "pattern": "(?x)\n\\b\n(dp\\.sa\\.[a-zA-Z0-9]{40,44})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.doppler.5",
+      "name": "Doppler SCIM Token",
+      "file": "doppler.yml",
+      "pattern": "(?x)\n\\b\n(dp\\.scim\\.[a-zA-Z0-9]{40,44})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.doppler.6",
+      "name": "Doppler Audit Token",
+      "file": "doppler.yml",
+      "pattern": "(?x)\n\\b\n(dp\\.audit\\.[a-zA-Z0-9]{40,44})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.dropbox.1",
+      "name": "Dropbox Access Token",
+      "file": "dropbox.yml",
+      "pattern": "(?x)\n\\b\n(sl\\.[a-zA-Z0-9_-]{130,152})\n(?: $ | [^a-zA-Z0-9_-] )\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.dynatrace.1",
+      "name": "Dynatrace Token",
+      "file": "dynatrace.yml",
+      "pattern": "\\b(dt0[a-zA-Z]{1}[0-9]{2}\\.[A-Z0-9]{24}\\.[A-Z0-9]{64})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.facebook.1",
+      "name": "Facebook Secret Key",
+      "file": "facebook.yml",
+      "pattern": "(?x)(?i)\n\\b (?: facebook | fb )\n.?\n(?: api | app | application | client | consumer | customer | secret | key )\n.?\n(?: key | oauth | sec | secret )?\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{32}) \\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.facebook.2",
+      "name": "Facebook Access Token",
+      "file": "facebook.yml",
+      "pattern": "\\b(EAACEdEose0cBA[a-zA-Z0-9]+)\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.figma.1",
+      "name": "Figma Personal Access Token",
+      "file": "figma.yml",
+      "pattern": "(?x)(?i)\nfigma.{0,20}\n\\b\n(\n  [0-9a-f]{4}-\n  [0-9a-f]{8}-\n  [0-9a-f]{4}-\n  [0-9a-f]{4}-\n  [0-9a-f]{4}-\n  [0-9a-f]{12}\n)\n\\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.firecrawl.1",
+      "name": "Firecrawl API Key",
+      "file": "firecrawl.yml",
+      "pattern": "\\b(fc-[a-f0-9]{32})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.1",
+      "name": "Generic Secret",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\nsecret\n.{0,20}\n\\b\n([0-9a-z]{32,64})\n\\b\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.2",
+      "name": "Generic API Key",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\n(?: api_key | apikey | access_key | accesskey )\n.{0,3}\n[\\ \\t]* (?: : | = | := | => | , | ' | \" ) [\\ \\t]*\n.{0,3}\n\\b\n([0-9a-z][0-9a-z\\-._/+]{30,62}[0-9a-z])\n\\b\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.3",
+      "name": "Generic Username and Password",
+      "file": "generic.yml",
+      "pattern": "(?x)\n(?: username | USERNAME | user | USER)       (?# username context keyword )\n[\\ \\t]* = [\\ \\t]*                            (?# assignment / binder, sans newline )\n[\"'] ([a-zA-Z0-9.@_\\-+]{3,30}) [\"']          (?# quoted username )\n\\s* [,;]? \\s*                                (?# optional assignment separator )\n(?: \\s* (?: \\# | //) [^\\n\\r]*[\\n\\r])*        (?# optional line comments )\n(?: password | pass | PASSWORD | PASS)       (?# password context keyword )\n[\\ \\t]* = [\\ \\t]*                            (?# assignment / binder, sans newline )\n[\"'] ([^\"']{5,30}) [\"']                      (?# quoted password )\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 5,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.4",
+      "name": "Generic Username and Password",
+      "file": "generic.yml",
+      "pattern": "(?x)\n(?: username | USERNAME | Username | UserName | user | USER)    (?# username context keyword )\n[\\ \\t]* = [\\ \\t]*                                               (?# assignment / binder, sans newline )\n( [a-zA-Z][a-zA-Z0-9_+-]{2,29}\n| [a-zA-Z][a-zA-Z0-9._+-]{2,29}@[a-zA-Z_.-]{2,30}\n)                                                               (?# unquoted username or email )\n\\s* ;? \\s*                                                      (?# optional assignment separator )\n(?: \\s* (?: \\# | //) [^\\n\\r]*[\\n\\r])*                           (?# optional line comments )\n[a-zA-Z0-9_]{0,30}                                              (?# optional prefix on password keyword )\n(?: password | pass | PASSWORD | PASS | Password)               (?# password context keyword )\n[\\ \\t]* = [\\ \\t]*                                               (?# assignment / binder, sans newline )\n([^\\s$@{<]\\S{4,29})                                             (?# unquoted password )\n(?: \\s | $ )                                                    (?# end-of-password anchor )\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 5,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.5",
+      "name": "Generic Password",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\npassword[\"']?                                (?# preceding context )\n[\\ \\t]* (?: = | : | := | => ) [\\ \\t]*        (?# binder )\n\"\n([^$<%@.,\\s+'\"(){}&/\\#\\-][^\\s+'\"(){}/]{4,})  (?# password )\n\"\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 11,
+        "negative": 14,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.6",
+      "name": "Generic Password",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\npassword[\"']?                                (?# preceding context )\n[\\ \\t]* (?: = | : | := | => ) [\\ \\t]*        (?# binder )\n'\n([^$<%@.,\\s+'\"(){}&/\\#\\-][^\\s+'\"(){}/]{4,})  (?# password )\n'\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.7",
+      "name": "Credentials in .NET System.Net.NetworkCredential",
+      "file": "generic.yml",
+      "pattern": "(?x)\n\\b\n(?: NetworkCredential | NETWORKCREDENTIAL | networkcredential )\n\\s* \\( \\s*\n  \" ( [^\"\\n]{3,50} ) \"               (?# username )\n  \\s* , \\s*\n  \" ( [^\"\\n]{3,50} ) \"               (?# password )\n\\s* \\)\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.8",
+      "name": "Credentials in .NET System.DirectoryServices.DirectoryEntry",
+      "file": "generic.yml",
+      "pattern": "(?x)\n\\b\n(?: DirectoryEntry | DIRECTORYENTRY | directoryentry )\n\\s* \\( \\s*\n  \" ( [^\"\\n]{3,100} ) \"               (?# path )\n  \\s* , \\s*\n  \" ( [^\"\\n]{3,50} ) \"                (?# username )\n  \\s* , \\s*\n  \" ( [^\"\\n]{3,50} ) \"                (?# password )\n  (?: \\s* , \\s* [^)]{3,50} )?         (?# authentication type )\n\\s* \\)\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.9",
+      "name": "Sensitive Value in .NET Configuration",
+      "file": "generic.yml",
+      "pattern": "(?x)\n< \\s* add \\s+ key \\s* = \\s*\n  \" (\n  [^\\n\"]{0,20}\n  (?: pass | Pass | PASS\n    | secret | Secret | SECRET\n    | user | User | USER\n    | admin | Admin | ADMIN\n    | token | Token | TOKEN\n    )\n  [^\\n\"]{0,20}\n  ) \"\n\\s+\nvalue \\s* = \\s* \" ([^\\n\"]{3,100}) \" \\s* / \\s* >\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.10",
+      "name": "Connection String in .NET Configuration",
+      "file": "generic.yml",
+      "pattern": "(?x)\n< \\s* add \\s+ key \\s* = \\s*\n  \" (\n  [^\\n\"]{0,20}\n  (?: [Cc]onnection[Ss]tring | CONNECTIONSTRING )\n  [^\\n\"]{0,20}\n  ) \"\n\\s+\nvalue \\s* = \\s* \" ([^\\n\"]{3,200}) \" \\s* / \\s* >\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.11",
+      "name": "Generic Password",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\nthe\\ (?: default\\ )? password\\ is\\ '\n(\n  [^'\\n\\#$|\"{<+\\ ()\\\\]      (?# more restrictive first character to eliminate common interpolation forms )\n  [^'\\n]{3,60}\n)'\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.12",
+      "name": "Generic Password",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\nthe\\ (?: default\\ )? password\\ is\\ \"\n(\n  [^'\\n\\#$|\"{<+\\ ()\\\\]     (?# restrictive first character to suppress common interpolation forms )\n  [^\"\\n]{3,60}\n)\"\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.13",
+      "name": "Generic Username and Password",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\nthe\\ (?: default\\ )? password\\ for\\ (?: the\\ )? (?: user|username ) \\ '\n(\n  [^'\\n\\#$|\"{<+\\ ()\\\\]     (?# restrictive first character to suppress common interpolation forms )\n  [^'\\n]{2,24}\n)'\n\\ is\\ '\n(\n  [^'\\n\\#$|\"{<+\\ ()\\\\]     (?# restrictive first character to suppress common interpolation forms )\n  [^'\\n]{3,60}\n)'\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.14",
+      "name": "Generic Username and Password",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\nthe\\ (?: default\\ )? password\\ for\\ (?: the\\ )? (?: user|username ) \\ \"\n(\n  [^'\\n\\#$|\"{<+\\ ()\\\\]     (?# restrictive first character to suppress common interpolation forms )\n  [^\"\\n]{2,24}\n)\"\n\\ is\\ \"\n(\n  [^'\\n\\#$|\"{<+\\ ()\\\\]     (?# restrictive first character to suppress common interpolation forms )\n  [^\"\\n]{3,60}\n)\"\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.15",
+      "name": "Generic Secret",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\n\\b if \\b .{0,50}\n\\b (?: secret | pass | password | challenge ) \\b\n\\s* (?: == | != | === | !== ) \\s*\n\" ( [^\"\\n]{3,60} ) \"\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.generic.16",
+      "name": "Generic Secret",
+      "file": "generic.yml",
+      "pattern": "(?x)(?i)\n\\b if \\b .{0,50}\n\\b (?: secret | pass | password | challenge ) \\b\n\\s* (?: == | != | === | !== ) \\s*\n' ( [^'\\n]{3,60} ) '\n",
+      "categories": [
+        "fuzzy",
+        "generic",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.gitalk.1",
+      "name": "Gitalk OAuth Credentials",
+      "file": "gitalk.yml",
+      "pattern": "(?x)\n\\b\nnew \\s+ Gitalk \\s* \\( \\s* \\{ \\s*\n  clientID: \\s* '([a-f0-9]{20})', \\s*\n  clientSecret: \\s* '([a-f0-9]{40})',\n",
+      "categories": [
+        "api",
+        "secret",
+        "fuzzy"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.github.1",
+      "name": "GitHub Personal Access Token",
+      "file": "github.yml",
       "pattern": "\\b(ghp_[a-zA-Z0-9]{36})\\b",
-      "source": "\\b(ghp_[a-zA-Z0-9]{36})\\b",
-      "flags": "gd",
+      "categories": [
+        "api",
+        "secret"
+      ],
       "fixtureCheck": {
         "positive": 3,
         "negative": 0,
@@ -189,13 +1126,11 @@ export const corpus = {
       "id": "np.github.2",
       "name": "GitHub OAuth Access Token",
       "file": "github.yml",
+      "pattern": "\\b(gho_[a-zA-Z0-9]{36})\\b",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "\\b(gho_[a-zA-Z0-9]{36})\\b",
-      "source": "\\b(gho_[a-zA-Z0-9]{36})\\b",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 2,
         "negative": 0,
@@ -206,13 +1141,11 @@ export const corpus = {
       "id": "np.github.3",
       "name": "GitHub App Token",
       "file": "github.yml",
+      "pattern": "\\b((?:ghu|ghs)_[a-zA-Z0-9]{36})\\b",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "\\b((?:ghu|ghs)_[a-zA-Z0-9]{36})\\b",
-      "source": "\\b((?:ghu|ghs)_[a-zA-Z0-9]{36})\\b",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 2,
         "negative": 0,
@@ -223,13 +1156,11 @@ export const corpus = {
       "id": "np.github.4",
       "name": "GitHub Refresh Token",
       "file": "github.yml",
+      "pattern": "\\b(ghr_[a-zA-Z0-9]{76})\\b",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "\\b(ghr_[a-zA-Z0-9]{76})\\b",
-      "source": "\\b(ghr_[a-zA-Z0-9]{76})\\b",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -240,14 +1171,12 @@ export const corpus = {
       "id": "np.github.5",
       "name": "GitHub Client ID",
       "file": "github.yml",
+      "pattern": "(?x)(?i)\n(?:github)\n.?\n(?: api | app | application | client | consumer | customer )?\n.?\n(?: id | identifier | key )\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{20}) \\b\n",
       "categories": [
         "api",
         "fuzzy",
         "identifier"
       ],
-      "pattern": "(?x)(?i)\n(?:github)\n.?\n(?: api | app | application | client | consumer | customer )?\n.?\n(?: id | identifier | key )\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{20}) \\b\n",
-      "source": "(?:github).?(?:api|app|application|client|consumer|customer)?.?(?:id|identifier|key).{0,2}\\s{0,20}.{0,2}\\s{0,20}.{0,2}\\b([a-z0-9]{20})\\b",
-      "flags": "gdi",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -258,14 +1187,12 @@ export const corpus = {
       "id": "np.github.6",
       "name": "GitHub Secret Key",
       "file": "github.yml",
+      "pattern": "(?x)(?i)\ngithub\n.?\n(?: api | app | application | client | consumer | customer | secret | key )\n.?\n(?: key | oauth | sec | secret )?\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{40}) \\b\n",
       "categories": [
         "api",
         "fuzzy",
         "secret"
       ],
-      "pattern": "(?x)(?i)\ngithub\n.?\n(?: api | app | application | client | consumer | customer | secret | key )\n.?\n(?: key | oauth | sec | secret )?\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{40}) \\b\n",
-      "source": "github.?(?:api|app|application|client|consumer|customer|secret|key).?(?:key|oauth|sec|secret)?.{0,2}\\s{0,20}.{0,2}\\s{0,20}.{0,2}\\b([a-z0-9]{40})\\b",
-      "flags": "gdi",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -276,13 +1203,11 @@ export const corpus = {
       "id": "np.github.7",
       "name": "GitHub Personal Access Token (fine-grained permissions)",
       "file": "github.yml",
+      "pattern": "(?x)\n\\b\n(github_pat_[0-9a-zA-Z_]{82})\n\\b\n",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "(?x)\n\\b\n(github_pat_[0-9a-zA-Z_]{82})\n\\b\n",
-      "source": "\\b(github_pat_[0-9a-zA-Z_]{82})\\b",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -293,13 +1218,11 @@ export const corpus = {
       "id": "np.gitlab.1",
       "name": "GitLab Runner Registration Token",
       "file": "gitlab.yml",
+      "pattern": "\\b(GR1348941[0-9a-zA-Z_-]{20})(?:\\b|$)",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "\\b(GR1348941[0-9a-zA-Z_-]{20})(?:\\b|$)",
-      "source": "\\b(GR1348941[0-9a-zA-Z_-]{20})(?:\\b|$)",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -310,13 +1233,11 @@ export const corpus = {
       "id": "np.gitlab.2",
       "name": "GitLab Personal Access Token",
       "file": "gitlab.yml",
+      "pattern": "\\b(glpat-[0-9a-zA-Z_-]{20})(?:\\b|$)",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "\\b(glpat-[0-9a-zA-Z_-]{20})(?:\\b|$)",
-      "source": "\\b(glpat-[0-9a-zA-Z_-]{20})(?:\\b|$)",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -327,201 +1248,13 @@ export const corpus = {
       "id": "np.gitlab.3",
       "name": "GitLab Pipeline Trigger Token",
       "file": "gitlab.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
       "pattern": "\\b(glptt-[0-9a-f]{40})\\b",
-      "source": "\\b(glptt-[0-9a-f]{40})\\b",
-      "flags": "gd",
+      "categories": [
+        "api",
+        "secret"
+      ],
       "fixtureCheck": {
         "positive": 1,
-        "negative": 0,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.slack.2",
-      "name": "Slack Bot Token",
-      "file": "slack.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
-      "pattern": "\\b(xoxb-[0-9]{10,12}-[0-9]{10,14}-[a-zA-Z0-9]{23,25})\\b",
-      "source": "\\b(xoxb-[0-9]{10,12}-[0-9]{10,14}-[a-zA-Z0-9]{23,25})\\b",
-      "flags": "gd",
-      "fixtureCheck": {
-        "positive": 4,
-        "negative": 3,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.slack.4",
-      "name": "Slack User Token",
-      "file": "slack.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
-      "pattern": "\\b(xoxp-[0-9]{12}-[0-9]{12}-[0-9]{12}-[a-f0-9]{32})\\b",
-      "source": "\\b(xoxp-[0-9]{12}-[0-9]{12}-[0-9]{12}-[a-f0-9]{32})\\b",
-      "flags": "gd",
-      "fixtureCheck": {
-        "positive": 3,
-        "negative": 3,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.slack.5",
-      "name": "Slack App Token",
-      "file": "slack.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
-      "pattern": "\\b(xapp-[0-9]{12}-[a-zA-Z0-9/+]{24})\\b",
-      "source": "\\b(xapp-[0-9]{12}-[a-zA-Z0-9/+]{24})\\b",
-      "flags": "gd",
-      "fixtureCheck": {
-        "positive": 1,
-        "negative": 0,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.slack.6",
-      "name": "Slack Legacy Bot Token",
-      "file": "slack.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
-      "pattern": "\\b(xoxb-[0-9]{10,13}-[a-zA-Z0-9]{24})\\b",
-      "source": "\\b(xoxb-[0-9]{10,13}-[a-zA-Z0-9]{24})\\b",
-      "flags": "gd",
-      "fixtureCheck": {
-        "positive": 2,
-        "negative": 4,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.slack.3",
-      "name": "Slack Webhook",
-      "file": "slack.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
-      "pattern": "(?i)(https://hooks.slack.com/services/T[a-z0-9_]{8}/B[a-z0-9_]{8,12}/[a-z0-9_]{24})",
-      "source": "(https://hooks.slack.com/services/T[a-z0-9_]{8}/B[a-z0-9_]{8,12}/[a-z0-9_]{24})",
-      "flags": "gdi",
-      "fixtureCheck": {
-        "positive": 2,
-        "negative": 0,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.stripe.1",
-      "name": "Stripe API Key",
-      "file": "stripe.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
-      "pattern": "(?i)\\b((?:sk|rk)_live_[a-z0-9]{24})\\b",
-      "source": "\\b((?:sk|rk)_live_[a-z0-9]{24})\\b",
-      "flags": "gdi",
-      "fixtureCheck": {
-        "positive": 2,
-        "negative": 0,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.stripe.2",
-      "name": "Stripe API Test Key",
-      "file": "stripe.yml",
-      "categories": [
-        "api",
-        "secret",
-        "test"
-      ],
-      "pattern": "(?i)\\b((?:sk|rk)_test_[a-z0-9]{24})\\b",
-      "source": "\\b((?:sk|rk)_test_[a-z0-9]{24})\\b",
-      "flags": "gdi",
-      "fixtureCheck": {
-        "positive": 1,
-        "negative": 0,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.npm.1",
-      "name": "NPM Access Token (fine-grained)",
-      "file": "npm.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
-      "pattern": "(?x)\n\\b\n(npm_[A-Za-z0-9]{36})\n\\b\n",
-      "source": "\\b(npm_[A-Za-z0-9]{36})\\b",
-      "flags": "gd",
-      "fixtureCheck": {
-        "positive": 1,
-        "negative": 1,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.openai.1",
-      "name": "OpenAI API Key",
-      "file": "openai.yml",
-      "categories": [
-        "api",
-        "secret"
-      ],
-      "pattern": "(?x)\n\\b\n(sk-[a-zA-Z0-9]{48})\n\\b\n",
-      "source": "\\b(sk-[a-zA-Z0-9]{48})\\b",
-      "flags": "gd",
-      "fixtureCheck": {
-        "positive": 1,
-        "negative": 0,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.pem.1",
-      "name": "PEM-Encoded Private Key",
-      "file": "pem.yml",
-      "categories": [
-        "secret"
-      ],
-      "pattern": "(?x)\n-----BEGIN\\ .{0,20}\\ ?PRIVATE\\ KEY\\ ?.{0,20}-----\n\\s*\n( (?: [a-zA-Z0-9+/=\\s\"',] | \\\\r | \\\\n ) {50,} )\n\\s*\n-----END\\ .{0,20}\\ ?PRIVATE\\ KEY\\ ?.{0,20}-----\n",
-      "source": "-----BEGIN\\ .{0,20}\\ ?PRIVATE\\ KEY\\ ?.{0,20}-----\\s*((?:[a-zA-Z0-9+/=\\s\"',]|\\\\r|\\\\n){50,})\\s*-----END\\ .{0,20}\\ ?PRIVATE\\ KEY\\ ?.{0,20}-----",
-      "flags": "gd",
-      "fixtureCheck": {
-        "positive": 3,
-        "negative": 0,
-        "passed": true
-      }
-    },
-    {
-      "id": "np.pem.2",
-      "name": "Base64-PEM-Encoded Private Key",
-      "file": "pem.yml",
-      "categories": [
-        "secret"
-      ],
-      "pattern": "(?x)\n(\n  (?: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0t             (?# prefix of base64 encoding of `-----BEGIN RSA PRIVATE KEY-----` )\n    | LS0tLS1CRUdJTiBEU0EgUFJJVkFURSBLRVktLS0t             (?# prefix of base64 encoding of `-----BEGIN DSA PRIVATE KEY-----` )\n    | LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0t             (?# prefix of base64 encoding of `-----BEGIN EC PRIVATE KEY-----` )\n    )\n  [a-zA-Z0-9+/=]{50,}\n)\n(?: [^a-zA-Z0-9+/=] | $ )\n",
-      "source": "((?:LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0t|LS0tLS1CRUdJTiBEU0EgUFJJVkFURSBLRVktLS0t|LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0t)[a-zA-Z0-9+/=]{50,})(?:[^a-zA-Z0-9+/=]|$)",
-      "flags": "gd",
-      "fixtureCheck": {
-        "positive": 2,
         "negative": 0,
         "passed": true
       }
@@ -530,13 +1263,11 @@ export const corpus = {
       "id": "np.google.1",
       "name": "Google Client ID",
       "file": "google.yml",
+      "pattern": "(?i)\\b([0-9]+-[a-z0-9_]{32})\\.apps\\.googleusercontent\\.com",
       "categories": [
         "api",
         "identifier"
       ],
-      "pattern": "(?i)\\b([0-9]+-[a-z0-9_]{32})\\.apps\\.googleusercontent\\.com",
-      "source": "\\b([0-9]+-[a-z0-9_]{32})\\.apps\\.googleusercontent\\.com",
-      "flags": "gdi",
       "fixtureCheck": {
         "positive": 4,
         "negative": 0,
@@ -547,13 +1278,11 @@ export const corpus = {
       "id": "np.google.2",
       "name": "Google OAuth Client Secret",
       "file": "google.yml",
+      "pattern": "(?x)\n\\b\n(GOCSPX-[a-zA-Z0-9_-]{28})\n(?:[^a-zA-Z0-9_-] | $)\n",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "(?x)\n\\b\n(GOCSPX-[a-zA-Z0-9_-]{28})\n(?:[^a-zA-Z0-9_-] | $)\n",
-      "source": "\\b(GOCSPX-[a-zA-Z0-9_-]{28})(?:[^a-zA-Z0-9_-]|$)",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 1,
         "negative": 0,
@@ -564,14 +1293,12 @@ export const corpus = {
       "id": "np.google.3",
       "name": "Google OAuth Client Secret",
       "file": "google.yml",
+      "pattern": "(?x)(?i)\nclient.?secret .{0,10}\n\\b\n([a-z0-9_-]{24})\n(?: [^a-z0-9_-] |$)\n",
       "categories": [
         "api",
         "fuzzy",
         "secret"
       ],
-      "pattern": "(?x)(?i)\nclient.?secret .{0,10}\n\\b\n([a-z0-9_-]{24})\n(?: [^a-z0-9_-] |$)\n",
-      "source": "client.?secret.{0,10}\\b([a-z0-9_-]{24})(?:[^a-z0-9_-]|$)",
-      "flags": "gdi",
       "fixtureCheck": {
         "positive": 3,
         "negative": 0,
@@ -582,13 +1309,11 @@ export const corpus = {
       "id": "np.google.4",
       "name": "Google OAuth Access Token",
       "file": "google.yml",
+      "pattern": "(?x)\n\\b\n(ya29\\.[0-9A-Za-z_-]{20,1024})\n(?: [^0-9A-Za-z_-]|$)  (?# Used instead of `\\b` because that doesn't play well with trailing `-` )\n",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "(?x)\n\\b\n(ya29\\.[0-9A-Za-z_-]{20,1024})\n(?: [^0-9A-Za-z_-]|$)  (?# Used instead of `\\b` because that doesn't play well with trailing `-` )\n",
-      "source": "\\b(ya29\\.[0-9A-Za-z_-]{20,1024})(?:[^0-9A-Za-z_-]|$)",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 2,
         "negative": 0,
@@ -599,13 +1324,11 @@ export const corpus = {
       "id": "np.google.5",
       "name": "Google API Key",
       "file": "google.yml",
+      "pattern": "(?x)\n\\b\n(AIza[0-9A-Za-z_-]{35})\n(?: [^0-9A-Za-z_-] | $ )\n",
       "categories": [
         "api",
         "secret"
       ],
-      "pattern": "(?x)\n\\b\n(AIza[0-9A-Za-z_-]{35})\n(?: [^0-9A-Za-z_-] | $ )\n",
-      "source": "\\b(AIza[0-9A-Za-z_-]{35})(?:[^0-9A-Za-z_-]|$)",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 2,
         "negative": 0,
@@ -616,13 +1339,11 @@ export const corpus = {
       "id": "np.gcs.1",
       "name": "Google Cloud Storage Bucket",
       "file": "google.yml",
+      "pattern": "(?x)\n(?: ^ | [\\s/\"'] | %2F )\n(\n(?: [a-zA-Z0-9_-]+ \\. )+    (?# bucket name as subdomain )\nstorage\\.googleapis\\.com\n)\n\\b\n",
       "categories": [
         "api",
         "identifier"
       ],
-      "pattern": "(?x)\n(?: ^ | [\\s/\"'] | %2F )\n(\n(?: [a-zA-Z0-9_-]+ \\. )+    (?# bucket name as subdomain )\nstorage\\.googleapis\\.com\n)\n\\b\n",
-      "source": "(?:^|[\\s/\"']|%2F)((?:[a-zA-Z0-9_-]+\\.)+storage\\.googleapis\\.com)\\b",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 2,
         "negative": 1,
@@ -633,30 +1354,1628 @@ export const corpus = {
       "id": "np.gcs.2",
       "name": "Google Cloud Storage Bucket",
       "file": "google.yml",
+      "pattern": "(?x)\n(?: ^ | [\\s/\"'] | %2F )\n(\nstorage\\.googleapis\\.com\n/\n[a-zA-Z0-9_-]+ (?: \\. [a-zA-Z0-9_-]+ )*    (?# bucket name as path )\n)\n(?: [^a-zA-Z0-9_-] | $ )                   (?# this instead of a \\b anchor because that doesn't play nicely with `-` )\n",
       "categories": [
         "api",
         "identifier"
       ],
-      "pattern": "(?x)\n(?: ^ | [\\s/\"'] | %2F )\n(\nstorage\\.googleapis\\.com\n/\n[a-zA-Z0-9_-]+ (?: \\. [a-zA-Z0-9_-]+ )*    (?# bucket name as path )\n)\n(?: [^a-zA-Z0-9_-] | $ )                   (?# this instead of a \\b anchor because that doesn't play nicely with `-` )\n",
-      "source": "(?:^|[\\s/\"']|%2F)(storage\\.googleapis\\.com/[a-zA-Z0-9_-]+(?:\\.[a-zA-Z0-9_-]+)*)(?:[^a-zA-Z0-9_-]|$)",
-      "flags": "gd",
       "fixtureCheck": {
         "positive": 1,
         "negative": 2,
         "passed": true
       }
-    }
-  ],
-  "skipped": [
-    {
-      "id": "np.aws.6",
-      "name": "AWS API Credentials",
-      "reason": "Unsupported regex syntax"
     },
     {
       "id": "np.google.6",
       "name": "Google OAuth Credentials",
-      "reason": "Unsupported regex syntax"
+      "file": "google.yml",
+      "pattern": "(?x)\n\\b\n([0-9]+-[a-z0-9_]{32}\\.apps\\.googleusercontent\\.com)            (?# client ID )\n(?: (?s) .{0,40} )                                              (?# Arbitrary intermediate stuff; ?s causes . to match newlines )\n\\b\n\n(?: (?i) client.?secret .{0,10} )?\n\n( (?:GOCSPX-[a-zA-Z0-9_-]{28})                                  (?# prefixed client secret )\n| (?:\\b [a-zA-Z0-9_-]{24})                                      (?# non-prefixed client secret )\n)\n\n(?:[^a-zA-Z0-9_-] | $)\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.gradle.1",
+      "name": "Hardcoded Gradle Credentials",
+      "file": "gradle.yml",
+      "pattern": "(?x)\n(?i)\ncredentials \\s* \\{\n  (?:\\s*//.*)*        (?# skip line comments)\n  \\s* (?:username|password) \\s+ ['\"]([^'\"]{1,60})['\"]\n  (?:\\s*//.*)*        (?# skip line comments)\n  \\s* (?:username|password) \\s+ ['\"]([^'\"]{1,60})['\"]\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.grafana.1",
+      "name": "Grafana API Token",
+      "file": "grafana.yml",
+      "pattern": "(?x)\n\\b\n(eyJrIjoi [A-Za-z0-9]{60,100})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.grafana.2",
+      "name": "Grafana Cloud API Token",
+      "file": "grafana.yml",
+      "pattern": "(?x)\n\\b\n(glc_eyJrIjoi [A-Za-z0-9]{60,100})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.grafana.3",
+      "name": "Grafana Service Account Token",
+      "file": "grafana.yml",
+      "pattern": "(?x)\n\\b\n(glsa_[a-zA-Z0-9]{32}_[a-fA-F0-9]{8})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.groq.1",
+      "name": "Groq API Key",
+      "file": "groq.yml",
+      "pattern": "\\b(gsk_[a-zA-Z0-9]{50,54})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.pwhash.1",
+      "name": "Password Hash (md5crypt)",
+      "file": "hashes.yml",
+      "pattern": "(\\$1\\$[./A-Za-z0-9]{8}\\$[./A-Za-z0-9]{22})",
+      "categories": [
+        "hashed",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.pwhash.2",
+      "name": "Password Hash (bcrypt)",
+      "file": "hashes.yml",
+      "pattern": "(\\$2[abxy]\\$\\d+\\$[./A-Za-z0-9]{53})",
+      "categories": [
+        "hashed",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 5,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.pwhash.3",
+      "name": "Password Hash (sha256crypt)",
+      "file": "hashes.yml",
+      "pattern": "(?x)\n(\n\\$ 5                    (?# magic )\n(?: \\$ rounds=\\d+ )?    (?# optional rounds )\n\\$ [./A-Za-z0-9]{8,16}  (?# salt )\n\\$ [./A-Za-z0-9]{43}    (?# hash )\n)\n",
+      "categories": [
+        "hashed",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.pwhash.4",
+      "name": "Password Hash (sha512crypt)",
+      "file": "hashes.yml",
+      "pattern": "(?x)\n(\n\\$ 6                    (?# magic )\n(?: \\$ rounds=\\d+ )?    (?# optional rounds )\n\\$ [./A-Za-z0-9]{8,16}  (?# salt )\n\\$ [./A-Za-z0-9]{86}    (?# hash )\n)\n",
+      "categories": [
+        "hashed",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.pwhash.5",
+      "name": "Password Hash (Cisco IOS PBKDF2 with SHA256)",
+      "file": "hashes.yml",
+      "pattern": "(?x)\n(\n\\$ 8                    (?# magic )\n\\$ [./A-Za-z0-9]{8,16}  (?# salt )\n\\$ [./A-Za-z0-9]{43}    (?# hash )\n)\n",
+      "categories": [
+        "hashed",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.krb5.asrep.23.1",
+      "name": "Password Hash (Kerberos 5, etype 23, AS-REP)",
+      "file": "hashes.yml",
+      "pattern": "(?x)\n(\n\\$ krb5asrep                          (?# magic )\n\\$ 23                                 (?# etype )\n\\$\n(?: [^:]+ : )?                        (?# user @ domain : )\n[0-9a-f]{32}                          (?# salt )\n\\$ [0-9a-f]{64,}                      (?# hash )\n)\n\\b\n",
+      "categories": [
+        "hashed",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 5,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.hashicorp.1",
+      "name": "Hashicorp Vault Service Token (< v1.10)",
+      "file": "hashicorp.yml",
+      "pattern": "(?x)\n(?i: hashicorp | vault | token | key | secret )\n[\"':=\\ ]{0,5}\n\\b\n(s\\.[A-Za-z0-9_-]{24,128})\n(?: [^A-Za-z0-9_-] | $ )\n",
+      "categories": [
+        "fuzzy",
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 4,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.hashicorp.2",
+      "name": "Hashicorp Vault Batch Token (< v1.10)",
+      "file": "hashicorp.yml",
+      "pattern": "(?x)\n(?i: hashicorp | vault | token | key | secret )\n[\"':=\\ ]{0,5}\n\\b\n(b\\.[A-Za-z0-9_-]{24,500})\n(?: [^A-Za-z0-9_-] | $ )\n",
+      "categories": [
+        "fuzzy",
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.hashicorp.3",
+      "name": "Hashicorp Vault Recovery Token (< v1.10)",
+      "file": "hashicorp.yml",
+      "pattern": "(?x)\n(?i: hashicorp | vault | token | key | secret )\n[\"':=\\ ]{0,5}\n\\b\n(r\\.[A-Za-z0-9_-]{24,500})\n(?: [^A-Za-z0-9_-] | $ )\n",
+      "categories": [
+        "fuzzy",
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.hashicorp.4",
+      "name": "Hashicorp Vault Service Token (>= v1.10)",
+      "file": "hashicorp.yml",
+      "pattern": "(?x)\n\\b\n(hvs\\.[A-Za-z0-9]{24,130})\n(?: [^A-Za-z0-9_-] | $ )\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.hashicorp.5",
+      "name": "Hashicorp Vault Batch Token (>= v1.10)",
+      "file": "hashicorp.yml",
+      "pattern": "(?x)\n\\b\n(hvb\\.[A-Za-z0-9_-]{24,500})\n(?: [^A-Za-z0-9_-] | $ )\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.hashicorp.6",
+      "name": "Hashicorp Vault Recovery Token (>= v1.10)",
+      "file": "hashicorp.yml",
+      "pattern": "(?x)\n\\b\n(hvr\\.[A-Za-z0-9]{24,130})\n(?: [^A-Za-z0-9_-] | $ )\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.hashicorp.7",
+      "name": "Hashicorp Vault Unseal Key",
+      "file": "hashicorp.yml",
+      "pattern": "(?x)\n(?i: unseal )\n\\b\n.{1,10}\n\\b\n([a-zA-Z0-9+/]{44})\n(?: [^a-zA-Z0-9+/] | $ )\n",
+      "categories": [
+        "api",
+        "secret",
+        "fuzzy"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.heroku.1",
+      "name": "Heroku API Key",
+      "file": "heroku.yml",
+      "pattern": "(?i)heroku.{0,20}key.{0,20}\\b([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\\b",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.http.1",
+      "name": "HTTP Basic Authentication",
+      "file": "http.yml",
+      "pattern": "(?x)(?i)\nAuthorization (?: :\\s+ | \\s*.{1, 5}\\s*) Basic \\s+\n( [A-Za-z0-9+/]{6,} ={0,2} )\n(?: [^A-Za-z0-9+/=] | $ )\n",
+      "categories": [
+        "secret",
+        "fuzzy",
+        "generic"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.http.2",
+      "name": "HTTP Bearer Token",
+      "file": "http.yml",
+      "pattern": "(?x)(?i)\nAuthorization (?: :\\s+ | \\s*.{1, 5}\\s*) Bearer \\s+\n([a-zA-z0-9._~+/-]{6,} =*)\n(?: [^a-zA-z0-9._~+/=-] | $ )\n",
+      "categories": [
+        "secret",
+        "fuzzy",
+        "generic"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.huggingface.1",
+      "name": "HuggingFace User Access Token",
+      "file": "huggingface.yml",
+      "pattern": "\\b(hf_[a-zA-Z]{34})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.jenkins.1",
+      "name": "Jenkins Token or Crumb",
+      "file": "jenkins.yml",
+      "pattern": "(?x)\n(?i)\njenkins.{0,12}(?: (?: crumb | token ) .{0,10} )?\n\\b\n( [0-9a-f]{32,36} | [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} )\n(?: [^0-9a-f-] | $ )\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.jenkins.2",
+      "name": "Jenkins Setup Admin Password",
+      "file": "jenkins.yml",
+      "pattern": "(?x)(?m)\nPlease\\ use\\ the\\ following\\ password\\ to\\ proceed\\ to\\ installation:\n(?: \\n\\n | \\r\\n\\r\\n )\n([a-f0-9]{30,36})$\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.jina.1",
+      "name": "Jina Search Foundation API Key",
+      "file": "jina.yml",
+      "pattern": "(?x)\n\\b\n(jina_[a-zA-Z0-9]{60})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.jwt.1",
+      "name": "JSON Web Token (base64url-encoded)",
+      "file": "jwt.yml",
+      "pattern": "(?x)\n\\b\n(\n  ey[a-zA-Z0-9_-]{12,}  (?# header )\n  \\.\n  ey[a-zA-Z0-9_-]{12,}  (?# payload )\n  \\.\n  [a-zA-Z0-9_-]{12,}    (?# signature )\n)\n(?:[^a-zA-Z0-9_-]|$)   (?# this instead of a \\b anchor because that doesn't play nicely with `-` )\n",
+      "categories": [
+        "api"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.jwt.2",
+      "name": "JSON Web Token Secret",
+      "file": "jwt.yml",
+      "pattern": "(?x)(?m)(?i)\n^\\s*\n(?: jwt: \\s+ secret: | jwtsecret: )\n\\s+\n\"( [^\"]{6,200} )\"\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.jwt.3",
+      "name": "JSON Web Token Secret",
+      "file": "jwt.yml",
+      "pattern": "(?x)(?m)(?i)\n^\\s*\n(?: jwt: \\s+ secret: | jwtsecret: )\n\\s+\n'( [^']{6,200} )'\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.kagi.1",
+      "name": "Kagi API Key",
+      "file": "kagi.yml",
+      "pattern": "(?x)(?s)\n\\b\n(?: kagi | KAGI )\n.{0,100}\n\\b\n( [a-zA-Z0-9_-]{11}\\.[a-zA-Z0-9_-]{43} )\n(?: $ | [^a-zA-Z0-9_-] )\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.kubernetes.1",
+      "name": "Kubernetes Bootstrap Token",
+      "file": "kubernetes.yml",
+      "pattern": "(?x)\n(?: token | Token | TOKEN | bootstrap | BOOTSTRAP)\n.{0,8}\n\\b\n([a-z0-9]{6}\\.[a-z0-9]{16})\n\\b\n",
+      "categories": [
+        "api",
+        "secret",
+        "fuzzy"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.kubernetes.2",
+      "name": "Kubernetes Bootstrap Token",
+      "file": "kubernetes.yml",
+      "pattern": "(?x)\ntoken-id: \\s+ ([a-z0-9]{6}) \\s+\ntoken-secret: \\s+ ([a-z0-9]{16}) \\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.linkedin.1",
+      "name": "LinkedIn Client ID",
+      "file": "linkedin.yml",
+      "pattern": "(?x)(?i)\nlinkedin\n.?\n(?: api | app | application | client | consumer | customer )?\n.?\n(?: id | identifier | key )\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{12,14}) \\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "identifier"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.linkedin.2",
+      "name": "LinkedIn Secret Key",
+      "file": "linkedin.yml",
+      "pattern": "(?x)(?i)\nlinkedin\n.?\n(?: api | app | application | client | consumer | customer | secret | key )\n.?\n(?: key | oauth | sec | secret )?\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{16}) \\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.mailchimp.1",
+      "name": "MailChimp API Key",
+      "file": "mailchimp.yml",
+      "pattern": "(?x)(?i)\n(?:mailchimp|mc).{0,20}\n\\b\n([a-f0-9]{32}-us[0-9]{1,3})\n\\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.mailgun.1",
+      "name": "Mailgun API Key",
+      "file": "mailgun.yml",
+      "pattern": "(?i)(?:mailgun|mg).{0,20}key-([a-z0-9]{32})\\b",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.mapbox.1",
+      "name": "Mapbox Public Access Token",
+      "file": "mapbox.yml",
+      "pattern": "(?i)(?s)mapbox.{0,30}(pk\\.[a-z0-9\\-+/=]{32,128}\\.[a-z0-9\\-+/=]{20,30})(?:[^a-z0-9\\-+/=]|$)",
+      "categories": [
+        "api",
+        "fuzzy"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.mapbox.2",
+      "name": "Mapbox Secret Access Token",
+      "file": "mapbox.yml",
+      "pattern": "(?i)(?s)mapbox.{0,30}(sk\\.[a-z0-9\\-+/=]{32,128}\\.[a-z0-9\\-+/=]{20,30})(?:[^a-z0-9\\-+/=]|$)",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.mapbox.3",
+      "name": "Mapbox Temporary Access Token",
+      "file": "mapbox.yml",
+      "pattern": "(?i)(?s)mapbox.{0,30}(tk\\.[a-z0-9\\-+/=]{32,128}\\.[a-z0-9\\-+/=]{20,30})(?:[^a-z0-9\\-+/=]|$)",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.msteams.1",
+      "name": "Microsoft Teams Webhook",
+      "file": "microsoft_teams.yml",
+      "pattern": "(?x)(?i)\n(\n  https://\n  outlook\\.office\\.com/webhook/\n  [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\n  @\n  [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\n  /IncomingWebhook/\n  [a-f0-9]{32}\n  /\n  [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\n)\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.mongodb.1",
+      "name": "Credentials in MongoDB Connection String",
+      "file": "mongo.yml",
+      "pattern": "(?x)\n(?: mongodb\\+srv | mongodb ) ://                        (?# URI scheme )\n  ([a-zA-Z0-9%;._~!$&'()*+,;=-]{3,})                    (?# username)\n: ([a-zA-Z0-9%;._~!$&'()*+,;=-]{3,})                    (?# password)\n@ ([a-zA-Z0-9_.-]{3,} (?: :\\d{1,5})?)                   (?# hostname and port)\n(?: [^a-zA-Z0-9_.-] | $ )\n",
+      "categories": [
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 14,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.nasa.1",
+      "name": "NASA API Key",
+      "file": "nasa.yml",
+      "pattern": "(?x)\n\\b\nnasa\\.gov/ .{0,200}\napi_key=([a-zA-Z0-9]{40})\n\\b\n",
+      "categories": [
+        "api",
+        "secret",
+        "fuzzy"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.netrc.1",
+      "name": "netrc Credentials",
+      "file": "netrc.yml",
+      "pattern": "(?x)\n( machine \\s+ [^\\s]+ | default )\n\\s+\nlogin \\s+ ([^\\s]+)\n\\s+\npassword \\s+ ([^\\s]+)\n",
+      "categories": [
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.1",
+      "name": "New Relic License Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\n\\b\n([a-z0-9]{6}[a-f0-9]{30}nral)\n\\b\n",
+      "categories": [
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.2",
+      "name": "New Relic License Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\nassociated\\ with\\ your\\ New\\ Relic\\ account\\.\\s+\nlicense_key:\\s*\n([a-f0-9]{40})\n\\b\n",
+      "categories": [
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.3",
+      "name": "New Relic API Service Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\n\\b\n(nrak-[a-z0-9]{27})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.4",
+      "name": "New Relic Admin API Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\n\\b\n(nraa-[a-f0-9]{27})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.5",
+      "name": "New Relic Insights Insert Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\n\\b\n(nrii-[a-z0-9_-]{32})\n(?: [^a-z0-9_-] | $)\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.6",
+      "name": "New Relic Insights Query Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\n\\b\n(nriq-[a-z0-9_-]{32})\n(?: [^a-z0-9_-] | $)\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.7",
+      "name": "New Relic REST API Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\n\\b\n(nrra-[a-f0-9]{42})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.8",
+      "name": "New Relic Pixie API Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\n\\b\n(px-api-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.newrelic.9",
+      "name": "New Relic Pixie Deploy Key",
+      "file": "newrelic.yml",
+      "pattern": "(?x)(?i)\n\\b\n(px-dep-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.npm.1",
+      "name": "NPM Access Token (fine-grained)",
+      "file": "npm.yml",
+      "pattern": "(?x)\n\\b\n(npm_[A-Za-z0-9]{36})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.nuget.1",
+      "name": "NuGet API Key",
+      "file": "nuget.yml",
+      "pattern": "\\b(oy2[a-z0-9]{43})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.odbc.1",
+      "name": "Credentials in ODBC Connection String",
+      "file": "odbc.yml",
+      "pattern": "(?x)(?i)\n(?: User | User\\ Id | UserId | Uid) \\s*=\\s* ([^\\s;]{3,100}) \\s* ;\n[\\ \\t]* .{0,10} [\\ \\t]*  (?# possible extra stuff, e.g., string concatenation)\n(?: Password | Pwd) \\s*=\\s* ([^\\t\\ ;]{3,100})\n\\s* (?: [;\"'] | $)\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 10,
+        "negative": 7,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.okta.1",
+      "name": "Okta API Token",
+      "file": "okta.yml",
+      "pattern": "(?i)(?s)(?:okta|ssws).{0,40}\\b(00[a-z0-9_-]{39}[a-z0-9_])\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 5,
+        "negative": 4,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.openai.1",
+      "name": "OpenAI API Key",
+      "file": "openai.yml",
+      "pattern": "(?x)\n\\b\n(sk-[a-zA-Z0-9]{48})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.particleio.1",
+      "name": "particle.io Access Token",
+      "file": "particle.io.yml",
+      "pattern": "(?x)\nhttps://api\\.particle\\.io/v1/[a-zA-Z0-9_\\-\\s/\"\\\\?]*\n(?:access_token=|Authorization:\\s*Bearer\\s*)\n\\b\n([a-zA-Z0-9]{40})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 6,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.particleio.2",
+      "name": "particle.io Access Token",
+      "file": "particle.io.yml",
+      "pattern": "(?x)\n(?:access_token=|Authorization:\\s*Bearer\\s*)\n\\b\n([a-zA-Z0-9]{40})\n\\b\n[\\s\"\\\\]*https://api\\.particle\\.io/v1\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.pem.1",
+      "name": "PEM-Encoded Private Key",
+      "file": "pem.yml",
+      "pattern": "(?x)\n-----BEGIN\\ .{0,20}\\ ?PRIVATE\\ KEY\\ ?.{0,20}-----\n\\s*\n( (?: [a-zA-Z0-9+/=\\s\"',] | \\\\r | \\\\n ) {50,} )\n\\s*\n-----END\\ .{0,20}\\ ?PRIVATE\\ KEY\\ ?.{0,20}-----\n",
+      "categories": [
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.pem.2",
+      "name": "Base64-PEM-Encoded Private Key",
+      "file": "pem.yml",
+      "pattern": "(?x)\n(\n  (?: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0t             (?# prefix of base64 encoding of `-----BEGIN RSA PRIVATE KEY-----` )\n    | LS0tLS1CRUdJTiBEU0EgUFJJVkFURSBLRVktLS0t             (?# prefix of base64 encoding of `-----BEGIN DSA PRIVATE KEY-----` )\n    | LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0t             (?# prefix of base64 encoding of `-----BEGIN EC PRIVATE KEY-----` )\n    )\n  [a-zA-Z0-9+/=]{50,}\n)\n(?: [^a-zA-Z0-9+/=] | $ )\n",
+      "categories": [
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.phpmailer.1",
+      "name": "PHPMailer Credentials",
+      "file": "phpmailer.yml",
+      "pattern": "(?x)\n\\$mail->Host     \\s* = \\s* '([^'\\n]{5,})'; \\s* (?: //.* )?\n(?: \\s* .* \\s* ){0,3}\n\\$mail->Username \\s* = \\s* '([^'\\n]{5,})'; \\s* (?: //.* )?\n(?: \\s* .* \\s* ){0,3}\n\\$mail->Password \\s* = \\s* '([^'\\n]{5,})';\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.postgres.1",
+      "name": "Credentials in PostgreSQL Connection URI",
+      "file": "postgres.yml",
+      "pattern": "(?x)\n(?: postgres | postgresql ) ://                         (?# URI scheme )\n  ([a-zA-Z0-9%;._~!$&'()*+,;=-]{3,})                    (?# username)\n: ([a-zA-Z0-9%;._~!$&'()*+,;=-]{3,})                    (?# password)\n@ ([a-zA-Z0-9_.-]{3,} (?: :\\d{1,5})?)                   (?# hostname and port)\n(?: [^a-zA-Z0-9_.-] | $ )\n",
+      "categories": [
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 9,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.postman.1",
+      "name": "Postman API Key",
+      "file": "postman.yml",
+      "pattern": "(?x)\n\\b\n(PMAK-[a-zA-Z0-9]{24}-[a-zA-Z0-9]{34})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.postmark.1",
+      "name": "Postmark API Token",
+      "file": "postmark.yml",
+      "pattern": "(?x)\n(?i)\npostmark [a-z0-9_-]{0,20}\n.{0,10}\n\\b\n([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\n\\b\n",
+      "categories": [
+        "fuzzy",
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.psexec.1",
+      "name": "Credentials in PsExec Invocation",
+      "file": "psexec.yml",
+      "pattern": "(?x)\n(?i)\npsexec .{0,100}\n-u \\s* (\\S+) \\s+    (?# username )\n-p \\s* (\\S+)        (?# password )\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 6,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.pypi.1",
+      "name": "PyPI Upload Token",
+      "file": "pypi.yml",
+      "pattern": "(?x)\n\\b\n(pypi-AgEIcHlwaS5vcmc[a-zA-Z0-9_-]{50,})\n(?:[^a-zA-Z0-9_-]|$)\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.reactapp.1",
+      "name": "React App Username",
+      "file": "react.yml",
+      "pattern": "(?x)(?i)\n\\b\nREACT_APP (?: _[A-Z0-9]+)* _USER (?: NAME)?          (?# variable name )\n\\s* = \\s*\n['\"]?\n( [^\\s'\"$]{3,} )                                     (?# value )\n(?: [\\s'\"$] | $ )\n",
+      "categories": [
+        "fuzzy",
+        "identifier"
+      ],
+      "fixtureCheck": {
+        "positive": 6,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.reactapp.2",
+      "name": "React App Password",
+      "file": "react.yml",
+      "pattern": "(?x)(?i)\n\\b\nREACT_APP (?: _[A-Z0-9]+)* _PASS (?: WORD)?          (?# variable name )\n\\s* = \\s*\n['\"]?\n( [^\\s'\"$]{6,} )                                     (?# value )\n(?: [\\s'\"$] | $ )\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 6,
+        "negative": 2,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.rubygems.1",
+      "name": "RubyGems API Key",
+      "file": "rubygems.yml",
+      "pattern": "(?x)(?i)\n\\b\n(rubygems_[a-f0-9]{48})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.salesforce.1",
+      "name": "Salesforce Access Token",
+      "file": "salesforce.yml",
+      "pattern": "(?x)\n\\b\n(\n  00[a-zA-Z0-9]{13}             (?# organization ID )\n  !\n  [a-zA-Z0-9._]{96}             (?# opaque token )\n)\n(?: \\b | $ | [^a-zA-Z0-9._] )\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.sauce.1",
+      "name": "Sauce Token",
+      "file": "sauce.yml",
+      "pattern": "(?x)(?i)\nsauce .{0,50}\n\\b\n([a-f0-9-]{36})\n(?: [^a-f0-9-] | $ )\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.segment.1",
+      "name": "Segment Public API Token",
+      "file": "segment.yml",
+      "pattern": "(?x)\n\\b\n(sgp_[a-zA-Z0-9]{64})\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.sendgrid.1",
+      "name": "SendGrid API Key",
+      "file": "sendgrid.yml",
+      "pattern": "\\b(SG\\.[0-9A-Za-z_-]{22}\\.[0-9A-Za-z_-]{43})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.shopify.1",
+      "name": "Shopify Domain",
+      "file": "shopify.yml",
+      "pattern": "(?x)\n\\b\n(\n  (?:[a-zA-Z0-9-]+\\.)* [a-zA-Z0-9-]+ \\.myshopify\\.com\n)\n\\b\n",
+      "categories": [
+        "identifier"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.shopify.2",
+      "name": "Shopify App Secret",
+      "file": "shopify.yml",
+      "pattern": "\\b(shpss_[a-fA-F0-9]{32})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.shopify.3",
+      "name": "Shopify Access Token (Public App)",
+      "file": "shopify.yml",
+      "pattern": "\\b(shpat_[a-fA-F0-9]{32})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.shopify.4",
+      "name": "Shopify Access Token (Custom App)",
+      "file": "shopify.yml",
+      "pattern": "\\b(shpca_[a-fA-F0-9]{32})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.shopify.5",
+      "name": "Shopify Access Token (Legacy Private App)",
+      "file": "shopify.yml",
+      "pattern": "\\b(shppa_[a-fA-F0-9]{32})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.slack.2",
+      "name": "Slack Bot Token",
+      "file": "slack.yml",
+      "pattern": "\\b(xoxb-[0-9]{10,12}-[0-9]{10,14}-[a-zA-Z0-9]{23,25})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.slack.4",
+      "name": "Slack User Token",
+      "file": "slack.yml",
+      "pattern": "\\b(xoxp-[0-9]{12}-[0-9]{12}-[0-9]{12}-[a-f0-9]{32})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.slack.5",
+      "name": "Slack App Token",
+      "file": "slack.yml",
+      "pattern": "\\b(xapp-[0-9]{12}-[a-zA-Z0-9/+]{24})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.slack.6",
+      "name": "Slack Legacy Bot Token",
+      "file": "slack.yml",
+      "pattern": "\\b(xoxb-[0-9]{10,13}-[a-zA-Z0-9]{24})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 4,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.slack.3",
+      "name": "Slack Webhook",
+      "file": "slack.yml",
+      "pattern": "(?i)(https://hooks.slack.com/services/T[a-z0-9_]{8}/B[a-z0-9_]{8,12}/[a-z0-9_]{24})",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.sonarqube.1",
+      "name": "SonarQube Token",
+      "file": "sonarqube.yml",
+      "pattern": "(?i)sonar.{0,5}login.{0,5}\\s*\\b([a-f0-9]{40})\\b",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 4,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.sourcegraph.1",
+      "name": "Sourcegraph Access Token",
+      "file": "sourcegraph.yml",
+      "pattern": "\\b(sgp_(?:[a-fA-F0-9]{16}_|local_)?[a-fA-F0-9]{40})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.square.1",
+      "name": "Square Access Token",
+      "file": "square.yml",
+      "pattern": "(?i)\\b(sq0atp-[a-z0-9_-]{22})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.square.2",
+      "name": "Square OAuth Secret",
+      "file": "square.yml",
+      "pattern": "(?i)\\b(sq0csp-[a-z0-9_-]{43})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.stackhawk.1",
+      "name": "StackHawk API Key",
+      "file": "stackhawk.yml",
+      "pattern": "\\b(hawk\\.[0-9A-Za-z_-]{20}\\.[0-9A-Za-z_-]{20})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.stripe.1",
+      "name": "Stripe API Key",
+      "file": "stripe.yml",
+      "pattern": "(?i)\\b((?:sk|rk)_live_[a-z0-9]{24})\\b",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.stripe.2",
+      "name": "Stripe API Test Key",
+      "file": "stripe.yml",
+      "pattern": "(?i)\\b((?:sk|rk)_test_[a-z0-9]{24})\\b",
+      "categories": [
+        "api",
+        "secret",
+        "test"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.tavily.1",
+      "name": "Tavily API Key",
+      "file": "tavily.yml",
+      "pattern": "(?x)\n\\b\n(\n  tvly-[a-zA-Z0-9]{32}\n)\n\\b\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.teamcity.1",
+      "name": "TeamCity API Token",
+      "file": "teamcity.yml",
+      "pattern": "(?x)\n\\b (\neyJ0eXAiOiAiVENWMiJ9             (?# decodes to `{\"typ\": \"TCV2\"}` )\n\\.\n[A-Za-z0-9_-]{36}\n\\.\n[A-Za-z0-9_-]{48}\n) (?: [^A-Za-z0-9_-] | $ )\n",
+      "categories": [],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.telegram.1",
+      "name": "Telegram Bot Token",
+      "file": "telegram.yml",
+      "pattern": "(?x)\n\\b\n(\\d+:AA[a-zA-Z0-9_-]{32,33})\n(?: [^a-zA-Z0-9_-] | $)\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.thingsboard.1",
+      "name": "ThingsBoard Access Token",
+      "file": "thingsboard.yml",
+      "pattern": "(?x)\nthingsboard\\.cloud/api/v1/\n([a-z0-9]{20})\n",
+      "categories": [
+        "api",
+        "identifier",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 3,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.thingsboard.2",
+      "name": "ThingsBoard Provision Device Key",
+      "file": "thingsboard.yml",
+      "pattern": "(?x)\n\"provisionDeviceKey\"\\s*:\\s*\"\n([a-z0-9]{20})\n\"\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.thingsboard.3",
+      "name": "ThingsBoard Provision Device Secret",
+      "file": "thingsboard.yml",
+      "pattern": "(?x)\n\"provisionDeviceSecret\"\\s*:\\s*\"\n([a-z0-9]{20})\n\"\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.truenas.1",
+      "name": "TrueNAS API Key (WebSocket)",
+      "file": "truenas.yml",
+      "pattern": "(?x)\n\"params\"\\s*:\\s*\\[\\s*\"\n(\\d+-[a-zA-Z0-9]{64})\n\"\\s*\\]\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.truenas.2",
+      "name": "TrueNAS API Key (REST API)",
+      "file": "truenas.yml",
+      "pattern": "(?x)\nBearer\\s*\n(\\d+-[a-zA-Z0-9]{64})\n\\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.twilio.1",
+      "name": "Twilio API Key",
+      "file": "twilio.yml",
+      "pattern": "(?i)twilio.{0,20}\\b(sk[a-f0-9]{32})\\b",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.twitch.1",
+      "name": "Twitch Stream Key",
+      "file": "twitch.yml",
+      "pattern": "(?xi)\n(?:\n  \\b (?:twitch)? (?:[_-]?)? stream (?:[_-]?)? key \\b\n  [^A-Za-z0-9]{0,3}\n)?\n[\"']?\n(\n  live_                                (?# live_ prefix)\n  \\d{8,12}                             (?# 8–12 digit account ID - examples have 9, unsure of variance)\n  _\n  [A-Za-z0-9]{30,36}                   (?# underscore followed by 30-36 chars)\n)\n[\"']?\n",
+      "categories": [
+        "api",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 3,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.twitter.1",
+      "name": "Twitter Client ID",
+      "file": "twitter.yml",
+      "pattern": "(?x)(?i)\n\\b twitter\n.?\n(?: api | app | application | client | consumer | customer )?\n.?\n(?: id | identifier | key )\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{18,25}) \\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "identifier"
+      ],
+      "fixtureCheck": {
+        "positive": 2,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.twitter.2",
+      "name": "Twitter Secret Key",
+      "file": "twitter.yml",
+      "pattern": "(?x)(?i)\ntwitter\n.?\n(?: api | app | application | client | consumer | customer | secret | key )\n.?\n(?: key | oauth | sec | secret )?\n.{0,2} \\s{0,20} .{0,2} \\s{0,20} .{0,2}  (?# string terminators, whitespace, binding operators, etc )\n\\b ([a-z0-9]{35,44}) \\b\n",
+      "categories": [
+        "api",
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 1,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.vmware.1",
+      "name": "Credentials in Connect-VIServer Invocation",
+      "file": "vmware.yml",
+      "pattern": "(?x)(?i)\nConnect-VIServer\n.{0,50}\n-User \\s+ (\\S{3,30}) \\s+        (?# username )\n.{0,50}\n-Password \\s+ (\\S{3,30})        (?# password )\n",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 4,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.wireguard.1",
+      "name": "WireGuard Private Key",
+      "file": "wireguard.yml",
+      "pattern": "PrivateKey\\s*=\\s*([A-Za-z0-9+/]{43}=)",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
+    },
+    {
+      "id": "np.wireguard.2",
+      "name": "WireGuard Preshared Key",
+      "file": "wireguard.yml",
+      "pattern": "PresharedKey\\s*=\\s*([A-Za-z0-9+/]{43}=)",
+      "categories": [
+        "fuzzy",
+        "secret"
+      ],
+      "fixtureCheck": {
+        "positive": 1,
+        "negative": 0,
+        "passed": true
+      }
     }
-  ]
+  ],
+  "skipped": [],
+  "coverage": {
+    "upstreamFiles": 87,
+    "upstreamRules": 189
+  }
 };

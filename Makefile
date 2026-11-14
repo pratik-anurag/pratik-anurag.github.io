@@ -1,4 +1,4 @@
-.PHONY: wasm test playground visualizer demos
+.PHONY: wasm test playground visualizer demos ephor-wasm
 wasm:
 	GOOS=js GOARCH=wasm go build -trimpath -ldflags="-s -w" -o playground/esplain.wasm ./cmd/wasm
 	cp "$$(go env GOROOT)/lib/wasm/wasm_exec.js" playground/wasm_exec.js
@@ -17,6 +17,12 @@ visualizer:
 	mkdir -p public/projects/arpkit/visualizer
 	cp visualizer/index.html visualizer/*.js visualizer/styles.css visualizer/LICENSE public/projects/arpkit/visualizer/
 
-demos:
+ephor-wasm:
+	cargo build --locked --release --target wasm32-unknown-unknown --manifest-path demos/ephor/engine/Cargo.toml --lib
+	cp demos/ephor/engine/target/wasm32-unknown-unknown/release/ephor_browser_engine.wasm demos/ephor/engine.wasm
+	node scripts/ephor-licenses.cjs
+
+demos: ephor-wasm
+	cargo test --locked --manifest-path demos/ephor/engine/Cargo.toml --lib
 	node --test demos/tests/*.test.js
 	node scripts/build-demos.cjs

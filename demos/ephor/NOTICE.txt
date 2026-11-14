@@ -17,4 +17,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Browser adaptation: selected rules translated to ECMAScript; see rules.js and README.
+Browser adaptation: all builtin rules compiled with Rust byte regex into WebAssembly; patterns unchanged.

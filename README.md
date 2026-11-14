@@ -186,13 +186,17 @@ See [the short case study](content/arpkit-visualizer-case-study.md).
 
 Live paths: `/projects/ephor/demo/` and `/projects/portik/demo/`. The Projects
 cards and detail pages link to both. They are plain HTML/CSS/ES modules, with
-no runtime dependencies, telemetry, persistence, backend, or remote API calls.
-Content Security Policy disables network connections. Clipboard writes happen
+no telemetry, persistence, backend, or remote API calls. Ephor additionally loads
+a bundled Rust/WebAssembly scanner. Its Content Security Policy allows only
+same-origin asset loading and WebAssembly compilation; Portik disables network
+connections. Clipboard writes happen
 only when a visitor explicitly presses a copy button; clipboard reads are never
 requested. Input is not encoded in URLs.
 
 ```sh
-make demos                  # 58 tests, then copy assets into public/
+# Ephor build prerequisites: Rust 1.98.0 and its WebAssembly standard library
+rustup toolchain install 1.98.0 --profile minimal --target wasm32-unknown-unknown
+RUSTUP_TOOLCHAIN=1.98.0 make demos  # Rust + Node tests, then copy assets
 npm run build               # portfolio static export, including both demos
 python3 -m http.server 8000 --directory out
 # http://localhost:8000/projects/ephor/demo/
@@ -211,35 +215,45 @@ returns the first rule that matches, and warns when the foreground application
 is a recognized browser. The browser demo preserves first-rule warning semantics
 but also lists additional matches with one-based line/column positions.
 
-37 rules from nine Nosey Parker rule files are bundled at pinned revision
+All **189 rules from all 87 builtin rule files** are bundled at pinned revision
 [`2e6e7f3`](https://github.com/praetorian-inc/noseyparker/tree/2e6e7f36ce36619852532bbe698d8cb7a26d2da7/crates/noseyparker/data/default/builtin/rules):
-AWS, GitHub, GitLab, Slack, Stripe, npm, OpenAI, PEM, and Google. Original patterns,
-rule IDs, categories, and fixture-check counts are retained in `rules.js`.
-Global inline flags and extended-mode whitespace/comments are translated to
-ECMAScript syntax. The build-time importer validates every supplied upstream
-positive/negative fixture before accepting a rule. Those credential-shaped test
-values are not saved or distributed in this repository; CI checks compilation,
-import validation records, and our synthetic scanner regressions instead.
-Two rules using scoped flags (`np.aws.6`, `np.google.6`) are explicitly excluded.
-Other upstream rule families are not included. This is not the Nosey Parker
-engine, full corpus coverage, or exact Python/Rust regex parity (including Unicode
-and boundary semantics). Ephor's native filesystem enumeration order is not
-stable; this demo uses the documented bundle order. The native loader may also
-reject regex syntax which the browser importer supports.
+including JWTs, their signing-secret patterns, and the formerly excluded AWS
+and Google credential rules. Original patterns, rule IDs, categories, and
+fixture-check counts are retained in `rules.js`; matching data is embedded in the
+Wasm binary. No rule families are allowlisted or excluded.
+
+The scanner uses Rust's `regex::bytes::RegexBuilder` with `unicode(false)`, the
+16 MiB compiled-pattern limit, and Vectorscan-comment removal from upstream
+`noseyparker-rules/src/rule.rs`. No ECMAScript regex translation is involved;
+scoped flags, extended mode, anchors, and byte boundaries use the upstream
+compiler settings. Cargo.lock pins the regex dependency and transitive versions.
+This is the rule-matching portion, not Nosey Parker's entire Vectorscan/filtering,
+collection, deduplication, or reporting pipeline, nor Ephor's Python regex engine.
+
+The importer discovers all YAML files at the pinned directory, validates every
+rule and all **573 upstream positive/negative fixtures** in the same native Rust
+compiler, and fails rather than skipping unsupported rules. Fixture values are
+passed over stdin and are never saved or distributed. CI checks every rule's
+compilation in the actual Wasm binary, full manifest/embedded-data agreement,
+coverage counts, and synthetic scanner regressions. Rule order is filename order
+followed by YAML order; Ephor's native filesystem enumeration order is not stable.
 
 Rules distinguish identifiers from secret patterns: a bucket name or account ID
-is not necessarily a secret. No credential validity checking takes place. A
+is not necessarily a secret. Uncategorized/API-only patterns are marked
+potentially sensitive, not assumed to be public identifiers. No credential
+validity or JWT signature checking takes place. A
 non-match is never presented as proof of safety. The warning dialog is explicitly
 a simulation, not macOS paste interception; clearing affects only demo text.
 
 Scanning runs in a disposable Web Worker after a 300 ms debounce. Limits: 256 KiB
-UTF-8 input, two seconds per scan, 500 findings. Incomplete scans disable redacted
+UTF-8 input, 15 seconds for asset initialization, two seconds per scan, 500 findings.
+The Wasm asset is approximately 1.2 MiB. Incomplete scans disable redacted
 copying. Redaction replaces matched capture groups, merges overlapping spans,
 and does not claim to remove unmatched secrets. No raw match values are echoed
 in findings. Synthetic samples are not live credentials.
 
 To regenerate the bundled data (build-time network access and authenticated `gh`
-required; `npm ci` supplies the existing YAML parser):
+required; `npm ci` supplies the existing YAML parser, Rust runs fixture checks):
 
 ```sh
 node scripts/sync-ephor-rules.cjs

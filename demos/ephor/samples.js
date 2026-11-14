@@ -1,5 +1,9 @@
 // Deliberately synthetic examples, assembled to avoid resembling live credentials in source.
 export const samples = {
+  jwt: {name:'JWT and signing-secret config', text: '# Synthetic JWT — invalid signature; never a real login token\nAuthorization: Bearer ' +
+    btoa(JSON.stringify({alg:'HS256',typ:'JWT'})).replaceAll('=','') + '.' +
+    btoa(JSON.stringify({sub:'demo-user',aud:'example.invalid'})).replaceAll('=','') + '.' + 'A'.repeat(43) + '\n' +
+    'jwtsecret: "synthetic-demo-signing-secret"'},
   mixed: {name:'Config with credentials', text: '# Synthetic demo values — not live credentials\n' +
     'GITHUB_TOKEN=' + 'ghp_' + 'DEMO'.repeat(9) + '\n' +
     'AWS_ACCESS_KEY_ID=' + 'AKIA' + 'DEADBEEFDEADBEEF' + '\n' +

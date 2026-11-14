@@ -3,66 +3,42 @@ const { execFileSync } = require('node:child_process');
 const fs = require('node:fs');
 const yaml = require('js-yaml');
 const revision = '2e6e7f36ce36619852532bbe698d8cb7a26d2da7';
-const files = ['aws', 'github', 'gitlab', 'slack', 'stripe', 'npm', 'openai', 'pem', 'google'];
 const root = 'crates/noseyparker/data/default/builtin/rules';
-function get(path) {
-  const data = JSON.parse(execFileSync('gh', ['api', `repos/praetorian-inc/noseyparker/contents/${path}?ref=${revision}`], {maxBuffer: 8 * 1024 * 1024}));
-  return Buffer.from(data.content, 'base64').toString('utf8');
-}
-function translate(pattern) {
-  let flags = 'gd', extended = false;
-  pattern = pattern.replace(/^(?:\s*\(\?[ixms]+\))+/, prefix => {
-    extended = prefix.includes('x');
-    for (const f of ['i', 'm', 's']) if (prefix.includes(f)) flags += f;
-    return '';
-  });
-  let source = '', inClass = false;
-  for (let i = 0; i < pattern.length; i++) {
-    const c = pattern[i];
-    if (c === '\\') { source += c + (pattern[++i] || ''); continue; }
-    if (!inClass && pattern.startsWith('(?#', i)) {
-      const end = pattern.indexOf(')', i + 3);
-      if (end < 0) throw Error('Unclosed comment');
-      i = end; continue;
-    }
-    if (c === '[') inClass = true;
-    if (c === ']') inClass = false;
-    if (extended && !inClass && /\s/.test(c)) continue;
-    if (extended && !inClass && c === '#') {
-      while (i < pattern.length && pattern[i] !== '\n') i++;
-      continue;
-    }
-    source += c;
+const api = path => JSON.parse(execFileSync('gh', ['api', `repos/praetorian-inc/noseyparker/contents/${path}?ref=${revision}`], {maxBuffer: 8 * 1024 * 1024}));
+function get(path) { return Buffer.from(api(path).content, 'base64').toString('utf8'); }
+async function main() {
+  // Discover every file at the pinned revision. No family allowlist or skips.
+  const entries = api(root).filter(x => x.type === 'file' && /\.ya?ml$/.test(x.name)).sort((a,b)=>a.name.localeCompare(b.name,'en'));
+  if (!entries.length) throw Error('No upstream rule files found.');
+  const fixtures = [], files = entries.map(x=>x.name), contents = new Map();
+  for (let offset=0;offset<entries.length;offset+=8) {
+    await Promise.all(entries.slice(offset,offset+8).map(async entry=>{
+      const response=await fetch(entry.download_url);
+      if (!response.ok) throw Error(`Cannot fetch ${entry.name}: ${response.status}`);
+      contents.set(entry.name,await response.text());
+    }));
   }
-  // Reject non-ECMAScript syntax rather than silently broadening a rule.
-  if (/\(\?[ixms-]|\\[Az]|\[\[:|\\p\{/.test(source)) throw Error('Unsupported regex syntax');
-  new RegExp(source, flags);
-  return {source, flags};
-}
-const rules = [], skipped = [];
-for (const file of files) {
-  for (const rule of yaml.safeLoad(get(`${root}/${file}.yml`)).rules) {
-    try {
-      const translated = translate(rule.pattern);
-      // Require parity on every supplied upstream positive and negative fixture.
-      for (const example of rule.examples || []) {
-        if (!new RegExp(translated.source, translated.flags).test(example)) throw Error('Positive fixture differs');
-      }
-      for (const example of rule.negative_examples || []) {
-        if (new RegExp(translated.source, translated.flags).test(example)) throw Error('Negative fixture differs');
-      }
-      // Upstream fixtures can contain credential-shaped strings. Validate them
-      // here, but never distribute their values in a public static bundle.
-      rules.push({id: rule.id, name: rule.name, file: `${file}.yml`, categories: rule.categories || [],
-        pattern: rule.pattern, ...translated,
-        fixtureCheck: {positive: (rule.examples || []).length, negative: (rule.negative_examples || []).length, passed: true}});
-    } catch (e) { skipped.push({id: rule.id, name: rule.name, reason: e.message}); }
+  const seen=new Set();
+  for (const file of files) {
+    const document=yaml.safeLoad(contents.get(file));
+    if (!Array.isArray(document.rules) || !document.rules.length) throw Error(`Missing rules in ${file}`);
+    for (const rule of document.rules) {
+      if (!rule.id || !rule.name || !rule.pattern || seen.has(rule.id)) throw Error(`Invalid/duplicate rule in ${file}`);
+      seen.add(rule.id);
+      fixtures.push({...rule,file,examples:rule.examples || [],negative_examples:rule.negative_examples || []});
+    }
   }
+  const rules=fixtures.map(rule=>({id:rule.id,name:rule.name,file:rule.file,pattern:rule.pattern,categories:rule.categories || [],
+    fixtureCheck:{positive:rule.examples.length,negative:rule.negative_examples.length,passed:true}}));
+  const corpus={revision,files,rules,skipped:[],coverage:{upstreamFiles:files.length,upstreamRules:rules.length}};
+  // Patterns and metadata only. Credential-shaped fixtures go through stdin.
+  const result=execFileSync('cargo',['run','--locked','--quiet','--manifest-path','demos/ephor/engine/Cargo.toml','--bin','validate'],
+    {input:JSON.stringify(fixtures),encoding:'utf8',maxBuffer:8*1024*1024});
+  process.stdout.write(result);
+  fs.writeFileSync('demos/ephor/engine/corpus.json',JSON.stringify(corpus,null,2)+'\n');
+  fs.writeFileSync('demos/ephor/rules.js','// Generated from ALL Nosey Parker builtin rule files (Apache-2.0). Original patterns unchanged.\nexport const corpus = '+JSON.stringify(corpus,null,2)+';\n');
+  fs.writeFileSync('demos/ephor/LICENSE-noseyparker.txt',get('LICENSE'));
+  fs.writeFileSync('demos/ephor/NOTICE.txt',get('NOTICE')+'\nBrowser adaptation: all builtin rules compiled with Rust byte regex into WebAssembly; patterns unchanged.\n');
+  console.log(`Bundled ${rules.length} rules from all ${files.length} files; zero excluded. Revision ${revision}`);
 }
-fs.mkdirSync('demos/ephor', {recursive: true});
-fs.writeFileSync('demos/ephor/rules.js', '// Generated from Nosey Parker (Apache-2.0). Modified: regex syntax translated for ECMAScript.\n' +
-  'export const corpus = ' + JSON.stringify({revision, files, rules, skipped}, null, 2) + ';\n');
-fs.writeFileSync('demos/ephor/LICENSE-noseyparker.txt', get('LICENSE'));
-fs.writeFileSync('demos/ephor/NOTICE.txt', get('NOTICE') + '\nBrowser adaptation: selected rules translated to ECMAScript; see rules.js and README.\n');
-console.log(`Bundled ${rules.length} rules; ${skipped.length} excluded. Revision ${revision}`);
-console.log(skipped);
+main().catch(error=>{console.error(error.message);process.exitCode=1;});

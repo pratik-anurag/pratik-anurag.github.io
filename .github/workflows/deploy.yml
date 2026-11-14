@@ -48,8 +48,14 @@ jobs:
       - name: Test and copy Arpkit Visualizer
         run: make visualizer
 
+      - name: Setup Rust WebAssembly target
+        run: rustup toolchain install 1.98.0 --profile minimal --target wasm32-unknown-unknown
+
       - name: Test and copy Ephor and Portik demos
+        # Rust byte-regex is the Ephor browser engine; no collectors/network code.
         run: make demos
+        env:
+          RUSTUP_TOOLCHAIN: "1.98.0"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -72,6 +78,7 @@ jobs:
           test -s out/projects/ephor/demo/index.html
           test -s out/projects/ephor/demo/worker.js
           test -s out/projects/ephor/demo/rules.js
+          test -s out/projects/ephor/demo/engine.wasm
           test -s out/projects/portik/demo/index.html
           test -s out/projects/portik/demo/analyze.js
 

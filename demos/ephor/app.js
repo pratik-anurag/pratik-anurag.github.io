@@ -11,13 +11,13 @@ function element(tag, text, className) {
 }
 for (const [key, sample] of Object.entries(samples)) $('preset').add(new Option(sample.name, key));
 $('rules').textContent = corpus.rules.length;
-$('coverage-title').textContent = `Rule coverage · ${corpus.rules.length} included, ${corpus.skipped.length} excluded`;
+$('coverage-title').textContent = `Complete rule coverage · ${corpus.rules.length} rules · ${corpus.files.length} files`;
 for (const rule of corpus.rules) {
   const row = element('div', '', 'rule-row');
   row.append(element('span', rule.name));
   const link = element('a', rule.id); link.href = sourceURL(rule.file); row.append(link); $('coverage').append(row);
 }
-$('coverage-note').textContent = `Pinned revision ${corpus.revision.slice(0,7)}. Selected families: ${corpus.files.join(', ')}. Excluded due to unsupported scoped regex flags: ${corpus.skipped.map(x=>x.name).join('; ')}. No other upstream families are bundled.`;
+$('coverage-note').textContent = `All ${corpus.files.length} builtin rule files at pinned revision ${corpus.revision.slice(0,7)} are included, with zero exclusions. Patterns run in Rust byte-regex WebAssembly using upstream compilation settings. This is pattern detection, not credential/signature validation or the full Nosey Parker scanning pipeline.`;
 $('upstream').href = `https://github.com/praetorian-inc/noseyparker/tree/${corpus.revision}/crates/noseyparker/data/default/builtin/rules`;
 function cancel() {
   sequence++; clearTimeout(timer); clearTimeout(deadline);
@@ -47,7 +47,8 @@ function render(result) {
   for (const finding of result.findings) {
     const row = element('article', '', 'finding');
     const title = element('h3', finding.name);
-    title.append(element('span', finding.kind === 'secret' ? 'secret pattern' : 'identifier pattern', `badge ${finding.kind === 'secret' ? 'risk' : 'warn'}`));
+    const label = finding.kind === 'secret' ? 'secret pattern' : finding.kind === 'identifier' ? 'identifier pattern' : 'potentially sensitive';
+    title.append(element('span', label, `badge ${finding.kind === 'identifier' ? 'warn' : 'risk'}`));
     row.append(title, element('p', `Line ${finding.line}, column ${finding.column} · matched value hidden`));
     const link = element('a', `Inspect ${finding.id} ↗`, 'tiny'); link.href = sourceURL(finding.file); row.append(link); fragment.append(row);
   }
@@ -64,7 +65,7 @@ function schedule() {
     $('results').setAttribute('aria-busy', 'false'); return;
   }
   if (bytes > MAX_BYTES) { error('Input exceeds 256 KiB. Scan a smaller excerpt.'); return; }
-  $('scan-state').textContent = 'Scanning'; $('status').textContent = 'Scanning locally…';
+  $('scan-state').textContent = 'Initializing'; $('status').textContent = 'Loading local WebAssembly scanner…';
   $('summary').textContent = 'Waiting for the local scanner…'; $('results').setAttribute('aria-busy', 'true');
   const id = sequence;
   timer = setTimeout(() => {
@@ -72,11 +73,17 @@ function schedule() {
       worker = new Worker(new URL('./worker.js', import.meta.url), {type:'module'});
       worker.onmessage = ({data}) => {
         if (data.id !== sequence) return;
+        if (data.state === 'ready') {
+          clearTimeout(deadline);
+          $('scan-state').textContent = 'Scanning'; $('status').textContent = 'Scanning locally…';
+          deadline = setTimeout(() => { if (id !== sequence) return; worker?.terminate(); worker=null; error('Scan exceeded 2 seconds. Reduce the input and try again.'); }, 2000);
+          return;
+        }
         clearTimeout(deadline); worker.terminate(); worker = null;
         if (data.error) error(data.error); else render(data.result);
       };
       worker.onerror = () => { if (id !== sequence) return; clearTimeout(deadline); worker?.terminate(); worker=null; error('Scanner could not start. Use a current browser and serve this page over HTTP(S).'); };
-      deadline = setTimeout(() => { if (id !== sequence) return; worker?.terminate(); worker=null; error('Scan exceeded 2 seconds. Reduce the input and try again.'); }, 2000);
+      deadline = setTimeout(() => { if (id !== sequence) return; worker?.terminate(); worker=null; error('Scanner initialization timed out. Reload this page or try a faster connection.'); }, 15000);
       worker.postMessage({id, text});
     } catch { error('Web Workers are unavailable. Open this demo over HTTP(S) in a current browser.'); }
   }, 300);
