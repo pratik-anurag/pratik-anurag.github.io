@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Inspect pasted lscpu and numactl output as a local machine topology diagram.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Arpkit Visualizer · Pratik Anurag</title><link rel="stylesheet" href="styles.css"><script type="module" src="render.js"></script>
+</head><body>
+<a class="skip" href="#input">Skip to input</a>
+<header><a href="/projects/arpkit/">← Arpkit project</a><a href="https://github.com/pratik-anurag/arpkit">GitHub ↗</a></header>
+<main>
+ <section class="intro"><p class="eyebrow">Architecture Profiling Kit</p><h1>Arpkit <span>Visualizer</span></h1><p>See how sockets, NUMA nodes, shared caches, cores, and threads fit together.</p><p class="muted">Paste command output or use a sample. No uploads, backend, or analytics.</p></section>
+ <section class="input-panel panel">
+  <div class="input-toolbar"><div><label for="sample">Sample machine</label><select id="sample"></select></div><button id="share" type="button">Copy share link</button></div>
+  <label for="input">Command output <span class="muted">(formats detected automatically)</span></label>
+  <textarea id="input" spellcheck="false" rows="9" aria-describedby="input-help"></textarea>
+  <p id="input-help" class="muted">Paste any combination of lscpu text, lscpu -J, the extended CPU table, and numactl --hardware. Limit: 1 MiB / 8,192 logical CPUs.</p>
+  <details><summary>Commands to run</summary><pre>LC_ALL=C lscpu
+LC_ALL=C lscpu -e=CPU,NODE,SOCKET,CORE,L1d:L1i:L2:L3
+LC_ALL=C numactl --hardware</pre><p class="muted">Append MAXMHZ to the extended columns for frequency-group hints on hybrid CPUs. Default text alone cannot identify SMT siblings or exact cache sharing.</p></details>
+ </section>
+ <p id="status" role="status" aria-live="polite"></p><div id="diagnostics"></div>
+ <section id="summary" class="summary-strip" aria-label="Machine summary"></section>
+ <section class="panel topology-panel" aria-labelledby="diagram-heading">
+  <div class="diagram-toolbar"><div><h2 id="diagram-heading">Machine topology</h2><p class="muted">Logical CPU IDs are the numbered squares. Dashed boxes indicate inferred grouping.</p></div>
+   <div class="actions"><button id="svg" type="button">Download SVG</button><button id="png" type="button">Download PNG</button><button id="copy" type="button">Copy text summary</button></div>
+  </div>
+  <fieldset class="legend"><legend>Show cache levels</legend><label><input type="checkbox" id="show-l1"> L1</label><label><input type="checkbox" id="show-l2" checked> L2</label><label><input type="checkbox" id="show-l3" checked> L3</label></fieldset>
+  <div id="selection" class="selection" role="status" aria-live="polite">Select a CPU for its siblings and cache-sharing details.</div>
+  <div id="diagram-scroll" tabindex="0" aria-label="Scrollable topology diagram"><div id="diagram"></div></div>
+  <details class="text-alternative"><summary>Topology as a structured list</summary><div id="topology-list"></div></details>
+ </section>
+ <div class="lower-grid"><section class="panel"><h2>NUMA distance</h2><p class="muted">Relative firmware distance, not a measured memory-latency benchmark.</p><div id="distance"></div></section>
+ <section class="panel"><h2>Performance posture</h2><div id="insights"></div><h3>Suggested pinning</h3><div id="pinning"></div></section></div>
+ <section class="panel"><h2>Terminal summary</h2><pre id="terminal"></pre></section>
+ <p id="action-status" role="status" aria-live="polite"></p>
+</main>
+<footer><a href="https://github.com/pratik-anurag/arpkit">Arpkit source ↗</a><code>go install github.com/pratik-anurag/arpkit@latest</code><p>The CLI reads sysfs/procfs directly and reports topology and posture in the terminal. This companion parses pasted output and only evaluates checks supported by that data.</p><p class="muted">Everything runs locally. Shared links contain the pasted output; only share captures you intend to disclose.</p></footer>
+</body></html>

@@ -1,0 +1,80 @@
+import {parseMachine,formatCPUList} from "./parser.js";
+import {samples} from "./samples.js";
+const $=id=>document.getElementById(id);
+export const element=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
+export function bytes(value){if(value===null||value===undefined)return "unknown";if(value===0)return "0 B";const units=["B","KiB","MiB","GiB","TiB","PiB"];const i=Math.min(units.length-1,Math.max(0,Math.floor(Math.log(value)/Math.log(1024))));return (value/1024**i).toLocaleString(undefined,{maximumFractionDigits:1})+" "+units[i];}
+let machine=null,timer,selected=null;
+const tag=(text,cls="")=>element("span",text,"badge "+cls);
+function cacheLabel(cache){return cache?cache.level+" #"+cache.id+" · "+bytes(cache.bytes)+(cache.inferred?" · inferred":""):"sharing unknown";}
+function summary(m){
+ const host=$("summary");host.replaceChildren();
+ const smt=m.inferred?(m.reported.threadsPerCore===null?"unknown":m.reported.threadsPerCore>1?"on (reported)":"off (reported)"):(m.cores.some(c=>c.cpus.length>1)?"on":"off");
+ const total=m.nodes.every(n=>n.memory!==null)&&m.nodes.length?m.nodes.reduce((s,n)=>s+n.memory,0):null;
+ const groups=[["Model",m.model],["Topology",(m.reported.sockets??(m.sockets.filter(s=>s.id!==null).length||"unknown"))+" sockets · "+(m.reported.coresPerSocket&&m.reported.sockets?m.reported.coresPerSocket*m.reported.sockets:m.cores.length||"unknown")+" cores · "+m.cpus.length+" threads"],["NUMA / memory",m.nodes.length+" nodes · "+bytes(total)],["SMT",smt]];
+ for(const level of ["L1d","L1i","L2","L3"]){const c=m.cacheSummary[level];groups.push([level,c?bytes(c.totalBytes??c.perInstance)+(c.instances?" total / "+c.instances+" instances":" per instance"):"size unknown"]);}
+ for(const [label,value]of groups){const cell=element("div");cell.append(element("small",label),element("strong",value));host.append(cell);}
+}
+function cpuButton(cpu,m){
+ const button=element("button",String(cpu.id),"cpu"+(!cpu.idExact?" inferred":""));button.type="button";button.dataset.cpu=cpu.id;button.dataset.core=cpu.coreKey;button.dataset.node=String(cpu.node);button.dataset.l2=cpu.L2??"";button.dataset.l3=cpu.L3??"";
+ button.setAttribute("aria-label","CPU "+cpu.id+", core "+(cpu.core??"unknown")+", socket "+(cpu.socket??"unknown")+", NUMA "+(cpu.node??"unknown")+(cpu.inferred?", inferred mapping":""));
+ button.title=button.getAttribute("aria-label");return button;
+}
+function coreBox(core,m){
+ const box=element("div",undefined,"core "+(core.inferred?"inferred ":"")+(core.kind.startsWith("P-")?"p-core":core.kind.startsWith("E-")?"e-core":""));
+ box.append(element("span","Core "+(core.id??"?")+(core.inferred?" · inferred":""),"core-label"));
+ if(core.kind!=="unknown")box.append(element("small",core.kind));
+ if($("show-l1").checked){for(const level of ["L1d","L1i"]){const cpu=m.cpus.find(c=>c.id===core.cpus[0]);const c=m.caches.find(c=>c.key===cpu?.[level]);box.append(element("small",level+": "+(c?cacheLabel(c):"unknown"),"cache-caption"));}}
+ const threads=element("div",undefined,"threads");for(const id of core.cpus){const cpu=m.cpus.find(c=>c.id===id);threads.append(cpuButton(cpu,m));}box.append(threads);return box;
+}
+function grouped(list,getKey){const map=new Map();for(const item of list){const k=getKey(item)??"unknown";if(!map.has(k))map.set(k,[]);map.get(k).push(item);}return map;}
+function renderNode(m,node,socketCPUs){
+ const nodeCPUs=m.cpus.filter(c=>socketCPUs.includes(c.id)&&c.node===node.id);
+ const box=element("section",undefined,"numa node-"+(node.id===null?"unknown":node.id%8));box.dataset.node=String(node.id);
+ const head=element("h4","NUMA "+(node.id??"unknown")+" · "+nodeCPUs.length+" threads");box.append(head);
+ const memory=element("p",node.id===null?"Memory unknown":bytes(node.memory)+" memory · "+bytes(node.free)+" free","node-memory");box.append(memory);
+ if(node.memory>0&&node.free!==null){const meter=element("meter");meter.min=0;meter.max=node.memory;meter.value=Math.min(node.memory,node.free);meter.setAttribute("aria-label","Free memory on NUMA "+node.id);box.append(meter);}
+ const cores=m.cores.filter(c=>c.cpus.some(id=>nodeCPUs.some(t=>t.id===id)));
+ const l3Groups=grouped(cores,c=>m.cpus.find(t=>t.id===c.cpus[0])?.L3);
+ for(const [key,group]of l3Groups){
+  const cache=m.caches.find(c=>c.key===key);const section=element("details",undefined,"llc "+(cache?.inferred?"inferred":""));section.open=group.length<=8;
+  const title=($("show-l3").checked?"L3 "+(cache?"#"+cache.id+" · "+bytes(cache.bytes)+(cache.inferred?" · inferred":""):"sharing unknown"):"Core group")+" · "+group.length+" cores";
+  section.append(element("summary",title+(group.length>8?" · expand":"")));
+  if(cache&&cache.cpus.some(id=>!nodeCPUs.some(c=>c.id===id)))section.append(element("p","This is one node/socket slice of a shared cache group.","muted"));
+  const inner=element("div",undefined,"cache-grid");
+  const l2Groups=$("show-l2").checked?grouped(group,c=>m.cpus.find(t=>t.id===c.cpus[0])?.L2):new Map([["hidden",group]]);
+  for(const [l2,cs]of l2Groups){const block=element("div",undefined,"l2-group");const cache2=m.caches.find(c=>c.key===l2);if($("show-l2").checked)block.append(element("div",cache2?cacheLabel(cache2):"L2 sharing unknown","cache-caption"));for(const core of cs)block.append(coreBox(core,m));inner.append(block);}
+  section.append(inner);box.append(section);
+ }
+ if(!nodeCPUs.length)box.append(element("p","No supplied CPU rows in this node.","muted"));
+ return box;
+}
+export function renderTopology(m){
+ const root=$("diagram");root.replaceChildren();
+ if(!m.cpus.length&&!m.nodes.length){root.append(element("p","No topology to draw.","muted"));return;}
+ for(const socket of m.sockets){
+  const section=element("section",undefined,"socket");section.append(element("h3","Socket "+(socket.id??"unknown")));
+  const nodeIDs=[...new Set(m.cpus.filter(c=>socket.cpus.includes(c.id)).map(c=>c.node))];
+  // Keep memory-only nodes visible without assigning them to an invented socket.
+  if(socket.id===null)for(const node of m.nodes)if(!node.cpus.length)nodeIDs.push(node.id);
+  const list=element("div",undefined,"node-grid");
+  for(const id of [...new Set(nodeIDs)]){const node=m.nodes.find(n=>n.id===id)??{id:null,memory:null,free:null};list.append(renderNode(m,node,socket.cpus));}
+  section.append(list);root.append(section);
+ }
+ const memoryOnly=m.nodes.filter(n=>!n.cpus.length);
+ if(memoryOnly.length&&!m.sockets.some(s=>s.id===null)){const section=element("section",undefined,"socket");section.append(element("h3","Socket unknown · memory-only nodes"));for(const node of memoryOnly)section.append(renderNode(m,node,[]));root.append(section);}
+ const alternative=$("topology-list");alternative.replaceChildren();
+ const list=element("ul");for(const socket of m.sockets){const item=element("li","Socket "+(socket.id??"unknown"));const children=element("ul");for(const core of m.cores.filter(c=>c.cpus.some(id=>socket.cpus.includes(id))))children.append(element("li","NUMA "+(core.node??"unknown")+", core "+(core.id??"unknown")+", CPUs "+formatCPUList(core.cpus)+(core.inferred?" (inferred)":"")));item.append(children);list.append(item);}alternative.append(list);
+}
+function textSummary(m){return ["Arpkit Visualizer",m.model,"Formats: "+m.formats.join(", "),"Threads: "+m.cpus.length+" / cores: "+m.cores.length+" / nodes: "+m.nodes.length,m.inferred?"Mapping contains inferred groups.":"Mapping from supplied extended CPU rows.",...m.nodes.map(n=>"NUMA "+n.id+": CPUs "+formatCPUList(n.cpus)+"; memory "+bytes(n.memory)+"; free "+bytes(n.free)),...m.caches.map(c=>cacheLabel(c)+"; CPUs "+formatCPUList(c.cpus))].join("\n");}
+function analyze(){
+ selected=null;machine=parseMachine($("input").value);summary(machine);renderTopology(machine);
+ $("diagnostics").replaceChildren(...machine.diagnostics.map(d=>{const p=element("p",undefined,"diagnostic");p.append(tag(d.severity),document.createTextNode(" "+d.section+": "+d.message));return p;}));
+ $("status").textContent=machine.formats.length?"Detected: "+machine.formats.join(" + ")+(machine.inferred?" · inferred grouping":""):"";
+ $("terminal").textContent=textSummary(machine);
+ for(const id of ["svg","png","copy"])$(id).disabled=!machine.cpus.length;
+}
+for(const sample of samples){const option=element("option",sample.label);option.value=sample.id;$("sample").append(option);}
+$("sample").addEventListener("change",()=>{const sample=samples.find(s=>s.id===$("sample").value);if(sample){$("input").value=sample.text;analyze();}});
+$("input").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(analyze,250);});
+for(const id of ["show-l1","show-l2","show-l3"])$(id).addEventListener("change",()=>{if(machine)renderTopology(machine);});
+$("input").value=samples[0].text;analyze();
