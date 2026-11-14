@@ -107,11 +107,11 @@ Paste one or several captures into the same textarea:
 
 ```sh
 LC_ALL=C lscpu
-LC_ALL=C lscpu -e=CPU,NODE,SOCKET,CORE,L1d:L1i:L2:L3
+LC_ALL=C lscpu -e=CPU,NODE,SOCKET,CORE,CACHE
 LC_ALL=C lscpu -J
 LC_ALL=C numactl --hardware
 # Optional frequency hints for hybrid processors:
-LC_ALL=C lscpu -e=CPU,NODE,SOCKET,CORE,L1d:L1i:L2:L3,MAXMHZ
+LC_ALL=C lscpu -e=CPU,NODE,SOCKET,CORE,CACHE,MAXMHZ
 ```
 
 Extended CPU rows establish sibling and cache-sharing membership. Plain text or
@@ -129,6 +129,12 @@ terminal diagram is arranged NUMA → socket → core → thread.
 Large L3 groups collapse by default. Focus, hover, or select a CPU to inspect
 siblings and cache sharing. Press Escape to clear. The structured-list disclosure
 provides a text alternative. Node color is supplemented by labels and outlines.
+
+The command column is named `CACHE`; its displayed header is
+`L1d:L1i:L2:L3` (or the available subset). See the
+[util-linux column definitions](https://github.com/util-linux/util-linux/blob/master/sys-utils/lscpu.c).
+Without instance counts, cache-size scope varies across lscpu versions, so the
+summary keeps the raw size with "scope unknown" rather than claiming a per-core size.
 
 ### Source and posture semantics
 

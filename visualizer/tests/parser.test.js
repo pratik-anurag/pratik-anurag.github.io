@@ -27,7 +27,7 @@ test("CPU lists match Arpkit range and stride semantics",()=>{
 });
 test("cache totals and fractional binary sizes",()=>{
  assert.equal(parseSize("1.5 MiB"),1572864);assert.equal(cacheSize("32 KiB (16 instances)").perInstance,2048);
- assert.equal(cacheSize("32 KiB").perInstance,32768);assert.equal(parseSize("unknown"),null);
+ assert.equal(cacheSize("32 KiB").rawBytes,32768);assert.equal(cacheSize("32 KiB").perInstance,null);assert.equal(parseSize("unknown"),null);
 });
 test("exact extended mapping and numactl are merged",()=>{
  const m=parseMachine(exact);assert.equal(m.cores.length,2);assert.deepEqual(m.cores[0].cpus,[0,2]);
@@ -55,4 +55,8 @@ test("partial matrices preserve missing rows rather than fabricating distances",
 });
 test("disjoint per-node ranges respect the global CPU bound",()=>{
  const m=parseMachine("node 0 cpus: 0-8191\nnode 1 cpus: 8192-16383");assert.equal(m.cpus.length,8192);assert.ok(m.diagnostics.some(d=>d.section==="CPU limit"));
+});
+test("cache tuple header may omit unsupported levels",()=>{
+ const m=parseMachine("CPU NODE SOCKET CORE L1d:L2\n0 0 0 0 4:8");
+ assert.equal(m.cpus[0].cache.L1d,4);assert.equal(m.cpus[0].cache.L2,8);assert.equal(m.cpus[0].cache.L3,null);
 });

@@ -37,7 +37,7 @@ export function cacheSize(raw){
  const bytes=parseSize(raw);const m=/\((\d+)\s+instances?\)/i.exec(String(raw));
  const instances=m?Number(m[1]):null;
  // util-linux's "(N instances)" values are totals across those N caches.
- return {totalBytes:instances?bytes:null,perInstance:instances&&bytes!==null?bytes/instances:bytes,instances,raw:String(raw)};
+ return {rawBytes:bytes,totalBytes:instances?bytes:null,perInstance:instances&&bytes!==null?bytes/instances:null,instances,raw:String(raw)};
 }
 function extractJSON(text,diagnostics){
  const blocks=[];let rest=text;
@@ -84,11 +84,12 @@ export function parseMachine(input){
   }
   if(/^available:\s+\d+\s+nodes?/i.test(trimmed)){formats.add("numactl");continue;}
   if(table&&/^\d+\s/.test(trimmed)){
-   const cells=trimmed.split(/\s+/);if(cells.length<table.length){warn("lscpu extended","Incomplete CPU row: "+trimmed+". Run lscpu -e=CPU,NODE,SOCKET,CORE,L1d:L1i:L2:L3.");continue;}
+   const cells=trimmed.split(/\s+/);if(cells.length<table.length){warn("lscpu extended","Incomplete CPU row: "+trimmed+". Run lscpu -e=CPU,NODE,SOCKET,CORE,CACHE.");continue;}
    const get=name=>{const i=table.findIndex(t=>key(t)===key(name));return i<0?null:cells[i];};
    const id=integer(get("CPU"));if(id===null||id>1000000||rows.size>=LIMIT){warn("lscpu extended","Invalid CPU ID or more than 8,192 CPU rows.");continue;}
-   const cacheColumn=table.findIndex(t=>/^L1d:L1i:L2:L3$/i.test(t));const cacheIds=cacheColumn>=0?cells[cacheColumn].split(":"):["L1d","L1i","L2","L3"].map(get);
-   const cache={};["L1d","L1i","L2","L3"].forEach((level,i)=>{cache[level]=integer(cacheIds[i]);});
+   const cacheColumn=table.findIndex(t=>/^L\d[di]?(?::L\d[di]?)+$/i.test(t));
+   const levels=["L1d","L1i","L2","L3"],cache={};
+   for(const level of levels){const index=cacheColumn<0?-1:table[cacheColumn].split(":").findIndex(t=>key(t)===key(level));cache[level]=integer(index<0?get(level):cells[cacheColumn].split(":")[index]);}
    const online=get("ONLINE");const cpu={id,node:integer(get("NODE")),socket:integer(get("SOCKET")),core:integer(get("CORE")),cache,maxMHz:number(get("MAXMHZ")),online:online===null?null:!/^(no|n|0)$/i.test(online),inferred:false,nodeExact:true,socketExact:true,coreExact:true,idExact:true};
    if(rows.has(id))warn("lscpu extended","Duplicate CPU "+id+"; last row used.");
    rows.set(id,cpu);continue;
@@ -157,7 +158,7 @@ export function parseMachine(input){
  if(cpus.some(c=>c.socket===null))sockets.push({id:null,cpus:cpus.filter(c=>c.socket===null).map(c=>c.id)});
  if(!sockets.length&&nodes.size)sockets.push({id:null,cpus:[]});
  let matrix=[];if(distanceIDs.length&&distanceIDs.length<=256){matrix=distanceIDs.map(id=>distanceRows.get(id)??[]);if(matrix.some(row=>row.length!==distanceIDs.length))warn("NUMA distance","Incomplete distance matrix. Paste the full numactl --hardware output.");}
- if(!cpus.length&&!nodes.size)warn("Input","No topology found. Run LC_ALL=C lscpu; lscpu -e=CPU,NODE,SOCKET,CORE,L1d:L1i:L2:L3; numactl --hardware.");
+ if(!cpus.length&&!nodes.size)warn("Input","No topology found. Run LC_ALL=C lscpu; lscpu -e=CPU,NODE,SOCKET,CORE,CACHE; numactl --hardware.");
  if(reported.threads&&cpus.length&&reported.threads!==cpus.length)warn("CPU count","Summary reports "+reported.threads+" CPUs but the mapping contains "+cpus.length+". The diagram shows supplied rows only.");
  const model=get("Model name","CPU model")??"unknown";
  // Frequency clusters are a hint, not proof of Intel core type.

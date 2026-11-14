@@ -15,7 +15,7 @@ function summary(m){
  const smt=m.inferred?(m.reported.threadsPerCore===null?"unknown":m.reported.threadsPerCore>1?"on (reported)":"off (reported)"):(m.cpus.some(c=>c.core===null)?"unknown":m.cores.some(c=>c.cpus.length>1)?"on":"off");
  const total=m.nodes.every(n=>n.memory!==null)&&m.nodes.length?m.nodes.reduce((s,n)=>s+n.memory,0):null;
  const groups=[["Model",m.model],["Topology",(m.reported.sockets??(m.sockets.filter(s=>s.id!==null).length||"unknown"))+" sockets · "+(m.reported.coresPerSocket&&m.reported.sockets?m.reported.coresPerSocket*m.reported.sockets:m.cores.length||"unknown")+" cores · "+m.cpus.length+" threads"],["NUMA / memory",m.nodes.length+" nodes · "+bytes(total)],["SMT",smt]];
- for(const level of ["L1d","L1i","L2","L3"]){const c=m.cacheSummary[level];groups.push([level,c?bytes(c.totalBytes??c.perInstance)+(c.instances?" total / "+c.instances+" instances":" per instance"):"size unknown"]);}
+ for(const level of ["L1d","L1i","L2","L3"]){const c=m.cacheSummary[level];groups.push([level,c?bytes(c.totalBytes??c.rawBytes)+(c.instances?" total / "+c.instances+" instances":" (scope unknown)"):"size unknown"]);}
  for(const [label,value]of groups){const cell=element("div");cell.append(element("small",label),element("strong",value));host.append(cell);}
 }
 function cpuButton(cpu,m){
