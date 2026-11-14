@@ -17,7 +17,23 @@ function summary(m){
 function cpuButton(cpu,m){
  const button=element("button",String(cpu.id),"cpu"+(!cpu.idExact?" inferred":""));button.type="button";button.dataset.cpu=cpu.id;button.dataset.core=cpu.coreKey;button.dataset.node=String(cpu.node);button.dataset.l2=cpu.L2??"";button.dataset.l3=cpu.L3??"";
  button.setAttribute("aria-label","CPU "+cpu.id+", core "+(cpu.core??"unknown")+", socket "+(cpu.socket??"unknown")+", NUMA "+(cpu.node??"unknown")+(cpu.inferred?", inferred mapping":""));
- button.title=button.getAttribute("aria-label");return button;
+ button.setAttribute("aria-pressed","false");button.title=cpuDetails(cpu,m);return button;
+}
+function cpuDetails(cpu,m){
+ const siblings=m.cores.find(c=>c.key===cpu.coreKey)?.cpus??[];
+ return "CPU "+cpu.id+" · socket "+(cpu.socket??"unknown")+" · NUMA "+(cpu.node??"unknown")+" · core "+(cpu.core??"unknown")+" · siblings "+formatCPUList(siblings)+(cpu.inferred?" (inferred)":"")+" · "+["L1d","L1i","L2","L3"].map(level=>{const c=m.caches.find(c=>c.key===cpu[level]);return c?cacheLabel(c):level+" unknown";}).join(" · ")+(cpu.maxMHz?" · max "+cpu.maxMHz+" MHz":"");
+}
+function highlightCPU(id){
+ const cpu=machine?.cpus.find(c=>c.id===Number(id));
+ for(const b of $("diagram").querySelectorAll(".cpu")){
+  b.classList.toggle("selected",Boolean(cpu)&&b.dataset.cpu===String(cpu.id));
+  b.classList.toggle("sibling",Boolean(cpu)&&b.dataset.core===cpu.coreKey);
+  b.classList.toggle("shared-l2",Boolean(cpu?.L2)&&b.dataset.l2===cpu.L2);
+  b.classList.toggle("shared-l3",Boolean(cpu?.L3)&&b.dataset.l3===cpu.L3);
+  b.setAttribute("aria-pressed",String(selected!==null&&b.dataset.cpu===String(selected)));
+ }
+ for(const n of $("diagram").querySelectorAll(".numa"))n.classList.toggle("active-node",Boolean(cpu)&&n.dataset.node===String(cpu.node));
+ $("selection").textContent=cpu?cpuDetails(cpu,machine):"Hover, focus, or select a CPU. Click again or press Escape to clear.";
 }
 function coreBox(core,m){
  const box=element("div",undefined,"core "+(core.inferred?"inferred ":"")+(core.kind.startsWith("P-")?"p-core":core.kind.startsWith("E-")?"e-core":""));
@@ -64,6 +80,7 @@ export function renderTopology(m){
  if(memoryOnly.length&&!m.sockets.some(s=>s.id===null)){const section=element("section",undefined,"socket");section.append(element("h3","Socket unknown · memory-only nodes"));for(const node of memoryOnly)section.append(renderNode(m,node,[]));root.append(section);}
  const alternative=$("topology-list");alternative.replaceChildren();
  const list=element("ul");for(const socket of m.sockets){const item=element("li","Socket "+(socket.id??"unknown"));const children=element("ul");for(const core of m.cores.filter(c=>c.cpus.some(id=>socket.cpus.includes(id))))children.append(element("li","NUMA "+(core.node??"unknown")+", core "+(core.id??"unknown")+", CPUs "+formatCPUList(core.cpus)+(core.inferred?" (inferred)":"")));item.append(children);list.append(item);}alternative.append(list);
+ highlightCPU(selected);
 }
 function textSummary(m){return ["Arpkit Visualizer",m.model,"Formats: "+m.formats.join(", "),"Threads: "+m.cpus.length+" / cores: "+m.cores.length+" / nodes: "+m.nodes.length,m.inferred?"Mapping contains inferred groups.":"Mapping from supplied extended CPU rows.",...m.nodes.map(n=>"NUMA "+n.id+": CPUs "+formatCPUList(n.cpus)+"; memory "+bytes(n.memory)+"; free "+bytes(n.free)),...m.caches.map(c=>cacheLabel(c)+"; CPUs "+formatCPUList(c.cpus))].join("\n");}
 function analyze(){
@@ -78,3 +95,8 @@ $("sample").addEventListener("change",()=>{const sample=samples.find(s=>s.id===$
 $("input").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(analyze,250);});
 for(const id of ["show-l1","show-l2","show-l3"])$(id).addEventListener("change",()=>{if(machine)renderTopology(machine);});
 $("input").value=samples[0].text;analyze();
+for(const event of ["pointerover","focusin"])$("diagram").addEventListener(event,e=>{const b=e.target.closest(".cpu");if(b)highlightCPU(b.dataset.cpu);});
+$("diagram").addEventListener("pointerleave",()=>highlightCPU(selected));
+$("diagram").addEventListener("focusout",e=>{if(!$("diagram").contains(e.relatedTarget))highlightCPU(selected);});
+$("diagram").addEventListener("click",e=>{const b=e.target.closest(".cpu");if(b){const id=Number(b.dataset.cpu);selected=selected===id?null:id;highlightCPU(selected);}});
+$("diagram").addEventListener("keydown",e=>{if(e.key==="Escape"){selected=null;highlightCPU(null);}});
